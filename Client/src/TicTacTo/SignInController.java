@@ -1,5 +1,6 @@
 package TicTacTo;
 
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
@@ -24,9 +25,12 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import static javafx.application.Application.launch;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.scene.Node;
 import javafx.scene.control.Hyperlink;
+import javafx.scene.input.InputMethodEvent;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
@@ -36,6 +40,7 @@ public class SignInController implements Initializable {
     
     private Stage window;
     private Parent root;
+    Thread checkThread;
     @FXML
     private FontAwesomeIconView minIcon;
     @FXML
@@ -45,45 +50,61 @@ public class SignInController implements Initializable {
     @FXML
     private AnchorPane rootPane;
     @FXML
-    private JFXTextField username;
-    @FXML
-    private JFXPasswordField password;
-    @FXML
-    private VBox alertMsg;
-    @FXML
     private Hyperlink registerLink;
+    @FXML
+    private JFXTextField usernameField;
+    @FXML
+    private JFXPasswordField passwordField;
+    @FXML
+    private JFXButton signInbutton;
 
 
     @Override
-    public void initialize(URL location, ResourceBundle resources) {}
+    public void initialize(URL location, ResourceBundle resources) {
+        checkThread = (new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (true) {
+                    if(!usernameField.getText().isEmpty() && !passwordField.getText().isEmpty())
+                    {
+                        signInbutton.setDisable(false);                    
+                    }
+                }
+                
+            }
+        }));
+        checkThread.start(); // disable submmiting while no input
+    
+    }
 
     
     @FXML
     private void signInButton(javafx.event.ActionEvent actionEvent) throws Exception
     {
-        Player newPlayer = new Player(username.getText(), password.getText());
-        CheckLogin(newPlayer);
+        Player newPlayer = new Player(usernameField.getText(), passwordField.getText());
+        if(CheckLogin(newPlayer))
+        {
+            sceneLoader("fxml/signUp.fxml", actionEvent);
+        }
            
     }
     
-    public boolean CheckLogin(Player currentPlayer)
+    public boolean CheckLogin(Player currentPlayer) throws IOException
     {
-        try
-        {
-            Socket socket = new Socket("127.0.0.1", 8090);
-            DataInputStream dataInputStream = new DataInputStream(socket.getInputStream());
-            DataOutputStream dataOutputStream = new DataOutputStream(socket.getOutputStream());
-            
-            // sending data to server for checking
-            dataOutputStream.writeUTF(currentPlayer.playerUserName);
-            Boolean isValidUsername = dataInputStream.readBoolean();
-            System.out.println(isValidUsername);
-        }
-        catch (IOException e) {
-            System.out.println(e);
-        }
-        
-        return true;
+        Boolean isValidUsername;
+        Boolean isValidPassword;
+        Socket socket = new Socket("127.0.0.1", 8090);
+        DataInputStream dataInputStream = new DataInputStream(socket.getInputStream());
+        DataOutputStream dataOutputStream = new DataOutputStream(socket.getOutputStream());
+
+        // sending data to server for checking
+        dataOutputStream.writeUTF(currentPlayer.playerUserName);
+        dataOutputStream.writeUTF(currentPlayer.playerPassword);
+
+         isValidUsername = dataInputStream.readBoolean();
+         isValidPassword = dataInputStream.readBoolean();
+
+        return isValidPassword && isValidUsername;
     }
 
     @FXML
@@ -100,8 +121,11 @@ public class SignInController implements Initializable {
 
     @FXML
     private void closeWindow(MouseEvent event) {
-        Stage windowStage = (Stage) ((Node)event.getSource()).getScene().getWindow();
-        windowStage.close();    
+//        Stage windowStage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+//        windowStage.close();
+        checkThread.stop();
+        Platform.exit();
+        
     }
     
     private void sceneLoader(String fxmlFileName,javafx.event.ActionEvent actionEvent) throws Exception
@@ -126,4 +150,10 @@ public class SignInController implements Initializable {
         }
 
     }
+
+    @FXML
+    private void lockLogin(KeyEvent event) {
+    }
+
+
 }

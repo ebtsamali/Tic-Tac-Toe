@@ -8,7 +8,7 @@ public class DataBaseHandler {
     
     public DataBaseHandler() {}
     
-    public  Connection dbConnection()throws Exception
+    public Connection dbConnection()throws Exception
     {
         try 
         {
@@ -22,8 +22,7 @@ public class DataBaseHandler {
             return conn;
         }
         catch(Exception e){System.out.println(e);}
-  
-  
+        
         return null;
     }
     
@@ -39,6 +38,7 @@ public class DataBaseHandler {
     public boolean checkPassword(Player currentPlayer) throws Exception
     {
         Player checkPlayer = retrieveUserData(currentPlayer.playerUserName);
+        
         return  (checkPlayer.playerPassword).equals(currentPlayer.playerPassword);
     }
 
@@ -67,7 +67,7 @@ public class DataBaseHandler {
         /*
             retreving data as result set and transfer it to array of objects (users or players)
         */
-        Player currentUserData = null;
+        Player currentUserData = new Player();
         
         Connection conn = dbConnection();        
         PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM userdata WHERE username = ?");

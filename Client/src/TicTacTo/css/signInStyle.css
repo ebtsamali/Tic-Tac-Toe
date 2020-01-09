@@ -5,10 +5,19 @@ FontAwesomeIconView:hover{
 
 #rootPane {
     /* -fx-background-color: skyblue,derive(skyblue, 25%); */
-    -fx-background-image: url("../images/back.jpg");
+    -fx-background-image: url("../images/92961.jpg");
     -fx-background-repeat: no-repeat no-repeat;
     -fx-background-size: stretch;
+    background-color:coral; 
     
 }
 
 
+#backimg1{
+    
+    -fx-opacity: 0.5;
+}
+
+.userTextfield{
+  -fx-background: transparent;
+}

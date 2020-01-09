@@ -42,15 +42,26 @@ public class UserHandler implements Runnable{
         try 
         {
             String username = dataInputStream.readUTF();
-            Player newPlayer = new Player();
-            newPlayer.playerUserName = username;
+            String password = dataInputStream.readUTF();
+
+            Player newPlayer = new Player(username,password);
+            
             Boolean isValidUsername = dataBaseHandler.checkUsername(newPlayer);
+            Boolean isValidPassword = false;
+            if(isValidUsername)
+            {
+                isValidPassword = dataBaseHandler.checkPassword(newPlayer);
+            }
+            
             dataOutputStream.writeBoolean(isValidUsername);
+            dataOutputStream.writeBoolean(isValidPassword);
+
+
             
         } 
         catch (IOException ex) 
         {
-            System.out.println("saaaaa");
+//            System.out.println("saaaaa");
         } catch (Exception ex) {
             Logger.getLogger(UserHandler.class.getName()).log(Level.SEVERE, null, ex);
         } 

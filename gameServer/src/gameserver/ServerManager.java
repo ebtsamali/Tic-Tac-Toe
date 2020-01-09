@@ -34,7 +34,6 @@ public class ServerManager extends Application {
     
     public void runServer()
     {
-//        (new Thread(new InitiatingServer())).start();
         (new Thread(() -> {
             try
             {
@@ -51,9 +50,7 @@ public class ServerManager extends Application {
             {
                 try
                 {
-                    socket = myServerSocket.accept();
-                    System.out.println("ok");
-                    
+                    socket = myServerSocket.accept();                    
                     Thread userThread = new Thread(new UserHandler(socket));
                     userThread.start();
                 }
