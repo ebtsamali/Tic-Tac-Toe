@@ -1,0 +1,14 @@
+FontAwesomeIconView:hover{
+    -fx-cursor:hand;
+    -fx-fill:  #ff6600;
+}
+
+#rootPane {
+    /* -fx-background-color: skyblue,derive(skyblue, 25%); */
+    -fx-background-image: url("../images/back.jpg");
+    -fx-background-repeat: no-repeat no-repeat;
+    -fx-background-size: stretch;
+    
+}
+
+

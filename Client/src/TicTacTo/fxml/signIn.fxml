@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXPasswordField?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane fx:id="rootPane" prefHeight="500.0" prefWidth="730.0" stylesheets="@../css/signInStyle.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="TicTacTo.SignInController">
+    <children>
+      <HBox alignment="CENTER_RIGHT" prefHeight="28.0" prefWidth="730.0" stylesheets="@signInStyle.css" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <FontAwesomeIconView fx:id="minIcon" glyphName="MINUS" onMouseClicked="#minimizeWindow" size="1.3em">
+               <HBox.margin>
+                  <Insets bottom="6.0" left="6.0" right="6.0" top="6.0" />
+               </HBox.margin>
+            </FontAwesomeIconView>
+            <FontAwesomeIconView fx:id="maxIcon" glyphName="CIRCLE" onMouseClicked="#fullScreenWindow" size="1.3em">
+               <HBox.margin>
+                  <Insets bottom="6.0" left="6.0" right="6.0" top="6.0" />
+               </HBox.margin>
+            </FontAwesomeIconView>
+            <FontAwesomeIconView fx:id="closeIcone" glyphName="CLOSE" onMouseClicked="#closeWindow" size="1.3em">
+               <HBox.margin>
+                  <Insets bottom="6.0" left="6.0" right="6.0" top="6.0" />
+               </HBox.margin>
+            </FontAwesomeIconView>
+         </children>
+         <opaqueInsets>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </opaqueInsets>
+      </HBox>
+      <AnchorPane layoutX="430.0" layoutY="71.0" prefHeight="413.0" prefWidth="271.0" AnchorPane.rightAnchor="30.0">
+         <children>
+            <JFXTextField fx:id="username" alignment="CENTER" labelFloat="true" layoutX="35.0" layoutY="80.0" maxWidth="202.0" minWidth="186.0" prefHeight="47.0" prefWidth="202.0" promptText="Username" AnchorPane.rightAnchor="34.0">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </JFXTextField>
+            <JFXPasswordField fx:id="password" alignment="CENTER" labelFloat="true" layoutX="35.0" layoutY="145.0" maxWidth="202.0" minWidth="186.0" prefHeight="47.0" prefWidth="202.0" promptText="password">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </JFXPasswordField>
+            <Hyperlink alignment="CENTER" layoutX="35.0" layoutY="318.0" text="forgot your password ?" />
+            <Hyperlink fx:id="registerLink" alignment="CENTER" layoutX="35.0" layoutY="341.0" onAction="#redirect" text="Sign Up New Player  ?" />
+            <JFXButton alignment="CENTER" buttonType="RAISED" focusTraversable="false" layoutX="72.0" layoutY="274.0" onAction="#signInButton" prefHeight="25.0" prefWidth="94.0" ripplerFill="#d341d3" style="-fx-background-color: #1a9dce;" text="Log In" textFill="#08182f">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </JFXButton>
+            <VBox fx:id="alertMsg" layoutX="46.0" layoutY="207.0" prefHeight="37.0" prefWidth="180.0" visible="false">
+               <children>
+                  <Text fill="#eb0c0c" strokeType="OUTSIDE" strokeWidth="0.0" text="- Invalid username or password" />
+                  <Hyperlink alignment="CENTER" text="- Sign Up ?">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Hyperlink>
+               </children>
+            </VBox>
+         </children>
+      </AnchorPane>
+    </children>
+</AnchorPane>
