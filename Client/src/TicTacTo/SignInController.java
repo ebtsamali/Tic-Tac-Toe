@@ -35,6 +35,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 
 public class SignInController implements Initializable {
     
@@ -42,21 +43,17 @@ public class SignInController implements Initializable {
     private Parent root;
     Thread checkThread;
     @FXML
-    private FontAwesomeIconView minIcon;
-    @FXML
-    private FontAwesomeIconView maxIcon;
-    @FXML
-    private FontAwesomeIconView closeIcone;
-    @FXML
     private AnchorPane rootPane;
-    @FXML
-    private Hyperlink registerLink;
     @FXML
     private JFXTextField usernameField;
     @FXML
     private JFXPasswordField passwordField;
     @FXML
     private JFXButton signInbutton;
+    @FXML
+    private Text errorMsg;
+    @FXML
+    private Hyperlink registerLink2;
 
 
     @Override
@@ -79,14 +76,27 @@ public class SignInController implements Initializable {
 
     
     @FXML
-    private void signInButton(javafx.event.ActionEvent actionEvent) throws Exception
+    private void signInButton(javafx.event.ActionEvent actionEvent) 
     {
+        try{
         Player newPlayer = new Player(usernameField.getText(), passwordField.getText());
         if(CheckLogin(newPlayer))
         {
+            // to player dashboard
             sceneLoader("fxml/signUp.fxml", actionEvent);
         }
-           
+        else
+        {
+            errorMsg.setVisible(true);
+            tempMsg("*Invalid username or password!");
+        }
+        
+
+        }
+        catch(Exception e)
+        {
+            tempMsg("* Connection error");
+        }
     }
     
     public boolean CheckLogin(Player currentPlayer) throws IOException
@@ -113,7 +123,6 @@ public class SignInController implements Initializable {
         windowStage.setIconified(true);
     }
 
-    @FXML
     private void fullScreenWindow(MouseEvent event) {  
         Stage windowStage = (Stage) ((Node)event.getSource()).getScene().getWindow();
         windowStage.setFullScreen(true);
@@ -137,23 +146,40 @@ public class SignInController implements Initializable {
         windowStage.show();
     }
 
-    @FXML
-    private void redirect(ActionEvent actionEvent) {
+
+
+    private void tempMsg(String msg)
+    {
+        errorMsg.setText(msg);
+        errorMsg.setVisible(true);
+        new java.util.Timer().schedule( 
+        new java.util.TimerTask() {
+            @Override
+            public void run() {
+                
+                errorMsg.setVisible(false);
+            }
+        }, 
+        5000 
+);
+    }
+    
+    private void popMsg(String msg)
+    {
         
+    }
+
+    @FXML
+    private void redirect(ActionEvent event) {
         try 
         {
-            sceneLoader("fxml/signUp.fxml",actionEvent);
+            sceneLoader("fxml/signUp.fxml",event);
         } 
         catch (Exception ex) 
         {
-            System.out.println(ex);
+            //System.out.println(ex);
         }
 
     }
-
-    @FXML
-    private void lockLogin(KeyEvent event) {
-    }
-
 
 }

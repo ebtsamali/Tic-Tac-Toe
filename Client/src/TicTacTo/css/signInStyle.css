@@ -18,6 +18,27 @@ FontAwesomeIconView:hover{
     -fx-opacity: 0.5;
 }
 
-.userTextfield{
-  -fx-background: transparent;
+/*#usernameField{
+    -fx-tab-index: 2;
 }
+#passwordField{
+    -fx-tab-index: 1;
+}*/
+.userTextfield{
+    -fx-background: transparent;
+    -fx-background-color : #ffff66;
+    -fx-opacity: 0.7;
+    -fx-font-size: 24px;
+    -fx-font: normal normal bold 24px/0 "Trebuchet MS", Helvetica, sans-serif;
+    -fx-prompt-text-fill: #660047;
+    -fx-text-fill: #660047;
+    -fx-text-decoration: #660047;
+    -fx-caret-color: transparent;
+	    
+}
+
+.formContainer{
+    
+/*    back*/
+}
+
