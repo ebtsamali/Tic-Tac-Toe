@@ -10,26 +10,33 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
+import javafx.scene.control.ToggleButton;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author Islam Hanafi
  */
 public class FXMLDocumentController implements Initializable {
-    
+
+    public Server server = new Server();
     @FXML
-    private Label label;
-    
+    private ToggleButton serverBtn;
+
     @FXML
     private void handleButtonAction(ActionEvent event) {
-        System.out.println("You clicked me!");
-        label.setText("Hello World!");
+        if (serverBtn.isSelected()) {
+            JOptionPane.showMessageDialog(null, "starting");
+            server.runServer();
+        } else {
+            JOptionPane.showMessageDialog(null, "stopping");
+            server.stopServer();
+        }
     }
-    
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-    }    
-    
+    }
+
 }
