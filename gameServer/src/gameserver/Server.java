@@ -79,7 +79,7 @@ public class Server {
             }
             System.out.println("server turned off");
         } catch (IOException ex) {
-            System.out.println("canot stop the server");
+            System.out.println("cannot stop the server");
         }
     }
 }
