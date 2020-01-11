@@ -1,6 +1,5 @@
 package tictactoewithai;
 
-import java.io.PrintStream;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -8,7 +7,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import TicTacTo.*;
 
 public class GameGUIController extends AI implements Initializable {
     public Button[][] buttons = new Button [3][3];
@@ -48,8 +46,6 @@ public void setButtonsArray(){
          setBoardValue(btn,buttons);
          gameTurn++;
          compTurn(buttons, board, guiButtons, playerScoreLabel, compScoreLabel);
-         //gameTurn++;
-         System.out.println(gameTurn);
     }
     
    
