@@ -1,5 +1,19 @@
-FontAwesomeIconView:hover{
-    -fx-cursor:hand;
-    -fx-fill:  #ff6600;  
-    
+#rootPane {
+    /* -fx-background-color: skyblue,derive(skyblue, 25%); */
+    -fx-background-image: url("../images/92961.jpg");
+    -fx-background-repeat: no-repeat no-repeat;
+    -fx-background-size: stretch;
+    background-color:coral; 
+}
+
+.userTextfield{
+    -fx-background: transparent;
+    -fx-background-color : #ffff66;
+    -fx-opacity: 0.99;
+    -fx-font-size: 24px;
+    -fx-font: normal normal bold 24px/0 "Trebuchet MS", Helvetica, sans-serif;
+    -fx-prompt-text-fill: #660047;
+    -fx-text-fill: #660047;
+    -fx-text-decoration: #660047;
+    -fx-caret-color: transparent;
 }
