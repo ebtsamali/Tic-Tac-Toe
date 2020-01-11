@@ -13,9 +13,9 @@ public class DataBaseHandler {
         try 
         {
             String driver = "com.mysql.jdbc.Driver";
-            String url = "jdbc:mysql://localhost:3306/tic_tac";
+            String url = "jdbc:mysql://localhost:3306/tictac";
             String username = "root";
-            String password = "1894";
+            String password = "123456";
             Class.forName(driver);
 
             Connection conn = DriverManager.getConnection(url,username,password);
@@ -89,7 +89,7 @@ public class DataBaseHandler {
         preparedStatement.setString(1, newPlayer.playerUserName);
         preparedStatement.setString(2, newPlayer.playerPassword);
         preparedStatement.setString(3, newPlayer.userFullname);
-        preparedStatement.setString(4, newPlayer.email);
+        preparedStatement.setString(4, newPlayer.playerEmail);
         preparedStatement.setString(5, newPlayer.securityQuestion);
         
         preparedStatement.executeUpdate();

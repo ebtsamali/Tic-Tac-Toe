@@ -8,63 +8,47 @@ package gameserver;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class UserHandler implements Runnable{
-    
+public class UserHandler extends Thread {
+
     DataInputStream dataInputStream;
     DataOutputStream dataOutputStream;
     DataBaseHandler dataBaseHandler = new DataBaseHandler();
 
-    
-    public UserHandler(Socket socket) throws ClassNotFoundException
-    {
-        try 
-        {
+    public UserHandler(Socket socket) {
+        try {
             dataInputStream = new DataInputStream(socket.getInputStream());
             dataOutputStream = new DataOutputStream(socket.getOutputStream());
 //            objectInputStream = new ObjectInputStream(socket.getInputStream());
 //            objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
-        } 
-        catch (IOException ex) 
-        {
+        } catch (IOException ex) {
             Logger.getLogger(UserHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
     @Override
-    public void run() 
-    {
-        try 
-        {
+    public void run() {
+        try {
             String username = dataInputStream.readUTF();
             String password = dataInputStream.readUTF();
 
-            Player newPlayer = new Player(username,password);
-            
-            Boolean isValidUsername = dataBaseHandler.checkUsername(newPlayer);
+            Player newPlayer = new Player(username, password);
+
+            Boolean isValidUsername = dataBaseHandler.isUserExist(newPlayer);
             Boolean isValidPassword = false;
-            if(isValidUsername)
-            {
-                isValidPassword = dataBaseHandler.checkPassword(newPlayer);
+            if (isValidUsername) {
+                isValidPassword = dataBaseHandler.isUserExist(newPlayer);
             }
-            
+
             dataOutputStream.writeBoolean(isValidUsername);
             dataOutputStream.writeBoolean(isValidPassword);
 
-
-            
-        } 
-        catch (IOException ex) 
-        {
-//            System.out.println("saaaaa");
-        } catch (Exception ex) {
-            Logger.getLogger(UserHandler.class.getName()).log(Level.SEVERE, null, ex);
-        } 
+        } catch (IOException ex) {
+            System.out.println("error in reciving");
+        }
     }
-    
+
 }

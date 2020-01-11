@@ -1,5 +1,6 @@
 package TicTacTo;
 
+import com.google.gson.JsonObject;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
@@ -38,7 +39,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 public class SignInController implements Initializable {
-    
+
     private Stage window;
     private Parent root;
     Thread checkThread;
@@ -55,76 +56,65 @@ public class SignInController implements Initializable {
     @FXML
     private Hyperlink registerLink2;
 
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         checkThread = (new Thread(new Runnable() {
             @Override
             public void run() {
                 while (true) {
-                    if(!usernameField.getText().isEmpty() && !passwordField.getText().isEmpty())
-                    {
-                        signInbutton.setDisable(false);                    
+                    if (!usernameField.getText().isEmpty() && !passwordField.getText().isEmpty()) {
+                        signInbutton.setDisable(false);
                     }
                 }
-                
+
             }
         }));
         checkThread.start(); // disable submmiting while no input
-    
+
     }
 
-    
     @FXML
-    private void signInButton(javafx.event.ActionEvent actionEvent) 
-    {
-        try{
-        Player newPlayer = new Player(usernameField.getText(), passwordField.getText());
-        if(CheckLogin(newPlayer))
-        {
-            // to player dashboard
-            sceneLoader("fxml/signUp.fxml", actionEvent);
-        }
-        else
-        {
-            errorMsg.setVisible(true);
-            tempMsg("*Invalid username or password!");
-        }
-        
+    private void signInButton(javafx.event.ActionEvent actionEvent) {
+        try {
+            Player newPlayer = new Player(usernameField.getText(), passwordField.getText());
+            if (CheckLogin(newPlayer)) {
+                // to player dashboard
+                sceneLoader("fxml/dashboard.fxml", actionEvent);
+            } else {
+                errorMsg.setVisible(true);
+                tempMsg("*Invalid username or password!");
+            }
 
-        }
-        catch(Exception e)
-        {
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
             tempMsg("* Connection error");
         }
     }
-    
-    public boolean CheckLogin(Player currentPlayer) throws IOException
-    {
-        Boolean isValidUsername;
-        Boolean isValidPassword;
+
+    public boolean CheckLogin(Player currentPlayer) throws IOException {
+        Boolean isValidUser = false;
         Socket socket = new Socket("127.0.0.1", 8090);
         DataInputStream dataInputStream = new DataInputStream(socket.getInputStream());
-        DataOutputStream dataOutputStream = new DataOutputStream(socket.getOutputStream());
 
         // sending data to server for checking
-        dataOutputStream.writeUTF(currentPlayer.playerUserName);
-        dataOutputStream.writeUTF(currentPlayer.playerPassword);
-
-         isValidUsername = dataInputStream.readBoolean();
-         isValidPassword = dataInputStream.readBoolean();
-
-        return isValidPassword && isValidUsername;
+        JsonObject jsonPlayer = currentPlayer.toJsonObject();
+        jsonPlayer.addProperty("type", 1);
+        new PrintStream(socket.getOutputStream()).println(jsonPlayer.toString());
+        isValidUser = Boolean.parseBoolean(dataInputStream.readLine());
+        if (!isValidUser) {
+            socket.close();
+        }
+        return isValidUser;
     }
 
     @FXML
     private void minimizeWindow(MouseEvent event) {
-        Stage windowStage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+        Stage windowStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         windowStage.setIconified(true);
     }
 
-    private void fullScreenWindow(MouseEvent event) {  
-        Stage windowStage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+    private void fullScreenWindow(MouseEvent event) {
+        Stage windowStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         windowStage.setFullScreen(true);
     }
 
@@ -134,49 +124,41 @@ public class SignInController implements Initializable {
 //        windowStage.close();
         checkThread.stop();
         Platform.exit();
-        
+
     }
-    
-    private void sceneLoader(String fxmlFileName,javafx.event.ActionEvent actionEvent) throws Exception
-    {
-        Parent newParent =  FXMLLoader.load(getClass().getResource(fxmlFileName));
-        Scene newScene = new Scene(newParent,730,500);
-        Stage windowStage = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
+
+    private void sceneLoader(String fxmlFileName, javafx.event.ActionEvent actionEvent) throws Exception {
+        Parent newParent = FXMLLoader.load(getClass().getResource(fxmlFileName));
+        Scene newScene = new Scene(newParent, 730, 500);
+        Stage windowStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         windowStage.setScene(newScene);
         windowStage.show();
     }
 
-
-
-    private void tempMsg(String msg)
-    {
+    private void tempMsg(String msg) {
         errorMsg.setText(msg);
         errorMsg.setVisible(true);
-        new java.util.Timer().schedule( 
-        new java.util.TimerTask() {
+        new java.util.Timer().schedule(
+                new java.util.TimerTask() {
             @Override
             public void run() {
-                
+
                 errorMsg.setVisible(false);
             }
-        }, 
-        5000 
-);
+        },
+                5000
+        );
     }
-    
-    private void popMsg(String msg)
-    {
-        
+
+    private void popMsg(String msg) {
+
     }
 
     @FXML
     private void redirect(ActionEvent event) {
-        try 
-        {
-            sceneLoader("fxml/signUp.fxml",event);
-        } 
-        catch (Exception ex) 
-        {
+        try {
+            sceneLoader("fxml/signUp.fxml", event);
+        } catch (Exception ex) {
             //System.out.println(ex);
         }
 
