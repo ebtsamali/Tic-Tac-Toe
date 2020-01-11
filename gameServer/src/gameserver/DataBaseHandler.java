@@ -20,7 +20,7 @@ public class DataBaseHandler {
     }
 
     @Override
-    protected void finalize(){
+    protected void finalize() {
         try {
             conn.close();
         } catch (SQLException ex) {
@@ -53,23 +53,24 @@ public class DataBaseHandler {
         ResultSet resultSet = preparedStatement.executeQuery();
 
         while (resultSet.next()) {
-            currentUserData = new Player(resultSet.getString("username"), resultSet.getString("password"), null);
+            currentUserData = new Player(resultSet.getString("username"), resultSet.getString("password"));
         }
 
         return currentUserData;
     }
 
-    public void signNewUser(Player newPlayer) throws Exception {
-        PreparedStatement preparedStatement = conn.prepareStatement("INSERT INTO userdata (username, password, fullname, email, securityQuestion) VALUES (?, ?, ?, ?, ?);");
-        preparedStatement.setString(1, newPlayer.playerUserName);
-        preparedStatement.setString(2, newPlayer.playerPassword);
-        preparedStatement.setString(3, newPlayer.userFullname);
-        preparedStatement.setString(4, newPlayer.playerEmail);
-        preparedStatement.setString(5, newPlayer.securityQuestion);
-
-        preparedStatement.executeUpdate();
-
-        // TO DO
-        // redirect to your home page and start playing
+    public void addNewUser(Player newPlayer) {
+        PreparedStatement preparedStatement;
+        try {
+            preparedStatement = conn.prepareStatement("INSERT INTO userdata (username, password, fullname, email, securityQuestion) VALUES (?, ?, ?, ?, ?);");
+            preparedStatement.setString(1, newPlayer.playerUserName);
+            preparedStatement.setString(2, newPlayer.playerPassword);
+            preparedStatement.setString(3, newPlayer.userFullname);
+            preparedStatement.setString(4, newPlayer.playerEmail);
+            preparedStatement.setString(5, newPlayer.securityQuestion);
+            preparedStatement.executeUpdate();
+        } catch (SQLException ex) {
+            System.out.println("error in adding user");
+        }
     }
 }

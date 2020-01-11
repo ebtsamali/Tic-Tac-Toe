@@ -35,7 +35,7 @@ public class UserHandler extends Thread {
             String username = dataInputStream.readUTF();
             String password = dataInputStream.readUTF();
 
-            Player newPlayer = new Player(username, password, null);
+            Player newPlayer = new Player(username, password);
 
             Boolean isValidUsername = dataBaseHandler.isUserExist(newPlayer);
             Boolean isValidPassword = false;

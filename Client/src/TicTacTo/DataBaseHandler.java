@@ -89,7 +89,7 @@ public class DataBaseHandler {
         preparedStatement.setString(1, newPlayer.playerUserName);
         preparedStatement.setString(2, newPlayer.playerPassword);
         preparedStatement.setString(3, newPlayer.userFullname);
-        preparedStatement.setString(4, newPlayer.email);
+        preparedStatement.setString(4, newPlayer.playerEmail);
         preparedStatement.setString(5, newPlayer.securityQuestion);
         
         preparedStatement.executeUpdate();

@@ -13,10 +13,9 @@ public class Player {
     public String securityQuestion;
     public Socket playerSocket;
 
-    public Player(String name, String pass, Socket socket) {
+    public Player(String name, String pass) {
         playerUserName = name;
         playerPassword = pass;
-        playerSocket = socket;
     }
 
     public Player(String name, String password, String fullname, String email, String securityQ) {
@@ -31,9 +30,25 @@ public class Player {
         try {
             playerUserName = player.get("username").getAsString();
             playerPassword = player.get("password").getAsString();
+            try {
+                userFullname = player.get("fullname").getAsString();
+                playerEmail = player.get("email").getAsString();
+                securityQuestion = player.get("question").getAsString();
+            } catch (Exception ex) {
+                System.out.println("small object");
+            }
         } catch (Exception ex) {
             System.out.println("error in fitching the player object");
         }
     }
 
+    public JsonObject toJsonObject() {
+        JsonObject player = new JsonObject();
+        player.addProperty("username", playerUserName);
+        player.addProperty("password", playerPassword);
+        player.addProperty("fullname", userFullname);
+        player.addProperty("email", playerEmail);
+        player.addProperty("question", securityQuestion);
+        return player;
+    }
 }
