@@ -47,8 +47,8 @@ public class Server {
                             new PrintStream(socket.getOutputStream()).println("true");
                             Player newPlayer=new Player(message);
                             players.add(newPlayer);
-                             new PrintStream(socket.getOutputStream()).println(Player.toJsonArray(players).toString());
-                            //Thread userThread = new Thread(new UserHandler(socket));
+                            new PrintStream(socket.getOutputStream()).println(Player.toJsonArray(players).toString());
+                            Thread userThread = new Thread(new UserHandler(socket));
                             //userThread.start();
                             //userThreads.add(userThread);
                         } else {
