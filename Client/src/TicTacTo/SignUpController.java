@@ -26,6 +26,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 /**
@@ -38,33 +39,22 @@ public class SignUpController implements Initializable {
     DataBaseHandler dataBaseHandler = new DataBaseHandler();
     @FXML
     private AnchorPane rootPane;
-    @FXML
     private JFXTextField userFullname;
-    @FXML
     private JFXTextField userName;
-    @FXML
     private JFXTextField userEmail;
-    @FXML
     private JFXPasswordField userPassword;
-    @FXML
     private JFXPasswordField userPasswordConfig;
-    @FXML
     private JFXTextField userSecurityQ;
     @FXML
-    private JFXButton registerButton;
+    private Text errorMsg;
     @FXML
-    private FontAwesomeIconView minIcon;
-    @FXML
-    private FontAwesomeIconView maxIcon;
-    @FXML
-    private FontAwesomeIconView closeIcone;
+    private JFXButton signUpbutton;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
     }
 
-    @FXML
     private void register(ActionEvent event) throws Exception {
         Player newPlayer = new Player(userName.getText(), userPassword.getText(), userFullname.getText(), userEmail.getText(), userSecurityQ.getText());
         // check if the name or email is already in our database
@@ -113,7 +103,6 @@ public class SignUpController implements Initializable {
 
     }
 
-    @FXML
     private void fullScreenWindow(MouseEvent event) {
         Stage windowStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         windowStage.setFullScreen(true);
@@ -134,6 +123,10 @@ public class SignUpController implements Initializable {
         windowStage.setScene(newScene);
         windowStage.show();
 
+    }
+
+    @FXML
+    private void signUpbutton(ActionEvent event) {
     }
 
 }

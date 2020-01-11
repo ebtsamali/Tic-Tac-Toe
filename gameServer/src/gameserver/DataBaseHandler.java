@@ -11,7 +11,7 @@ public class DataBaseHandler {
             String driver = "com.mysql.cj.jdbc.Driver";
             String url = "jdbc:mysql://localhost:3306/tictac";
             String username = "root";
-            String password = "123456";
+            String password = "1894";
             Class.forName(driver);
             conn = DriverManager.getConnection(url, username, password);
         } catch (Exception e) {

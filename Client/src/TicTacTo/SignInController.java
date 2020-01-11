@@ -66,6 +66,7 @@ public class SignInController implements Initializable {
             if (CheckLogin(newPlayer)) {
                 // to player dashboard
                 sceneLoader("fxml/dashboard.fxml", actionEvent);
+                checkThread.stop();
             } else {
                 errorMsg.setVisible(true);
                 tempMsg("*Invalid username or password!");
@@ -115,7 +116,7 @@ public class SignInController implements Initializable {
 
     private void sceneLoader(String fxmlFileName, javafx.event.ActionEvent actionEvent) throws Exception {
         Parent newParent = FXMLLoader.load(getClass().getResource(fxmlFileName));
-        Scene newScene = new Scene(newParent, 730, 500);
+        Scene newScene = new Scene(newParent, 800, 550);
         Stage windowStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         windowStage.setScene(newScene);
         windowStage.show();
@@ -140,11 +141,15 @@ public class SignInController implements Initializable {
 
     }
 
+
     @FXML
-    private void redirect(ActionEvent event) {
-        try {
+    private void testabc(ActionEvent event) {
+        try 
+        {
             sceneLoader("fxml/signUp.fxml", event);
-        } catch (Exception ex) {
+            checkThread.stop();
+        } catch (Exception ex) 
+        {
             //System.out.println(ex);
         }
 

@@ -70,7 +70,7 @@
             <JFXTextField maxWidth="300.0" minWidth="264.0" prefHeight="51.0" prefWidth="264.0" promptText="username" styleClass="userTextfield" />
             <JFXPasswordField promptText="password" styleClass="userTextfield" />
             <JFXPasswordField promptText="confirm password" styleClass="userTextfield" />
-            <JFXButton fx:id="signInbutton" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" defaultButton="true" focusTraversable="false" onAction="#signInButton" prefHeight="37.0" prefWidth="305.0" ripplerFill="#d341d3" style="-fx-background-color: #1a9dce;" text="Sign up" textAlignment="CENTER" textFill="#08182f">
+            <JFXButton fx:id="signUpbutton" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" defaultButton="true" focusTraversable="false" onAction="#signUpbutton" prefHeight="37.0" prefWidth="305.0" ripplerFill="#d341d3" style="-fx-background-color: #1a9dce;" text="Sign up" textAlignment="CENTER" textFill="#08182f">
                <font>
                   <Font size="16.0" />
                </font>
