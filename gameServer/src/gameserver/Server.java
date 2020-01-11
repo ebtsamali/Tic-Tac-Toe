@@ -23,7 +23,7 @@ public class Server {
 
     ServerSocket myServerSocket;   // to establish connection
     Socket socket;
-    Vector<Thread> userThreads = new Vector<Thread>();
+    static Vector<Player> players = new Vector<Player>();
     Thread serverThread;
 
     public void runServer() {
@@ -45,6 +45,9 @@ public class Server {
                         if (new DataBaseHandler().isUserExist(new Player(message))) {
                             System.out.println("user connected");
                             new PrintStream(socket.getOutputStream()).println("true");
+                            Player newPlayer=new Player(message);
+                            players.add(newPlayer);
+                             new PrintStream(socket.getOutputStream()).println(Player.toJsonArray(players).toString());
                             //Thread userThread = new Thread(new UserHandler(socket));
                             //userThread.start();
                             //userThreads.add(userThread);
@@ -74,8 +77,8 @@ public class Server {
         try {
             serverThread.stop();
             myServerSocket.close();
-            for (int i = 0; i < userThreads.size(); i++) {
-                userThreads.get(i).stop();
+            for (int i = 0; i < players.size(); i++) {
+                players.get(i).playerthread.stop();
             }
             System.out.println("server turned off");
         } catch (IOException ex) {

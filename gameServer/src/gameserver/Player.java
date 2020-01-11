@@ -1,7 +1,9 @@
 package gameserver;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import java.net.Socket;
+import java.util.Vector;
 
 public class Player {
 
@@ -12,6 +14,7 @@ public class Player {
     public String userFullname;
     public String securityQuestion;
     public Socket playerSocket;
+    public Thread playerthread;
 
     public Player(String name, String pass) {
         playerUserName = name;
@@ -50,5 +53,13 @@ public class Player {
         player.addProperty("email", playerEmail);
         player.addProperty("question", securityQuestion);
         return player;
+    }
+
+    static public JsonArray toJsonArray(Vector<Player> players) {
+        JsonArray playerArray = new JsonArray();
+        for (int i = 0; i < players.size(); i++) {
+            playerArray.add(players.get(i).toJsonObject());
+        }
+        return playerArray;
     }
 }

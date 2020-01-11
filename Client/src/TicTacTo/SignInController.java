@@ -25,7 +25,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 
 public class SignInController implements Initializable {
-
+    public static Player player;
     private Stage window;
     private Parent root;
     Thread checkThread;
@@ -62,8 +62,8 @@ public class SignInController implements Initializable {
     @FXML
     private void signInButton(javafx.event.ActionEvent actionEvent) {
         try {
-            Player newPlayer = new Player(usernameField.getText(), passwordField.getText());
-            if (CheckLogin(newPlayer)) {
+            player = new Player(usernameField.getText(), passwordField.getText());
+            if (CheckLogin(player)) {
                 // to player dashboard
                 sceneLoader("fxml/dashboard.fxml", actionEvent);
                 checkThread.stop();
@@ -90,6 +90,8 @@ public class SignInController implements Initializable {
         isValidUser = Boolean.parseBoolean(dataInputStream.readLine());
         if (!isValidUser) {
             socket.close();
+        }else{
+        player.playerSocket=socket;
         }
         return isValidUser;
     }
