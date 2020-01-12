@@ -11,7 +11,6 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
 
 <AnchorPane fx:id="rootPane" prefHeight="550.0" prefWidth="800.0" stylesheets="@../css/signUpStyle.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="TicTacTo.SignUpController">
     <children>
@@ -41,47 +40,54 @@
             </ImageView>
          </children>
       </HBox>
-      <AnchorPane prefHeight="215.0" prefWidth="189.0" styleClass="formContainer">
+      <ImageView fitHeight="407.0" fitWidth="491.0" layoutX="139.0" layoutY="95.0" opacity="0.29">
+         <image>
+            <Image url="@../images/tic-tac-toe%20(2).png" />
+         </image>
+      </ImageView>
+      <VBox layoutX="139.0" layoutY="165.0" prefHeight="200.0" prefWidth="100.0" spacing="10.0">
          <children>
-            <VBox layoutX="30.0" layoutY="40.0" prefHeight="217.0" prefWidth="300.0" spacing="5.0">
+            <HBox spacing="10.0">
                <children>
-                  <Text fx:id="errorMsg" fill="#ff4747" fontSmoothingType="LCD" stroke="#682121" strokeType="OUTSIDE" strokeWidth="0.0" text="* Invalid username or password" textAlignment="CENTER" visible="false" wrappingWidth="298.990234375">
-                     <font>
-                        <Font name="System Bold" size="15.0" />
-                     </font>
-                     <VBox.margin>
-                        <Insets bottom="2.0" />
-                     </VBox.margin>
-                  </Text>
+                  <JFXTextField maxWidth="300.0" minWidth="264.0" prefHeight="51.0" prefWidth="264.0" promptText="Full name" styleClass="userTextfield" />
+                  <JFXTextField maxWidth="300.0" minWidth="264.0" prefHeight="51.0" prefWidth="264.0" promptText="username" styleClass="userTextfield" />
                </children>
-               <opaqueInsets>
-                  <Insets />
-               </opaqueInsets>
-               <padding>
-                  <Insets top="30.0" />
-               </padding>
-            </VBox>
-            <VBox layoutX="26.0" layoutY="327.0" prefHeight="56.0" prefWidth="316.0" />
-         </children>
-      </AnchorPane>
-      <VBox layoutX="470.0" layoutY="125.0" prefHeight="200.0" prefWidth="100.0" spacing="10.0">
-         <children>
-            <JFXTextField maxWidth="300.0" minWidth="264.0" prefHeight="51.0" prefWidth="264.0" promptText="Full name" styleClass="userTextfield" />
-            <JFXTextField maxWidth="300.0" minWidth="264.0" prefHeight="51.0" prefWidth="264.0" promptText="username" styleClass="userTextfield" />
-            <JFXPasswordField promptText="password" styleClass="userTextfield" />
-            <JFXPasswordField promptText="confirm password" styleClass="userTextfield" />
-            <JFXButton fx:id="signUpbutton" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" defaultButton="true" focusTraversable="false" onAction="#signUpbutton" prefHeight="37.0" prefWidth="305.0" ripplerFill="#d341d3" style="-fx-background-color: #1a9dce;" text="Sign up" textAlignment="CENTER" textFill="#08182f">
-               <font>
-                  <Font size="16.0" />
-               </font>
-               <opaqueInsets>
-                  <Insets />
-               </opaqueInsets>
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </JFXButton>
+            </HBox>
+            <HBox spacing="10.0">
+               <children>
+                  <JFXPasswordField promptText="password" styleClass="userTextfield" />
+                  <JFXPasswordField promptText="confirm password" styleClass="userTextfield" />
+               </children>
+            </HBox>
+            <HBox>
+               <children>
+                  <JFXTextField id="securityQ" maxWidth="545.0" minWidth="264.0" prefHeight="51.0" prefWidth="545.0" promptText="Security Question : What is your favorite color ?" />
+               </children>
+            </HBox>
+            <AnchorPane />
          </children>
       </VBox>
+      <JFXButton id="signUpbutton" fx:id="signUpbutton" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" defaultButton="true" focusTraversable="false" layoutX="210.0" layoutY="365.0" onAction="#signUpbutton" prefHeight="37.0" prefWidth="150.0" ripplerFill="#d341d3" style="-fx-background-color: #1a9dce;" text="Sign up" textAlignment="CENTER" textFill="#08182f">
+         <font>
+            <Font size="16.0" />
+         </font>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </JFXButton>
+      <JFXButton id="signUpbutton" fx:id="signUpbutton1" alignment="CENTER" buttonType="RAISED" cancelButton="true" contentDisplay="CENTER" focusTraversable="false" layoutX="408.0" layoutY="365.0" onAction="#signUpbutton" prefHeight="37.0" prefWidth="150.0" ripplerFill="#d341d3" style="-fx-background-color: #1a9dce;" text="Cancel" textAlignment="CENTER" textFill="#08182f">
+         <font>
+            <Font size="16.0" />
+         </font>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </JFXButton>
     </children>
 </AnchorPane>

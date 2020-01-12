@@ -116,13 +116,20 @@ public class SignInController implements Initializable {
 
     }
 
-    private void sceneLoader(String fxmlFileName, javafx.event.ActionEvent actionEvent) throws Exception {
-        Parent newParent = FXMLLoader.load(getClass().getResource(fxmlFileName));
-        Scene newScene = new Scene(newParent, 800, 550);
-        Stage windowStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-        windowStage.setScene(newScene);
-        windowStage.show();
-    }
+    private void sceneLoader(String fxmlFileName, javafx.event.ActionEvent actionEvent) {
+        try
+        {
+            Parent newParent = FXMLLoader.load(getClass().getResource(fxmlFileName));
+            Scene newScene = new Scene(newParent, 800, 550);
+            Stage windowStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+            windowStage.setScene(newScene);
+            windowStage.show();
+        }
+        catch (IOException e)
+        {
+            System.out.println("Failed!");
+        }
+       }
 
     private void tempMsg(String msg) {
         errorMsg.setText(msg);
