@@ -27,6 +27,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
@@ -40,8 +41,6 @@ import javafx.stage.Stage;
 public class SignUpController implements Initializable {
 
     @FXML
-    private AnchorPane rootPane;
-    @FXML
     private JFXTextField userFullname;
     @FXML
     private JFXTextField userName;
@@ -54,15 +53,18 @@ public class SignUpController implements Initializable {
     @FXML
     private JFXTextField userSecurityQ;
     @FXML
-    private Text errorMsg;
-    @FXML
     private JFXButton signUpbutton;
+    @FXML
+    private AnchorPane rootPane;
+    @FXML
+    private JFXButton cancelBtn;
+    @FXML
+    private Text errorMsg;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
     }
-
 
     private void alertMsg(String message) {
         Alert alert = new Alert(AlertType.INFORMATION);
@@ -139,6 +141,51 @@ public class SignUpController implements Initializable {
             } catch (IOException ex) {
                 System.out.println("error in connection with servr to send the new player");
             }
+        }
+    }
+
+    @FXML
+    private void CancelHndeler(ActionEvent event) {
+        try {
+            sceneLoader("fxml/signIn.fxml", event);
+        } catch (Exception ex) {
+            System.out.println("canot Redirect");
+        }
+    }
+
+    @FXML
+    private void checker(KeyEvent event) {
+        if (userFullname.getText().isEmpty()) {
+            errorMsg.setText("please enter your Fullname");
+            errorMsg.setVisible(true);
+            signUpbutton.setDisable(true);
+        } else if (userName.getText().isEmpty()) {
+            errorMsg.setText("please enter your username");
+            errorMsg.setVisible(true);
+            signUpbutton.setDisable(true);
+        } else if (userEmail.getText().isEmpty()) {
+            errorMsg.setText("please enter your Email");
+            errorMsg.setVisible(true);
+            signUpbutton.setDisable(true);
+        } else if (userPassword.getText().isEmpty()) {
+            errorMsg.setText("please enter your Password");
+            errorMsg.setVisible(true);
+            signUpbutton.setDisable(true);
+        } else if (userPasswordConfig.getText().isEmpty()) {
+            errorMsg.setText("please enter your PasswordConfig");
+            errorMsg.setVisible(true);
+            signUpbutton.setDisable(true);
+        } else if (userSecurityQ.getText().isEmpty()) {
+            errorMsg.setText("please enter your SecurityQ");
+            errorMsg.setVisible(true);
+            signUpbutton.setDisable(true);
+        } else if (!userPassword.getText().equals(userPasswordConfig.getText())) {
+            errorMsg.setText("the password and it's Config don't match each other ");
+            errorMsg.setVisible(true);
+            signUpbutton.setDisable(true);
+        } else {
+            errorMsg.setVisible(false);
+            signUpbutton.setDisable(false);
         }
     }
 
