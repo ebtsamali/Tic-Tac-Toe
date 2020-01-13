@@ -14,6 +14,9 @@ import java.io.PrintStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Vector;
+import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 /**
  *
@@ -36,16 +39,16 @@ public class Server {
             }
 
             while (true) {
+                refreshTable();
                 try {
                     socket = myServerSocket.accept();
-   
-                    String data=new DataInputStream(socket.getInputStream()).readLine();
+                    String data = new DataInputStream(socket.getInputStream()).readLine();
                     JsonObject message = new JsonParser().parse((data)).getAsJsonObject();
                     if (message.get("type").getAsInt() == 1) {
                         if (new DataBaseHandler().isUserExist(new Player(message))) {
                             System.out.println("user connected");
                             new PrintStream(socket.getOutputStream()).println("true");
-                            Player newPlayer=new Player(message);
+                            Player newPlayer = new Player(message);
                             players.add(newPlayer);
                             new PrintStream(socket.getOutputStream()).println(Player.toJsonArray(players).toString());
                             Thread userThread = new Thread(new UserHandler(socket));
@@ -56,11 +59,11 @@ public class Server {
                             new DataOutputStream(socket.getOutputStream()).writeBytes("false");
                             socket.close();
                         }
-                    }else{
-                        if (!(new DataBaseHandler().isUserExist(new Player(message)))){
+                    } else {
+                        if (!(new DataBaseHandler().isUserExist(new Player(message)))) {
                             new DataBaseHandler().addNewUser(new Player(message));
                             System.out.println("user added");
-                        }else{
+                        } else {
                             System.out.println("user is already exist");
                         }
                         socket.close();
@@ -78,11 +81,28 @@ public class Server {
             serverThread.stop();
             myServerSocket.close();
             for (int i = 0; i < players.size(); i++) {
-                players.get(i).playerthread.stop();
+                players.get(i).getPlayerthread().stop();
             }
+            players.clear();
             System.out.println("server turned off");
         } catch (IOException ex) {
             System.out.println("cannot stop the server");
         }
+    }
+
+    public void refreshTable() {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                ObservableList<Player> data = FXCollections.observableArrayList(new DataBaseHandler().getAllPlayers());
+                for(int i=0;i<data.size();i++)
+                    for(int j=0;j<players.size();j++){
+                        if(players.get(j).getPlayerUserName().equals(data.get(i).getPlayerUserName())){
+                            data.get(i).setOnline();
+                        }
+                    }
+                FXMLDocumentController.sOnlineUsersTable.setItems(data);
+            }
+        });
     }
 }

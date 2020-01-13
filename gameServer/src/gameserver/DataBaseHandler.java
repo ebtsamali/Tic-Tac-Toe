@@ -1,6 +1,12 @@
 package gameserver;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.collections.ObservableList;
 
 public class DataBaseHandler {
 
@@ -11,7 +17,7 @@ public class DataBaseHandler {
             String driver = "com.mysql.cj.jdbc.Driver";
             String url = "jdbc:mysql://localhost:3306/tictac";
             String username = "root";
-            String password = "";
+            String password = "123456";
             Class.forName(driver);
             conn = DriverManager.getConnection(url, username, password);
         } catch (Exception e) {
@@ -32,8 +38,8 @@ public class DataBaseHandler {
         PreparedStatement statement1;
         try {
             statement1 = conn.prepareStatement("SELECT * FROM userdata WHERE username = ? and password=?;");
-            statement1.setString(1, currentPlayer.playerUserName);
-            statement1.setString(2, currentPlayer.playerPassword);
+            statement1.setString(1, currentPlayer.getPlayerUserName());
+            statement1.setString(2, currentPlayer.getPlayerPassword());
             ResultSet resultSet = statement1.executeQuery();
             return resultSet.next();
         } catch (SQLException ex) {
@@ -63,14 +69,30 @@ public class DataBaseHandler {
         PreparedStatement preparedStatement;
         try {
             preparedStatement = conn.prepareStatement("INSERT INTO userdata (username, password, fullname, email, securityQuestion) VALUES (?, ?, ?, ?, ?);");
-            preparedStatement.setString(1, newPlayer.playerUserName);
-            preparedStatement.setString(2, newPlayer.playerPassword);
-            preparedStatement.setString(3, newPlayer.userFullname);
-            preparedStatement.setString(4, newPlayer.playerEmail);
-            preparedStatement.setString(5, newPlayer.securityQuestion);
+            preparedStatement.setString(1, newPlayer.getPlayerUserName());
+            preparedStatement.setString(2, newPlayer.getPlayerPassword());
+            preparedStatement.setString(3, newPlayer.getUserFullname());
+            preparedStatement.setString(4, newPlayer.getPlayerEmail());
+            preparedStatement.setString(5, newPlayer.getSecurityQuestion());
             preparedStatement.executeUpdate();
         } catch (SQLException ex) {
             System.out.println("error in adding user");
         }
     }
+    
+    public List<Player> getAllPlayers(){
+        List<Player> allPlayers = new ArrayList<>();
+        try {
+            Statement stmt=conn.createStatement();
+            ResultSet rs=stmt.executeQuery("select * from userdata");
+            while(rs.next()){
+                Player newPlayer=new Player(rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5),rs.getString(6));
+                allPlayers.add(newPlayer);
+            }
+        } catch (SQLException ex) {
+            System.out.println("cannot retrive all players");
+        }
+    return allPlayers;
+    }
+    
 }
