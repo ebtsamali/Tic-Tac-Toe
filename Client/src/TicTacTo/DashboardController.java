@@ -124,4 +124,17 @@ public class DashboardController implements Initializable {
         return invite.toString();
     }
 
+    @FXML
+    public void loadMultiPlayerWindow(ActionEvent event){
+        Parent newParent;
+        try {
+            newParent = FXMLLoader.load(getClass().getResource("fxml/multiPlayerGameGUI.fxml"));
+            Scene newScene = new Scene(newParent, 800, 550);
+            Stage windowStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            windowStage.setScene(newScene);
+            windowStage.show();
+        } catch (IOException ex) {
+            Logger.getLogger(DashboardController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }

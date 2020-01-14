@@ -40,5 +40,6 @@
          </opaqueInsets>
       </HBox>
       <VBox fx:id="onlineUserPane" layoutX="546.0" layoutY="64.0" prefHeight="315.0" prefWidth="180.0" />
+      <Button layoutX="75.0" layoutY="90.0" mnemonicParsing="false" onAction="#loadMultiPlayerWindow" text="Multiplayer" />
    </children>
 </AnchorPane>
