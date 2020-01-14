@@ -91,7 +91,7 @@ public class SignInController implements Initializable {
         if (!isValidUser) {
             socket.close();
         }else{
-        player.playerSocket=socket;
+        player.setPlayerSocket(socket);
         }
         return isValidUser;
     }

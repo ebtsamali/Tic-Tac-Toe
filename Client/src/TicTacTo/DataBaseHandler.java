@@ -31,15 +31,15 @@ public class DataBaseHandler {
     {
         Connection conn = dbConnection();        
         PreparedStatement statement1 = conn.prepareStatement("SELECT * FROM userdata WHERE username = ?;");
-        statement1.setString(1, currentPlayer.playerUserName);
+        statement1.setString(1, currentPlayer.getPlayerUserName());
         ResultSet resultSet = statement1.executeQuery();
         return resultSet.next();       
     }
     
     public boolean checkPassword(Player currentPlayer) throws Exception
     {
-        Player checkPlayer = retrieveUserData(currentPlayer.playerUserName);
-        return  (checkPlayer.playerPassword).equals(currentPlayer.playerPassword);
+        Player checkPlayer = retrieveUserData(currentPlayer.getPlayerUserName());
+        return  (checkPlayer.getPlayerPassword()).equals(currentPlayer.getPlayerPassword());
     }
 
     public ArrayList<Player> retrieveALLData() throws Exception
@@ -86,11 +86,11 @@ public class DataBaseHandler {
     {
         Connection conn = dbConnection();
         PreparedStatement preparedStatement = conn.prepareStatement("INSERT INTO userdata (username, password, fullname, email, securityQuestion) VALUES (?, ?, ?, ?, ?);");
-        preparedStatement.setString(1, newPlayer.playerUserName);
-        preparedStatement.setString(2, newPlayer.playerPassword);
-        preparedStatement.setString(3, newPlayer.userFullname);
-        preparedStatement.setString(4, newPlayer.playerEmail);
-        preparedStatement.setString(5, newPlayer.securityQuestion);
+        preparedStatement.setString(1, newPlayer.getPlayerUserName());
+        preparedStatement.setString(2, newPlayer.getPlayerPassword());
+        preparedStatement.setString(3, newPlayer.getUserFullname());
+        preparedStatement.setString(4, newPlayer.getPlayerEmail());
+        preparedStatement.setString(5, newPlayer.getSecurityQuestion());
         
         preparedStatement.executeUpdate();
         

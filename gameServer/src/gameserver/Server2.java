@@ -1,4 +1,4 @@
-package TicTacTo;
+package gameserver;
 
 import java.io.*;
 import java.net.ServerSocket;

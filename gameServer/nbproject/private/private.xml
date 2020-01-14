@@ -2,16 +2,8 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-<<<<<<< HEAD
         <group>
-            <file>file:/C:/Users/mena/Desktop/New%20folder/Tic-Tac-Toe/gameServer/src/gameserver/ServerManager.java</file>
-            <file>file:/C:/Users/mena/Desktop/New%20folder/Tic-Tac-Toe/gameServer/src/gameserver/Player.java</file>
-            <file>file:/C:/Users/mena/Desktop/New%20folder/Tic-Tac-Toe/gameServer/src/gameserver/FXMLDocumentController.java</file>
-            <file>file:/C:/Users/mena/Desktop/New%20folder/Tic-Tac-Toe/gameServer/src/gameserver/Server.java</file>
-            <file>file:/C:/Users/mena/Desktop/New%20folder/Tic-Tac-Toe/gameServer/src/gameserver/DataBaseHandler.java</file>
+            <file>file:/C:/Users/mena/Desktop/New%20folder/Tic-Tac-Toe/gameServer/src/gameserver/ClientReceiver.java</file>
         </group>
-=======
-        <group/>
->>>>>>> 2ca5c118ab4e6c0dc01088825e24d265fcc38b54
     </open-files>
 </project-private>

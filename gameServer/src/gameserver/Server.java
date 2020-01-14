@@ -49,9 +49,11 @@ public class Server {
                             System.out.println("user connected");
                             new PrintStream(socket.getOutputStream()).println("true");
                             Player newPlayer = new Player(message);
+                            newPlayer.setPlayerSocket(socket);
                             players.add(newPlayer);
                             new PrintStream(socket.getOutputStream()).println(Player.toJsonArray(players).toString());
-                            Thread userThread = new Thread(new UserHandler(socket));
+                            ClientReceiver userThread = new ClientReceiver(socket);
+                            userThread.start();
                             //userThread.start();
                             //userThreads.add(userThread);
                         } else {
