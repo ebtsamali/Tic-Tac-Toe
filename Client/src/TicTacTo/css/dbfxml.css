@@ -1,0 +1,11 @@
+/*
+ * Empty Stylesheet file.
+ */
+
+    #AnchorPane{
+        -fx-background-image: url("../images/dashboard.jpg");
+        -fx-border-image-repeat: no-repeat;
+        -fx-background-size: stretch;
+    }
+
+
