@@ -94,7 +94,7 @@ public class DashboardController implements Initializable {
     ) {
         Parent newParent;
         try {
-            newParent = FXMLLoader.load(getClass().getResource("fxml/GameGUI.fxml"));
+            newParent = FXMLLoader.load(getClass().getResource("fxml/singlePlayerGameGUI.fxml"));
             Scene newScene = new Scene(newParent, 730, 500);
             Stage windowStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             windowStage.setScene(newScene);

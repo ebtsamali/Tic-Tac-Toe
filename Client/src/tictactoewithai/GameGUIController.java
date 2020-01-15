@@ -18,6 +18,7 @@ public class GameGUIController extends AI implements Initializable {
     public Button[] guiButtons = new Button[2];
     
     public static int gameTurn = 0;
+  
 
 public void setButtonsArray(){
     buttons[0][0] = button_0_0;
@@ -39,8 +40,6 @@ public void setButtonsArray(){
     @FXML
     public void playerClick(javafx.event.ActionEvent event){
          Button btn = (Button) event.getSource();
-         setButtonsArray();
-         resetBoard(board);
          btn.setText("X");
          btn.setDisable(true);
          setBoardValue(btn,buttons);
@@ -54,7 +53,7 @@ public void setButtonsArray(){
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
+        setButtonsArray();
+        resetBoard(board);
     }    
-    
 }
