@@ -102,7 +102,6 @@ public class AI {
          else if(hasWon(board)){
              playerScore+=50;
              playerScoreLabel.setText(String.valueOf(playerScore));
-             //saveScoreInDatabase(out, playerScore);
              enableGuiButtons(guiButtons);
             Alert youWon = new Alert(Alert.AlertType.CONFIRMATION, "you Won! \n Do you want to paly again?", ButtonType.YES,ButtonType.NO);
               youWon.setHeaderText(null);
@@ -124,14 +123,23 @@ public class AI {
                      mediumMode(board,buttons);
                      break;
                  case "hard":
-                     hardMode(board,buttons);
+                     char[] board1D = new char[9];
+                     board1D[0] = board[0][0].charAt(0);
+                     board1D[1] = board[0][1].charAt(0);
+                     board1D[2] = board[0][2].charAt(0);
+                     board1D[3] = board[1][0].charAt(0);
+                     board1D[4] = board[1][1].charAt(0);
+                     board1D[5] = board[1][2].charAt(0);
+                     board1D[6] = board[2][0].charAt(0);
+                     board1D[7] = board[2][1].charAt(0);
+                     board1D[8] = board[2][2].charAt(0);
+                     hardMode(board1D,board,buttons);
                      break;
              }
              GameGUIController.gameTurn++;
              if(hasWon(board)){
                  compScore+=50;
                  compScoreLabel.setText(String.valueOf(compScore));
-                 //saveScoreInDatabase(out, compScore);
                  enableGuiButtons(guiButtons);
                 Alert computerWon = new Alert(Alert.AlertType.CONFIRMATION, "Computer  Won!  \n Do you want to paly again?", ButtonType.YES,ButtonType.NO);
                 computerWon.setHeaderText(null);
@@ -164,9 +172,87 @@ public class AI {
             return true;
         return false;
     }
-    public void hardMode(String[][] board,Button[][] buttons) {
+    
+    public int minimax(char[] board,int depth,char input){
+         int score = evaluateBoard(board); 
+  
+        // If AI has won the game  
+        // return evaluated score 
+        if (score == 10) 
+            return score-depth; 
 
-    boolean mademove = false;
+        // If user has won the game  
+        // return his/her evaluated score 
+        if (score == -10) 
+            return score+depth; 
+
+        // If there are no more moves and  
+        // no winner then it is a tie 
+        if (isMovesLeft(board) == false) 
+            return 0; 
+
+        // If this AI's move 
+         if (input == 'O'){ 
+            int bestValue = 99999999;
+		for(int i = 0 ; i < board.length; i++)
+                {
+                    if(board[i] != 'X' && board[i] != 'O'){
+					char before = board[i];
+					board[i] = 'O';
+					int value = minimax(board,depth++,'X');
+					bestValue = Math.min(bestValue, value);
+
+					board[i] = before;
+				}
+			}
+			return bestValue;
+		}else{
+			int bestValue = -99999999;
+			for(int i = 0 ; i < board.length; i++){
+				if(board[i] != 'X' && board[i] != 'O'){
+					char before = board[i];
+					board[i] = 'X';
+					
+					int value = minimax(board,depth++,'O');
+					bestValue = Math.max(bestValue, value);
+
+					board[i] = before;
+				}
+			}
+			return bestValue;
+		}
+} 
+  
+    public void hardMode(char[] board,String[][] board2,Button[][] btn) {
+
+   int bestMoveValues =  999999999;
+		int bestMove = -1;
+		
+		for(int i = 0 ; i < board.length; i++){
+			if(board[i] != 'X' && board[i] != 'O'){
+				char before = board[i];
+				board[i] = 'O';
+				
+				int bestValue = minimax(board,3,'X');
+				
+				board[i] = before;
+
+				if(bestValue < bestMoveValues){
+					bestMoveValues = bestValue;
+					bestMove = i;
+				}
+			}
+		}
+        
+	
+                board2[bestMove/3][bestMove%3] = "O";
+                btn[bestMove/3][bestMove%3].setStyle("-fx-text-fill:red;");
+                btn[bestMove/3][bestMove%3].setText("O");
+                btn[bestMove/3][bestMove%3].setDisable(true);
+            
+}  
+    public void mediumMode(String[][] board,Button[][] buttons) {
+
 
     // check if you can take a win horizontally
     for(int i = 0; i<3; i++){
@@ -178,7 +264,6 @@ public class AI {
                 buttons[2][i].setStyle("-fx-text-fill:red;");
                 buttons[2][i].setText("O");
                 buttons[2][i].setDisable(true);
-                mademove = true;
                 return;
             }
 
@@ -195,7 +280,6 @@ public class AI {
                 buttons[0][i].setStyle("-fx-text-fill:red;");
                 buttons[0][i].setText("O");
                 buttons[0][i].setDisable(true);
-                mademove = true;
                 return;
             }
 
@@ -216,7 +300,6 @@ public class AI {
                 buttons[i][2].setStyle("-fx-text-fill:red;");
                 buttons[i][2].setText("O");
                 buttons[i][2].setDisable(true);
-                mademove = true;
                 return;
             }
 
@@ -233,7 +316,6 @@ public class AI {
                 buttons[i][0].setStyle("-fx-text-fill:red;");
                 buttons[i][0].setText("O");
                 buttons[i][0].setDisable(true);
-                mademove = true;
                 return;
             }
 
@@ -252,7 +334,6 @@ public class AI {
             buttons[2][2].setStyle("-fx-text-fill:red;");
             buttons[2][2].setText("O");
             buttons[2][2].setDisable(true);
-            mademove = true;
             return;
         }
     }
@@ -264,7 +345,6 @@ public class AI {
             buttons[0][0].setStyle("-fx-text-fill:red;");
             buttons[0][0].setText("O");
             buttons[0][0].setDisable(true);
-            mademove = true;
             return;
         }
     }
@@ -276,7 +356,6 @@ public class AI {
             buttons[2][2].setStyle("-fx-text-fill:red;");
             buttons[2][2].setText("O");
             buttons[2][2].setDisable(true);
-            mademove = true;
             return;
         }
     }
@@ -288,7 +367,6 @@ public class AI {
             buttons[2][0].setStyle("-fx-text-fill:red;");
             buttons[2][0].setText("O");
             buttons[2][0].setDisable(true);
-            mademove = true;
             return;
         }
     }
@@ -300,7 +378,6 @@ public class AI {
             buttons[0][2].setStyle("-fx-text-fill:red;");
             buttons[0][2].setText("O");
             buttons[0][2].setDisable(true);
-            mademove = true;
             return;
         }
     }
@@ -308,28 +385,11 @@ public class AI {
 
     // BLOCKS!!!! //
 
-    mediumMode(board,buttons);
+    easyMode(board,buttons);
 
 }  
+    
     public void easyMode(String[][] board,Button[][] buttons){
-      boolean mademove = false;
-        while(!mademove){
-
-        int rand1 = (int) (Math.random() * 3);
-        int rand2 = (int) (Math.random() * 3);
-
-        if(board[rand1][rand2] != "X" && board[rand1][rand2] != "O"){
-            board[rand1][rand2] = "O";
-            buttons[rand1][rand2].setStyle("-fx-text-fill:red;");
-            buttons[rand1][rand2].setText("O");
-            buttons[rand1][rand2].setDisable(true);
-            mademove = true;        
-
-        }
-      }
-    }
-    public void mediumMode(String[][] board,Button[][] buttons){
-        boolean mademove = false;
         // check if you can block a win horizontally
     for(int i = 0; i<3; i++){
 
@@ -339,7 +399,6 @@ public class AI {
                 buttons[2][i].setStyle("-fx-text-fill:red;");
                 buttons[2][i].setText("O");
                 buttons[2][i].setDisable(true);
-                mademove = true;
                 return;
             }
 
@@ -356,7 +415,6 @@ public class AI {
                 buttons[0][i].setStyle("-fx-text-fill:red;");
                 buttons[0][i].setText("O");
                 buttons[0][i].setDisable(true);
-                mademove = true;
                 return;
             }
 
@@ -377,7 +435,6 @@ public class AI {
                 buttons[i][2].setStyle("-fx-text-fill:red;");
                 buttons[i][2].setText("O");
                 buttons[i][2].setDisable(true);
-                mademove = true;
                 return;
             }
 
@@ -394,7 +451,6 @@ public class AI {
                 buttons[i][0].setStyle("-fx-text-fill:red;");
                 buttons[i][0].setText("O");
                 buttons[i][0].setDisable(true);
-                mademove = true;
                 return;
             }
 
@@ -411,7 +467,6 @@ public class AI {
                 buttons[0][i].setStyle("-fx-text-fill:red;");
                 buttons[0][i].setText("O");
                 buttons[0][i].setDisable(true);
-                mademove = true;
                 return;
             }
 
@@ -431,7 +486,6 @@ public class AI {
             buttons[2][2].setStyle("-fx-text-fill:red;");
             buttons[2][2].setText("O");
             buttons[2][2].setDisable(true);
-            mademove = true;
             return;
         }
     }
@@ -443,7 +497,6 @@ public class AI {
             buttons[0][0].setStyle("-fx-text-fill:red;");
             buttons[0][0].setText("O");
             buttons[0][0].setDisable(true);
-            mademove = true;
             return;
         }
     }
@@ -454,7 +507,6 @@ public class AI {
             buttons[2][2].setStyle("-fx-text-fill:red;");
             buttons[2][2].setText("O");
             buttons[2][2].setDisable(true);
-            mademove = true;
             return;
         }
     }
@@ -466,7 +518,6 @@ public class AI {
             buttons[2][0].setStyle("-fx-text-fill:red;");
             buttons[2][0].setText("O");
             buttons[2][0].setDisable(true);
-            mademove = true;
             return;
         }
     }
@@ -478,16 +529,42 @@ public class AI {
             buttons[0][2].setStyle("-fx-text-fill:red;");
             buttons[0][2].setText("O");
             buttons[0][2].setDisable(true);
-            mademove = true;
             return;
         }
     }
-
-
-
-
-    // make random move if above rules dont apply
-        easyMode(board,buttons);
-
+  }
+     static int evaluateBoard(char[] board) 
+{ 
+   if((board[0] == 'O' && board[1] == 'O' && board[2] == 'O') ||
+		 	(board[3] == 'O' && board[4] == 'O' && board[5] == 'O') ||
+		 	(board[6] == 'O' && board[7] == 'O' && board[8] == 'O') ||
+		 	(board[0] == 'O' && board[3] == 'O' && board[6] == 'O') ||
+		 	(board[1] == 'O' && board[4] == 'O' && board[7] == 'O') ||
+		 	(board[2] == 'O' && board[5] == 'O' && board[8] == 'O') ||
+		 	(board[0] == 'O' && board[4] == 'O' && board[8] == 'O') ||
+		 	(board[2] == 'O' && board[4] == 'O' && board[6] == 'O')){
+			return -(10);
+		 }else if((board[0] == 'X' && board[1] == 'X' && board[2] == 'X') ||
+			 	(board[3] == 'X' && board[4] == 'X' && board[5] == 'X') ||
+			 	(board[6] == 'X' && board[7] == 'X' && board[8] == 'X') ||
+			 	(board[0] == 'X' && board[3] == 'X' && board[6] == 'X') ||
+			 	(board[1] == 'X' && board[4] == 'X' && board[7] == 'X') ||
+			 	(board[2] == 'X' && board[5] == 'X' && board[8] == 'X') ||
+			 	(board[0] == 'X' && board[4] == 'X' && board[8] == 'X') ||
+			 	(board[2] == 'X' && board[4] == 'X' && board[6] == 'X')){
+			return 10;
+		 }{
+			 return 0;
+		 }
+} 
+    static Boolean isMovesLeft(char[] board) 
+{ 
+    for (int i = 0; i < board.length; i++) {
+        
+            if (board[i] != 'X' && board[i] != 'O') 
+                return true; 
     }
+    return false; 
+
+}
 }
