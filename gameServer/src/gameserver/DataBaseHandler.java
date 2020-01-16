@@ -17,11 +17,11 @@ public class DataBaseHandler {
             String driver = "com.mysql.cj.jdbc.Driver";
             String url = "jdbc:mysql://localhost:3306/tictac";
             String username = "root";
-            String password = "";
+            String password = "123456";
             Class.forName(driver);
             conn = DriverManager.getConnection(url, username, password);
         } catch (Exception e) {
-            System.out.println("error in openning connection with database"+ e);
+            System.out.println("error in openning connection with database"+e);
         }
     }
 

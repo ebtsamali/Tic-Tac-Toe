@@ -45,17 +45,15 @@ public class Server {
                     String data = new DataInputStream(socket.getInputStream()).readLine();
                     JsonObject message = new JsonParser().parse((data)).getAsJsonObject();
                     if (message.get("type").getAsInt() == 1) {
-                        if (new DataBaseHandler().isUserExist(new Player(message))) {
+                        if (new DataBaseHandler().isUserExist(new Player(message)) && (!isOnline(new Player(message).getPlayerUserName()))) {
                             System.out.println("user connected");
                             new PrintStream(socket.getOutputStream()).println("true");
                             Player newPlayer = new Player(message);
                             newPlayer.setPlayerSocket(socket);
                             players.add(newPlayer);
                             new PrintStream(socket.getOutputStream()).println(Player.toJsonArray(players).toString());
-                            ClientReceiver userThread = new ClientReceiver(socket);
+                            ClientReceiver userThread = new ClientReceiver(newPlayer);
                             userThread.start();
-                            //userThread.start();
-                            //userThreads.add(userThread);
                         } else {
                             System.out.println("login failed");
                             new DataOutputStream(socket.getOutputStream()).writeBytes("false");
@@ -92,19 +90,29 @@ public class Server {
         }
     }
 
-    public void refreshTable() {
+    public static void refreshTable() {
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
                 ObservableList<Player> data = FXCollections.observableArrayList(new DataBaseHandler().getAllPlayers());
-                for(int i=0;i<data.size();i++)
-                    for(int j=0;j<players.size();j++){
-                        if(players.get(j).getPlayerUserName().equals(data.get(i).getPlayerUserName())){
+                for (int i = 0; i < data.size(); i++) {
+                    for (int j = 0; j < players.size(); j++) {
+                        if (players.get(j).getPlayerUserName().equals(data.get(i).getPlayerUserName())) {
                             data.get(i).setOnline();
                         }
                     }
+                }
                 FXMLDocumentController.sOnlineUsersTable.setItems(data);
             }
         });
+    }
+
+    private boolean isOnline(String username) {
+        for (int i = 0; i < players.size(); i++) {
+            if (players.get(i).getPlayerUserName().equals(username)) {
+                return true;
+            }
+        }
+        return false;
     }
 }
