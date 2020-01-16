@@ -5,11 +5,9 @@
  */
 package TicTacTo;
 
-import com.google.gson.Gson;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -22,27 +20,16 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.layout.FlowPane;
 import javafx.stage.Stage;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
-import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.google.gson.reflect.TypeToken;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.io.PrintStream;
-import java.net.Socket;
-import java.util.Optional;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
-import jdk.nashorn.internal.parser.JSONParser;
 
 /**
  * FXML Controller class
@@ -95,7 +82,7 @@ public class DashboardController implements Initializable {
         Parent newParent;
         try {
             newParent = FXMLLoader.load(getClass().getResource("fxml/singlePlayerGameGUI.fxml"));
-            Scene newScene = new Scene(newParent, 730, 500);
+            Scene newScene = new Scene(newParent, 800, 550);
             Stage windowStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             windowStage.setScene(newScene);
             windowStage.show();

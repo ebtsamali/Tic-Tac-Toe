@@ -7,6 +7,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.scene.paint.Color;
 
 public class AI {
     public String[][] board = new String [3][3];
@@ -27,8 +28,9 @@ public class AI {
     for(int i = 0; i < 3; i++){
             for(int j = 0; j < 3; j++){
                 buttons[i][j].setDisable(false);
+                buttons[i][j].setStyle("-fx-background-color: transparent;");
                 buttons[i][j].setText(" ");
-                buttons[i][j].setStyle("-fx-text-fill:blue");
+                buttons[i][j].setTextFill(Color.WHITE);
                 board[i][j] = null;
             }
             }
@@ -36,6 +38,12 @@ public class AI {
     enableGuiButtons(guiButtons);
     GameGUIController.gameTurn = 0;
 }
+    public void setButtonMove(Button btn,String move){
+        btn.setFocusTraversable(false);
+        btn.setStyle("-fx-background-color: transparent;");
+        btn.setTextFill(Color.RED);
+        btn.setText(move);
+    }
      public void resetBoard(String[][] board){
         int x = 0;
         for(int i = 0; i < 3; i++){
@@ -246,9 +254,8 @@ public class AI {
         
 	
                 board2[bestMove/3][bestMove%3] = "O";
-                btn[bestMove/3][bestMove%3].setStyle("-fx-text-fill:red;");
-                btn[bestMove/3][bestMove%3].setText("O");
-                btn[bestMove/3][bestMove%3].setDisable(true);
+                setButtonMove(btn[bestMove/3][bestMove%3],"O");
+                
             
 }  
     public void mediumMode(String[][] board,Button[][] buttons) {
@@ -261,9 +268,7 @@ public class AI {
 
             if(board[2][i] != "X" && board[2][i] != "O"){
                 board[2][i] = "O";
-                buttons[2][i].setStyle("-fx-text-fill:red;");
-                buttons[2][i].setText("O");
-                buttons[2][i].setDisable(true);
+                setButtonMove(buttons[2][i],"O");
                 return;
             }
 
@@ -277,9 +282,7 @@ public class AI {
 
             if(board[0][i] != "X" && board[0][i] != "O"){
                 board[0][i] = "O";
-                buttons[0][i].setStyle("-fx-text-fill:red;");
-                buttons[0][i].setText("O");
-                buttons[0][i].setDisable(true);
+                setButtonMove(buttons[0][i],"O");
                 return;
             }
 
@@ -297,9 +300,7 @@ public class AI {
 
             if(board[i][2] != "X" && board[i][2] != "O"){
                 board[i][2] = "O";
-                buttons[i][2].setStyle("-fx-text-fill:red;");
-                buttons[i][2].setText("O");
-                buttons[i][2].setDisable(true);
+                setButtonMove(buttons[i][2],"O");
                 return;
             }
 
@@ -313,9 +314,7 @@ public class AI {
 
             if(board[i][0] != "X" && board[i][0] != "O"){
                 board[i][0] = "O";
-                buttons[i][0].setStyle("-fx-text-fill:red;");
-                buttons[i][0].setText("O");
-                buttons[i][0].setDisable(true);
+                setButtonMove(buttons[i][0],"O");
                 return;
             }
 
@@ -331,9 +330,7 @@ public class AI {
 
         if(board[2][2] != "X" && board[2][2] != "O"){
             board[2][2] = "O";
-            buttons[2][2].setStyle("-fx-text-fill:red;");
-            buttons[2][2].setText("O");
-            buttons[2][2].setDisable(true);
+            setButtonMove(buttons[2][2],"O");
             return;
         }
     }
@@ -342,9 +339,7 @@ public class AI {
 
         if(board[0][0] != "X" && board[0][0] != "O"){
             board[0][0] = "O";
-            buttons[0][0].setStyle("-fx-text-fill:red;");
-            buttons[0][0].setText("O");
-            buttons[0][0].setDisable(true);
+            setButtonMove(buttons[0][0],"O");
             return;
         }
     }
@@ -353,9 +348,7 @@ public class AI {
 
         if(board[2][2] != "X" && board[2][2] != "O"){
             board[2][2] = "O";
-            buttons[2][2].setStyle("-fx-text-fill:red;");
-            buttons[2][2].setText("O");
-            buttons[2][2].setDisable(true);
+            setButtonMove(buttons[2][2],"O");
             return;
         }
     }
@@ -364,9 +357,7 @@ public class AI {
 
         if(board[2][0] != "X" && board[2][0] != "O"){
             board[2][0] = "O";
-            buttons[2][0].setStyle("-fx-text-fill:red;");
-            buttons[2][0].setText("O");
-            buttons[2][0].setDisable(true);
+            setButtonMove(buttons[2][0],"O");
             return;
         }
     }
@@ -375,9 +366,7 @@ public class AI {
 
         if(board[0][2] != "X" && board[0][2] != "O"){
             board[0][2] = "O";
-            buttons[0][2].setStyle("-fx-text-fill:red;");
-            buttons[0][2].setText("O");
-            buttons[0][2].setDisable(true);
+            setButtonMove(buttons[0][2],"O");
             return;
         }
     }
@@ -390,15 +379,15 @@ public class AI {
 }  
     
     public void easyMode(String[][] board,Button[][] buttons){
+        boolean mademove = false;
         // check if you can block a win horizontally
     for(int i = 0; i<3; i++){
 
         if(board[0][i].equals(board[1][i]) && board[0][i].equals("X")){
             if(board[2][i] != "O" && board[2][i] != "X"){
                 board[2][i] = "O";
-                buttons[2][i].setStyle("-fx-text-fill:red;");
-                buttons[2][i].setText("O");
-                buttons[2][i].setDisable(true);
+                setButtonMove(buttons[0][i],"O");
+                mademove = true;
                 return;
             }
 
@@ -412,9 +401,8 @@ public class AI {
 
             if(board[0][i] != "O" && board[0][i] != "X"){
                 board[0][i] = "O";
-                buttons[0][i].setStyle("-fx-text-fill:red;");
-                buttons[0][i].setText("O");
-                buttons[0][i].setDisable(true);
+                setButtonMove(buttons[0][i],"O");
+                mademove = true;
                 return;
             }
 
@@ -432,9 +420,8 @@ public class AI {
 
             if(board[i][2] != "O" && board[i][2] != "X"){
                 board[i][2] = "O";
-                buttons[i][2].setStyle("-fx-text-fill:red;");
-                buttons[i][2].setText("O");
-                buttons[i][2].setDisable(true);
+                setButtonMove(buttons[i][2],"O");
+                mademove = true;
                 return;
             }
 
@@ -448,9 +435,8 @@ public class AI {
 
             if(board[i][0] != "O" && board[i][0] != "X"){
                 board[i][0] = "O";
-                buttons[i][0].setStyle("-fx-text-fill:red;");
-                buttons[i][0].setText("O");
-                buttons[i][0].setDisable(true);
+                setButtonMove(buttons[i][0],"O");
+                mademove = true;
                 return;
             }
 
@@ -464,9 +450,8 @@ public class AI {
 
             if(board[0][i] != "O" && board[0][i] != "X"){
                 board[0][i] = "O";
-                buttons[0][i].setStyle("-fx-text-fill:red;");
-                buttons[0][i].setText("O");
-                buttons[0][i].setDisable(true);
+                setButtonMove(buttons[0][i],"O");
+                mademove = true;
                 return;
             }
 
@@ -483,9 +468,8 @@ public class AI {
 
         if(board[2][2] != "O" && board[2][2] != "X"){
             board[2][2] = "O";
-            buttons[2][2].setStyle("-fx-text-fill:red;");
-            buttons[2][2].setText("O");
-            buttons[2][2].setDisable(true);
+            setButtonMove(buttons[2][2],"O");
+            mademove = true;
             return;
         }
     }
@@ -494,9 +478,8 @@ public class AI {
 
         if(board[0][0] != "O" && board[0][0] != "X"){
             board[0][0] = "O";
-            buttons[0][0].setStyle("-fx-text-fill:red;");
-            buttons[0][0].setText("O");
-            buttons[0][0].setDisable(true);
+            setButtonMove(buttons[0][0],"O");
+            mademove = true;
             return;
         }
     }
@@ -504,9 +487,8 @@ public class AI {
     if(board[0][0].equals(board[1][1]) && board[0][0].equals("X")){
         if(board[2][2] != "O" && board[2][2] != "X"){
             board[2][2] = "O";
-            buttons[2][2].setStyle("-fx-text-fill:red;");
-            buttons[2][2].setText("O");
-            buttons[2][2].setDisable(true);
+            setButtonMove(buttons[2][2],"O");
+            mademove = true;
             return;
         }
     }
@@ -515,9 +497,8 @@ public class AI {
 
         if(board[2][0] != "O" && board[2][0] != "X"){
             board[2][0] = "O";
-            buttons[2][0].setStyle("-fx-text-fill:red;");
-            buttons[2][0].setText("O");
-            buttons[2][0].setDisable(true);
+            setButtonMove(buttons[2][0],"O");
+            mademove = true;
             return;
         }
     }
@@ -526,11 +507,27 @@ public class AI {
 
         if(board[0][2] != "O" && board[0][2] != "X"){
             board[0][2] = "O";
-            buttons[0][2].setStyle("-fx-text-fill:red;");
-            buttons[0][2].setText("O");
-            buttons[0][2].setDisable(true);
+            setButtonMove(buttons[0][2],"O");
+            mademove = true;
             return;
         }
+    }
+      // make random move if above rules dont apply
+    int rand1 = 0;
+    int rand2 = 0;
+
+    while(!mademove){
+
+        rand1 = (int) (Math.random() * 3);
+        rand2 = (int) (Math.random() * 3);
+
+        if(board[rand1][rand2] != "X" && board[rand1][rand2] != "O"){
+            board[rand1][rand2] = "O";
+            setButtonMove(buttons[rand1][rand2],"O");
+            mademove = true;        
+
+        }
+
     }
   }
      static int evaluateBoard(char[] board) 

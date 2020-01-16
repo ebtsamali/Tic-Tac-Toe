@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXButton?>
+<?import java.net.URL?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -8,12 +10,15 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="384.0" prefWidth="693.0" style="-fx-background-insets: 10;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tictactoewithai.GameGUIController">
+<AnchorPane id="AnchorPane" prefHeight="550.0" prefWidth="800.0" style="-fx-background-insets: 10;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tictactoewithai.GameGUIController">
+    <stylesheets>
+        <URL value="@../css/gamegui.css" />
+    </stylesheets>
     <children>
-      <GridPane fx:id="gridPane" gridLinesVisible="true" layoutX="66.0" layoutY="34.0" prefHeight="314.0" prefWidth="450.0">
+      <GridPane layoutX="232.0" layoutY="94.0" prefHeight="327.0" prefWidth="339.0">
         <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
         </columnConstraints>
         <rowConstraints>
@@ -22,73 +27,102 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button fx:id="button_0_0" mnemonicParsing="false" onAction="#playerClick" prefHeight="148.0" prefWidth="151.0" textFill="#3535b5">
+            <Button fx:id="button_0_0" alignment="CENTER" contentDisplay="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#playerClick" prefHeight="170.0" prefWidth="201.0" style="-fx-background-color: transparent;" textAlignment="CENTER" textFill="WHITE">
                <font>
-                  <Font name="Verdana Bold" size="30.0" />
-               </font></Button>
-            <Button fx:id="button_0_1" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#playerClick" prefHeight="148.0" prefWidth="151.0" textFill="#3535b5" GridPane.columnIndex="1">
+                  <Font name="System Bold" size="40.0" />
+               </font>
+            </Button>
+            <Button fx:id="button_0_1" alignment="CENTER" contentDisplay="CENTER" focusTraversable="false" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#playerClick" prefHeight="170.0" prefWidth="201.0" style="-fx-background-color: transparent;" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="1">
                <font>
-                  <Font name="Verdana Bold" size="30.0" />
-               </font></Button>
-            <Button fx:id="button_0_2" layoutX="160.0" layoutY="10.0" mnemonicParsing="false" onAction="#playerClick" prefHeight="148.0" prefWidth="151.0" textFill="#3535b5" GridPane.columnIndex="2">
+                  <Font name="System Bold" size="40.0" />
+               </font>
+            </Button>
+            <Button fx:id="button_0_2" alignment="CENTER" contentDisplay="CENTER" focusTraversable="false" layoutX="140.0" layoutY="10.0" mnemonicParsing="false" onAction="#playerClick" prefHeight="170.0" prefWidth="201.0" style="-fx-background-color: transparent;" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="2">
                <font>
-                  <Font name="Verdana Bold" size="30.0" />
-               </font></Button>
-            <Button fx:id="button_1_1" layoutX="160.0" layoutY="10.0" mnemonicParsing="false" onAction="#playerClick" prefHeight="148.0" prefWidth="151.0" textFill="#3535b5" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                  <Font name="System Bold" size="40.0" />
+               </font>
+            </Button>
+            <Button fx:id="button_1_0" alignment="CENTER" contentDisplay="CENTER" focusTraversable="false" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#playerClick" prefHeight="170.0" prefWidth="201.0" style="-fx-background-color: transparent;" textAlignment="CENTER" textFill="WHITE" GridPane.rowIndex="1">
                <font>
-                  <Font name="Verdana Bold" size="30.0" />
-               </font></Button>
-            <Button fx:id="button_1_0" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#playerClick" prefHeight="148.0" prefWidth="151.0" textFill="#3535b5" GridPane.rowIndex="1">
+                  <Font name="System Bold" size="40.0" />
+               </font>
+            </Button>
+            <Button fx:id="button_1_1" alignment="CENTER" contentDisplay="CENTER" focusTraversable="false" layoutX="10.0" layoutY="112.0" mnemonicParsing="false" onAction="#playerClick" prefHeight="170.0" prefWidth="201.0" style="-fx-background-color: transparent;" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <font>
-                  <Font name="Verdana Bold" size="30.0" />
-               </font></Button>
-            <Button fx:id="button_2_2" layoutX="10.0" layoutY="115.0" mnemonicParsing="false" onAction="#playerClick" prefHeight="148.0" prefWidth="151.0" textFill="#3535b5" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                  <Font name="System Bold" size="40.0" />
+               </font>
+            </Button>
+            <Button fx:id="button_1_2" alignment="CENTER" contentDisplay="CENTER" focusTraversable="false" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#playerClick" prefHeight="170.0" prefWidth="201.0" style="-fx-background-color: transparent;" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="1">
                <font>
-                  <Font name="Verdana Bold" size="30.0" />
-               </font></Button>
-            <Button fx:id="button_2_1" layoutX="10.0" layoutY="115.0" mnemonicParsing="false" onAction="#playerClick" prefHeight="148.0" prefWidth="151.0" textFill="#3535b5" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                  <Font name="System Bold" size="40.0" />
+               </font>
+            </Button>
+            <Button fx:id="button_2_0" alignment="CENTER" contentDisplay="CENTER" focusTraversable="false" layoutX="140.0" layoutY="112.0" mnemonicParsing="false" onAction="#playerClick" prefHeight="170.0" prefWidth="201.0" style="-fx-background-color: transparent;" textAlignment="CENTER" textFill="WHITE" GridPane.rowIndex="2">
                <font>
-                  <Font name="Verdana Bold" size="30.0" />
-               </font></Button>
-            <Button fx:id="button_1_2" layoutX="160.0" layoutY="115.0" mnemonicParsing="false" onAction="#playerClick" prefHeight="148.0" prefWidth="151.0" textFill="#3535b5" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                  <Font name="System Bold" size="40.0" />
+               </font>
+            </Button>
+            <Button fx:id="button_2_1" alignment="CENTER" contentDisplay="CENTER" focusTraversable="false" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#playerClick" prefHeight="170.0" prefWidth="201.0" style="-fx-background-color: transparent;" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="2">
                <font>
-                  <Font name="Verdana Bold" size="30.0" />
-               </font></Button>
-            <Button fx:id="button_2_0" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#playerClick" prefHeight="148.0" prefWidth="151.0" textFill="#3535b5" GridPane.rowIndex="2">
+                  <Font name="System Bold" size="40.0" />
+               </font>
+            </Button>
+            <Button fx:id="button_2_2" alignment="CENTER" contentDisplay="CENTER" focusTraversable="false" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#playerClick" prefHeight="170.0" prefWidth="201.0" style="-fx-background-color: transparent;" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="2">
                <font>
-                  <Font name="Verdana Bold" size="30.0" />
-               </font></Button>
+                  <Font name="System Bold" size="40.0" />
+               </font>
+            </Button>
          </children>
-      </GridPane>
-      <Label layoutX="534.0" layoutY="34.0" text="Your Score:" textFill="#4d41cd" textOverrun="CLIP">
+          </GridPane>
+      <Label layoutX="43.0" layoutY="205.0" prefHeight="25.0" prefWidth="74.0" text="Score" textFill="WHITE">
          <font>
-            <Font name="Verdana Bold" size="19.0" />
+            <Font name="System Bold Italic" size="24.0" />
          </font>
       </Label>
-      <Label fx:id="playerScoreLabel" layoutX="595.0" layoutY="72.0" text="0" textFill="#5149c9">
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="14.0" layoutY="45.0" prefHeight="54.0" prefWidth="131.0" text="MY SIGN" textAlignment="CENTER" textFill="WHITE">
+         <font>
+            <Font name="System Bold Italic" size="24.0" />
+         </font>
+      </Label>
+      <Button contentDisplay="CENTER" disable="true" focusTraversable="false" layoutX="55.0" layoutY="94.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="51.0" style="-fx-background-color: white;" text="X">
+         <font>
+            <Font name="System Bold" size="21.0" />
+         </font>
+      </Button>
+      <Label layoutX="102.0" layoutY="453.0" text="You" textFill="#f5f4f4">
+         <font>
+            <Font name="System Bold" size="19.0" />
+         </font>
+      </Label>
+      <Label layoutX="654.0" layoutY="453.0" text="AI" textFill="#f5f4f4">
          <font>
             <Font size="19.0" />
          </font>
       </Label>
-      <Label ellipsisString="" layoutX="537.0" layoutY="123.0" text="AI's Score:" textFill="#ed5c5c" textOverrun="CLIP">
+      <Label layoutX="663.0" layoutY="205.0" prefHeight="25.0" prefWidth="74.0" text="Score" textFill="WHITE">
          <font>
-            <Font name="Verdana Bold" size="19.0" />
+            <Font name="System Bold Italic" size="24.0" />
          </font>
       </Label>
-      <Label fx:id="compScoreLabel" layoutX="595.0" layoutY="156.0" text="0" textFill="#ed5c5c">
+      <Label fx:id="playerScoreLabel" layoutX="43.0" layoutY="247.0" prefHeight="25.0" prefWidth="74.0" textFill="WHITE">
          <font>
-            <Font size="19.0" />
+            <Font name="System Bold Italic" size="24.0" />
          </font>
       </Label>
-      <Button fx:id="resetButton" disable="true" layoutX="538.0" layoutY="279.0" mnemonicParsing="false" onAction="#resetGameButtonAction" text="Reset Game">
+      <Label fx:id="compScoreLabel" layoutX="663.0" layoutY="240.0" prefHeight="25.0" prefWidth="74.0" textFill="WHITE">
          <font>
-            <Font name="System Bold" size="19.0" />
+            <Font name="System Bold Italic" size="24.0" />
          </font>
-      </Button>
-      <Button fx:id="difficultyButton" layoutX="545.0" layoutY="219.0" mnemonicParsing="false" onAction="#changeDifficulty" text="Difficulty">
+      </Label>
+      <JFXButton fx:id="difficultyButton" layoutX="631.0" layoutY="45.0" onAction="#changeDifficulty" ripplerFill="#7f6af2" style="-fx-border-color: white;" text="Difficulty" textFill="#f5f3f3">
          <font>
-            <Font name="System Bold" size="19.0" />
+            <Font name="Verdana Bold Italic" size="16.0" />
          </font>
-      </Button>
+      </JFXButton>
+      <JFXButton fx:id="resetButton" disable="true" layoutX="647.0" layoutY="82.0" onAction="#resetGameButtonAction" ripplerFill="#7f6af2" style="-fx-border-color: white;" text="Reset" textFill="#f5f3f3">
+         <font>
+            <Font name="Verdana Bold Italic" size="16.0" />
+         </font>
+      </JFXButton>
    </children>
 </AnchorPane>

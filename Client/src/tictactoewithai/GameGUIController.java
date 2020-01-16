@@ -34,14 +34,15 @@ public void setButtonsArray(){
     guiButtons[1] = difficultyButton;
 }
 
-    @FXML void resetGameButtonAction(ActionEvent e){
+    @FXML 
+    public void resetGameButtonAction(ActionEvent e){
         resetGame(buttons,board,guiButtons);
     }
     @FXML
     public void playerClick(javafx.event.ActionEvent event){
          Button btn = (Button) event.getSource();
          btn.setText("X");
-         btn.setDisable(true);
+         btn.setFocusTraversable(false);
          setBoardValue(btn,buttons);
          gameTurn++;
          compTurn(buttons, board, guiButtons, playerScoreLabel, compScoreLabel);
