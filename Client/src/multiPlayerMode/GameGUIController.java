@@ -5,8 +5,14 @@
  */
 package multiPlayerMode;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -45,6 +51,8 @@ public class GameGUIController extends Client implements Initializable {
     @FXML
     private Button Messages;
     public static Button sMessages;
+    @FXML
+    private Button btnSaveGame;
     
     
     public void setButtonsArray(){
@@ -76,5 +84,43 @@ public class GameGUIController extends Client implements Initializable {
         setButtonsArray();
 
     }
+
+    @FXML
+    private void saveGame(ActionEvent event) {
+        try {
+            JsonObject obj = new JsonObject();
+            obj.addProperty("btn0", btn0.getText());
+            obj.addProperty("btn1", btn1.getText());
+            obj.addProperty("btn2", btn2.getText());
+            obj.addProperty("btn3", btn3.getText());
+            obj.addProperty("btn4", btn4.getText());
+            obj.addProperty("btn5", btn5.getText());
+            obj.addProperty("btn6", btn6.getText());
+            obj.addProperty("btn7", btn7.getText());
+            obj.addProperty("btn8", btn8.getText());
+
+            //ps.println(obj.toString()); //will managed
+
+        } catch (Exception ex) {
+            System.out.println("error in sending saved game to server");
+        }
+    }
+   /*
+    private void handleretrieveGame(ActionEvent event) throws IOException {
+        rGame = dis.readLine();
+        JsonObject retrieveGame = new JsonParser().parse(rGame).getAsJsonObject();
+
+//            obj.addProperty("type", 2);
+        btn1.setText(retrieveGame.get("btn1").getAsString());
+        btn2.setText(retrieveGame.get("btn2").getAsString());
+        btn3.setText(retrieveGame.get("btn3").getAsString());
+        btn4.setText(retrieveGame.get("btn4").getAsString());
+        btn5.setText(retrieveGame.get("btn5").getAsString());
+        btn6.setText(retrieveGame.get("btn6").getAsString());
+        btn7.setText(retrieveGame.get("btn7").getAsString());
+        btn8.setText(retrieveGame.get("btn8").getAsString());
+        btn9.setText(retrieveGame.get("btn9").getAsString());
+    }
+*/ //will managed
 
 }

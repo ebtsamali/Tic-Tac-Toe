@@ -10,7 +10,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="550.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="testtictoe.GameGUIController">
+<AnchorPane id="AnchorPane" prefHeight="550.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="multiPlayerMode.GameGUIController">
     <stylesheets>
         <URL value="@../css/gamegui.css" />
     </stylesheets>
@@ -90,7 +90,7 @@
             <Font name="System Bold" size="12.0" />
          </font>
       </Button>
-      <Button cacheShape="false" centerShape="false" focusTraversable="false" layoutX="708.0" layoutY="33.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="51.0" scaleShape="false" />
+      <Button fx:id="btnSaveGame" cacheShape="false" centerShape="false" focusTraversable="false" layoutX="708.0" layoutY="33.0" mnemonicParsing="false" onAction="#saveGame" prefHeight="43.0" prefWidth="51.0" scaleShape="false" />
       <Button fx:id="Messages" alignment="CENTER" contentDisplay="CENTER" focusTraversable="false" layoutX="253.0" layoutY="440.0" mnemonicParsing="false" prefHeight="12.0" prefWidth="296.0" style="-fx-background-color: white;" textAlignment="CENTER">
          <font>
             <Font name="System Bold" size="24.0" />
