@@ -11,6 +11,8 @@ import static gameserver.Server.players;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -54,10 +56,24 @@ public class ClientReceiver extends Thread {
         switch (message.get("type").getAsString()) {
             case "invite":
                 message.get("senderUsername").getAsString();
-                System.out.println("invite sent from " + message.get("senderUsername").getAsString() + "to " + message.get("reciverUsername").getAsString());
+                System.out.println("invite sent from " + message.get("senderUsername").getAsString() + " to " + message.get("reciverUsername").getAsString());
                 send(message);
                 break;
+            case "accept":
+                if (message.get("result").getAsBoolean()) {
+                    for (int i = 0; i < players.size(); i++) {
+                        if (players.get(i).getPlayerUserName().equals(message.get("senderUsername").getAsString()) || players.get(i).getPlayerUserName().equals(message.get("reciverUsername").getAsString())) {
+                            try {
+                                new PrintStream(Server.players.get(i).getPlayerSocket().getOutputStream()).println("{type:openGame,senderUsername:"+message.get("senderUsername")+",reciverUsername:"+message.get("reciverUsername")+"}");
+                            } catch (IOException ex) {
+                                System.out.println("error in sendding game start");
+                            }
+                        }
+                    }
+                }
+                break;
         }
+
     }
 
     void send(JsonObject invitation) {

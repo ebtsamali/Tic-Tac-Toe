@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
@@ -9,20 +15,29 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="550.0" prefWidth="800.0" stylesheets="@../css/dbfxml.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="TicTacTo.DashboardController">
+<AnchorPane id="AnchorPane" prefHeight="550.0" prefWidth="800.0" stylesheets="@../css/dbfxml.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="TicTacTo.DashboardController">
    <children>
       <Button layoutX="56.0" layoutY="399.0" mnemonicParsing="false" onAction="#loadSinglePlayerWindow" prefHeight="40.0" prefWidth="119.0" style="-fx-background-color: transparent;" text="Single Player">
          <font>
             <Font name="System Bold" size="13.0" />
          </font></Button>
-      <VBox fx:id="onlineUserPane" layoutX="574.0" layoutY="146.0" prefHeight="315.0" prefWidth="180.0" />
-      <Button layoutX="294.0" layoutY="347.0" mnemonicParsing="false" onAction="#loadMultiPlayerWindow" text="Multiplayer" />
-      <Label alignment="CENTER" layoutX="577.0" layoutY="101.0" prefHeight="30.0" prefWidth="174.0" text="ONLINE PLAYERS">
+      <ScrollPane layoutX="253.0" layoutY="123.0" prefHeight="319.0" prefViewportHeight="315.0" prefViewportWidth="180.0" prefWidth="165.0" style="-fx-background-color: transparent;">
+         <content>
+            <VBox fx:id="onlineUserPane" layoutX="574.0" layoutY="146.0" prefHeight="316.0" prefWidth="163.0" style="-fx-background-color: transparent;" />
+         </content>
+      </ScrollPane>
+      <ScrollPane layoutX="429.0" layoutY="123.0" prefHeight="319.0" prefViewportHeight="315.0" prefViewportWidth="180.0" prefWidth="165.0" style="-fx-background-color: transparent;">
+         <content>
+            <VBox fx:id="onlineUserPane1" layoutX="574.0" layoutY="146.0" prefHeight="316.0" prefWidth="163.0" style="-fx-background-color: transparent;" />
+         </content>
+      </ScrollPane>
+      <Button layoutX="691.0" layoutY="496.0" mnemonicParsing="false" onAction="#loadMultiPlayerWindow" text="Multiplayer" />
+      <Label alignment="CENTER" layoutX="429.0" layoutY="86.0" prefHeight="30.0" prefWidth="165.0" text="MID PLAYERS">
          <font>
             <Font name="Comic Sans MS Bold" size="18.0" />
          </font>
       </Label>
-      <Label alignment="CENTER" layoutX="315.0" layoutY="101.0" prefHeight="30.0" prefWidth="174.0" text="TOP PLAYERS">
+      <Label alignment="CENTER" layoutX="253.0" layoutY="86.0" prefHeight="30.0" prefWidth="165.0" text="TOP PLAYERS">
          <font>
             <Font name="Comic Sans MS Bold" size="18.0" />
          </font>
@@ -53,5 +68,15 @@
             <Image url="@../images/min.png" />
          </image>
       </ImageView>
+      <Label alignment="CENTER" layoutX="609.0" layoutY="86.0" prefHeight="30.0" prefWidth="165.0" text="NEW PLAYERS">
+         <font>
+            <Font name="Comic Sans MS Bold" size="18.0" />
+         </font>
+      </Label>
+      <ScrollPane layoutX="609.0" layoutY="123.0" prefHeight="319.0" prefViewportHeight="315.0" prefViewportWidth="180.0" prefWidth="165.0" style="-fx-background-color: transparent;">
+         <content>
+            <VBox fx:id="onlineUserPane11" layoutX="574.0" layoutY="146.0" prefHeight="316.0" prefWidth="163.0" style="-fx-background-color: transparent;" />
+         </content>
+      </ScrollPane>
    </children>
 </AnchorPane>

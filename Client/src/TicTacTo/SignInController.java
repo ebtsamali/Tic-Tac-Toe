@@ -28,6 +28,7 @@ public class SignInController implements Initializable {
     public static Player player;
     private Stage window;
     private Parent root;
+    public static Stage mainStage;
     Thread checkThread;
     @FXML
     private AnchorPane rootPane;
@@ -121,6 +122,7 @@ public class SignInController implements Initializable {
         {
             Parent newParent = FXMLLoader.load(getClass().getResource(fxmlFileName));
             Scene newScene = new Scene(newParent, 800, 550);
+            mainStage=(Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
             Stage windowStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
             windowStage.setScene(newScene);
             windowStage.show();

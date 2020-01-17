@@ -56,6 +56,7 @@ public class DashboardController implements Initializable {
                 for (int i = 0; i < playerArray.size(); i++) {
                     JsonObject otherPlayer = new JsonParser().parse(playerArray.get(i).toString()).getAsJsonObject();
                     buttonlist.add(new Button(otherPlayer.get("username").getAsString()));
+                    buttonlist.get(i).setMaxWidth(163);
                     buttonlist.get(i).setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent actionEvent) {

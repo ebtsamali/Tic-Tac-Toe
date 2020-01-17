@@ -3,8 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/F:/ITI%209/Java/Tic_Tac_Toe/git3/Tic-Tac-Toe/Client/src/TicTacTo/fxml/multiPlayerGameGUI.fxml</file>
-            <file>file:/F:/ITI%209/Java/Tic_Tac_Toe/git3/Tic-Tac-Toe/Client/src/multiPlayerMode/GameGUIController.java</file>
+            <file>file:/C:/Users/mena/Desktop/New%20folder/Tic-Tac-Toe/Client/src/TicTacTo/DashboardController.java</file>
+            <file>file:/C:/Users/mena/Desktop/New%20folder/Tic-Tac-Toe/Client/src/TicTacTo/SignUpController.java</file>
+            <file>file:/C:/Users/mena/Desktop/New%20folder/Tic-Tac-Toe/Client/src/TicTacTo/SignInController.java</file>
+            <file>file:/C:/Users/mena/Desktop/New%20folder/Tic-Tac-Toe/Client/src/TicTacTo/ServerReciver.java</file>
         </group>
     </open-files>
 </project-private>
