@@ -28,6 +28,7 @@ import com.google.gson.JsonParser;
 import java.io.PrintStream;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 
@@ -71,6 +72,7 @@ public class DashboardController implements Initializable {
                     });
                 }
                 onlineUserPane.getChildren().addAll(buttonlist);
+                onlineUserPane.setAlignment(Pos.TOP_CENTER);
             } catch (Exception ex) {
                 System.out.println("error in getting all users");;
             }

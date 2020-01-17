@@ -5,6 +5,7 @@ import com.google.gson.JsonObject;
 import java.net.Socket;
 import java.util.Vector;
 import javafx.scene.control.Button;
+import javafx.scene.paint.Color;
 
 public class Player {
 
@@ -17,12 +18,14 @@ public class Player {
     private Socket playerSocket;
     private Thread playerthread;
     private String score="100";
-    private Button state =new Button("online");
+    private Button state =new Button("⚫ Offline");
 
     public Player(String name, String pass) {
         playerUserName = name;
         playerPassword = pass;
         state.setDisable(true);
+        state.setTextFill(Color.GREY);
+        state.setStyle("-fx-background-color: transparent;");
     }
 
     public Player(String name, String password, String fullname, String email, String securityQ) {
@@ -32,6 +35,8 @@ public class Player {
         playerEmail = email;
         securityQuestion = securityQ;
         state.setDisable(true);
+        state.setTextFill(Color.GREY);
+        state.setStyle("-fx-background-color: transparent;");
     }
 
     public Player(JsonObject player) {
@@ -209,8 +214,12 @@ public class Player {
     }
     public void setOnline() {
         state.setDisable(false);
+        state.setText("⚫ Online");
+        state.setTextFill(Color.GREEN);
     }
     public void setOffline() {
         state.setDisable(true);
+        state.setText("⚫ Offline");
+        state.setTextFill(Color.GREY);
     }
 }
