@@ -15,7 +15,9 @@ import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -72,6 +74,16 @@ public class GameGUIController extends Client implements Initializable {
         Button clickedButton = (Button) e.getSource();
         sendButtonNumber(clickedButton,buttons);
         
+    }
+    @FXML
+    private void minimizeWindow(ActionEvent event) {
+        Stage windowStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        windowStage.setIconified(true);
+    }
+
+    @FXML
+    private void closeWindow(ActionEvent event) {
+        System.exit(0);
     }
     
 
