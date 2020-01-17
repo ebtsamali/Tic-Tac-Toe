@@ -15,9 +15,12 @@ import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
+import javafx.util.Duration;
+import org.controlsfx.control.Notifications;
 
 /**
  * FXML Controller class
@@ -75,6 +78,22 @@ public class GameGUIController extends Client implements Initializable {
         sendButtonNumber(clickedButton,buttons);
         
     }
+    
+     @FXML
+    private void notificationPopup(ActionEvent event){
+        //Image img = new Image("../images/hello.png");
+        Notifications notificationBuilder = Notifications.create()
+                .title("HELLO")
+                .text("TIC TAC TOE")
+                .graphic(null)
+                .hideAfter(Duration.seconds(5))
+                .position(Pos.BOTTOM_RIGHT);
+                
+        notificationBuilder.darkStyle();
+        notificationBuilder.show();   
+    }
+    
+    
     @FXML
     private void minimizeWindow(ActionEvent event) {
         Stage windowStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
