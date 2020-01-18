@@ -222,9 +222,11 @@ public class MultiPlayerGUIController implements Initializable {
     @FXML
     private void SendChat(ActionEvent event) {
         try {
-            chatTa.setText(chatTa.getText() + "you:" + chatTf.getText() + "\n");
-            new PrintStream(player.getPlayerSocket().getOutputStream()).println("{type:message,message:\"" + chatTf.getText() + "\",gameId:" + gameID + "}");
+            if (chatTf.getText().length() != 0){
+            chatTa.setText(chatTa.getText()+"you: "+chatTf.getText()+"\n");
+            new PrintStream(player.getPlayerSocket().getOutputStream()).println("{type:message,message:\" "+chatTf.getText()+"\",gameId:"+gameID+"}");
             chatTf.setText("");
+            }
         } catch (IOException ex) {
             System.out.println("error in send chat");
         }

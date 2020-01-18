@@ -167,6 +167,7 @@ public class ServerReciver extends Thread {
     private void addNewPlayer(JsonObject message) {
         JsonObject otherPlayer = new JsonParser().parse(message.toString()).getAsJsonObject();
         Button newUserBtn = new Button(otherPlayer.get("username").getAsString());
+        newUserBtn.setStyle("-fx-background-color : darkblue;" + "-fx-opacity: 0.6;" + "-fx-text-fill: #ffffff;" + "-fx-font-family: Verdana");
         newUserBtn.setMaxWidth(163);
         newUserBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override

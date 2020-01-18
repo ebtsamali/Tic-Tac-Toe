@@ -5,7 +5,7 @@ FontAwesomeIconView:hover{
 
 #rootPane {
     /* -fx-background-color: skyblue,derive(skyblue, 25%); */
-    -fx-background-image: url("../images/92961.jpg");
+    -fx-background-image: url("../images/main_background.jpg");
     -fx-background-repeat: no-repeat no-repeat;
     -fx-background-size: stretch;
     background-color:coral; 
@@ -26,7 +26,7 @@ FontAwesomeIconView:hover{
 }*/
 .userTextfield{
     -fx-background: transparent;
-    -fx-background-color : #ffff66;
+    -fx-background-color : #ffffff;
     -fx-opacity: 0.7;
     -fx-font-size: 24px;
     -fx-font: normal normal bold 24px/0 "Trebuchet MS", Helvetica, sans-serif;

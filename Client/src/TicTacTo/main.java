@@ -20,7 +20,7 @@ public class main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("fxml/signIn.fxml"));
-        primaryStage.setTitle("Home");
+        primaryStage.setTitle("Tic Tac Toe");
         primaryStage.setScene(new Scene(root, 800,550));
         primaryStage.initStyle(StageStyle.UNDECORATED);
         primaryStage.show();

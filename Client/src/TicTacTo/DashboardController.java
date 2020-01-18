@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.jfoenix.controls.JFXButton;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
@@ -58,6 +59,7 @@ public class DashboardController implements Initializable {
     private VBox onlineUserPane11;
     
     int mybuttonIndex;
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         sonlineUserPane = onlineUserPane;
@@ -70,7 +72,9 @@ public class DashboardController implements Initializable {
             List<Button> buttonlist = new ArrayList<>();
             for (int i = 0; i < playerArray.size(); i++) {
                 JsonObject otherPlayer = new JsonParser().parse(playerArray.get(i).toString()).getAsJsonObject();
-                buttonlist.add(new Button(otherPlayer.get("username").getAsString()));
+                JFXButton playerButton = new JFXButton(otherPlayer.get("username").getAsString());
+                buttonlist.add(playerButton);
+                playerButton.setStyle("-fx-background-color : darkblue;" + "-fx-opacity: 0.6;" + "-fx-text-fill: #ffffff;" + "-fx-font-family: Verdana");
                 buttonlist.get(i).setMaxWidth(163);
                 buttonlist.get(i).setOnAction(new EventHandler<ActionEvent>() {
                     @Override
@@ -128,7 +132,7 @@ public class DashboardController implements Initializable {
     
     @FXML
     private void closeWindow(MouseEvent event) {
-        Platform.exit();
+        System.exit(0);
     }
     
     String createInvite(String sender, String reciver) {

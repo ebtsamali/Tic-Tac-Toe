@@ -95,20 +95,7 @@ public class AI {
     }
     public void compTurn(Button[][] buttons,String[][] board,Button[] guiButtons, Label playerScoreLabel, Label compScoreLabel){
         
-         if(SinglePlayerGUIController.gameTurn == 9){
-             enableGuiButtons(guiButtons);
-         Alert draw = new Alert(Alert.AlertType.INFORMATION, "Game Draw! \n Do you want to paly again?", ButtonType.YES,ButtonType.NO);
-         draw.setHeaderText(null);
-         draw.setTitle("You were Close!");
-         Optional<ButtonType> result = draw.showAndWait();
-                if (result.get() == ButtonType.YES){
-                    resetGame(buttons,board,guiButtons);
-                }
-                else{
-                    disableAllButtons(buttons);
-                }
-         }
-         else if(hasWon(board)){
+         if(hasWon(board)){
              playerScore+=50;
              playerScoreLabel.setText(String.valueOf(playerScore));
              enableGuiButtons(guiButtons);
@@ -116,6 +103,19 @@ public class AI {
               youWon.setHeaderText(null);
               youWon.setTitle("Congratulations!");
             Optional<ButtonType> result = youWon.showAndWait();
+                if (result.get() == ButtonType.YES){
+                    resetGame(buttons,board,guiButtons);
+                }
+                else{
+                    disableAllButtons(buttons);
+                }
+         }
+         else if(SinglePlayerGUIController.gameTurn == 9){
+             enableGuiButtons(guiButtons);
+         Alert draw = new Alert(Alert.AlertType.INFORMATION, "Game Draw! \n Do you want to paly again?", ButtonType.YES,ButtonType.NO);
+         draw.setHeaderText(null);
+         draw.setTitle("You were Close!");
+         Optional<ButtonType> result = draw.showAndWait();
                 if (result.get() == ButtonType.YES){
                     resetGame(buttons,board,guiButtons);
                 }
@@ -379,15 +379,15 @@ public class AI {
 
 }  
     
-    public void easyMode(String[][] board,Button[][] buttons){
+       public void easyMode(String[][] board,Button[][] buttons){
         boolean mademove = false;
-        // check if you can block a win horizontally
+        // check if you can block a win vertically
     for(int i = 0; i<3; i++){
 
         if(board[0][i].equals(board[1][i]) && board[0][i].equals("X")){
             if(board[2][i] != "O" && board[2][i] != "X"){
                 board[2][i] = "O";
-                setButtonMove(buttons[0][i],"O");
+                setButtonMove(buttons[2][i],"O");
                 mademove = true;
                 return;
             }
@@ -412,7 +412,7 @@ public class AI {
 
     }
 
-    // check if you can block a win vertically
+    // check if you can block a win horizontally
 
 
     for(int i = 0; i<3; i++){
@@ -514,13 +514,11 @@ public class AI {
         }
     }
       // make random move if above rules dont apply
-    int rand1 = 0;
-    int rand2 = 0;
 
     while(!mademove){
 
-        rand1 = (int) (Math.random() * 3);
-        rand2 = (int) (Math.random() * 3);
+        int rand1 = (int) (Math.random() * 3);
+        int rand2 = (int) (Math.random() * 3);
 
         if(board[rand1][rand2] != "X" && board[rand1][rand2] != "O"){
             board[rand1][rand2] = "O";
@@ -530,8 +528,7 @@ public class AI {
         }
 
     }
-  }
-     static int evaluateBoard(char[] board) 
+  }     static int evaluateBoard(char[] board) 
 { 
    if((board[0] == 'O' && board[1] == 'O' && board[2] == 'O') ||
 		 	(board[3] == 'O' && board[4] == 'O' && board[5] == 'O') ||
