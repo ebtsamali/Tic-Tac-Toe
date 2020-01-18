@@ -65,6 +65,8 @@ public class DashboardController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         sonlineUserPane = onlineUserPane;
+        sonlineUserPane1 = onlineUserPane1;
+        sonlineUserPane11 = onlineUserPane11;
         reciver = new ServerReciver();
         SignInController.player.setPlayerthread(reciver);
         try {
@@ -86,10 +88,8 @@ public class DashboardController implements Initializable {
                     @Override
                     public void handle(ActionEvent actionEvent) {
                         try {
-                            String username = otherPlayer.get("username").getAsString();
-                            reciver.suspend();
+                            String username = otherPlayer.get("username").getAsString();;
                             new PrintStream(SignInController.player.getPlayerSocket().getOutputStream()).println(createInvite(SignInController.player.getPlayerUserName(), username));
-                            reciver.resume();
                             System.out.println("invitation sent");
                         } catch (IOException ex) {
                             System.out.println("error in sendding invitation");
@@ -108,7 +108,6 @@ public class DashboardController implements Initializable {
             onlineUserPane.getChildren().addAll(buttonlist);
             onlineUserPane1.getChildren().addAll(buttonlist1);
             onlineUserPane11.getChildren().addAll(buttonlist11);
-            onlineUserPane.getChildren().remove(buttonlist.get(mybuttonIndex));
             onlineUserPane.setAlignment(Pos.TOP_CENTER);
         } catch (Exception ex) {
             System.out.println("error in getting all users");;

@@ -64,11 +64,13 @@ public class Server {
                             socket.close();
                         }
                     } else {
-                        if (!(new DataBaseHandler().isUserExist(new Player(message)))) {
+                        if (!(new DataBaseHandler().isUserNameExist(new Player(message)))) {
                             new DataBaseHandler().addNewUser(new Player(message));
                             System.out.println("user added");
+                            new DataOutputStream(socket.getOutputStream()).writeBytes("true");
                         } else {
                             System.out.println("user is already exist");
+                            new DataOutputStream(socket.getOutputStream()).writeBytes("user is already exist");
                         }
                         socket.close();
                     }

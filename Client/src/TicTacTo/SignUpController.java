@@ -103,12 +103,16 @@ public class SignUpController implements Initializable {
 
     }
 
-    private void sceneLoader(String fxmlFileName, javafx.event.ActionEvent actionEvent) throws Exception {
-        Parent newParent = FXMLLoader.load(getClass().getResource(fxmlFileName));
-        Scene newScene = new Scene(newParent, 800, 550);
-        Stage windowStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-        windowStage.setScene(newScene);
-        windowStage.show();
+    private void sceneLoader(String fxmlFileName, javafx.event.ActionEvent actionEvent) {
+        try {
+            Parent newParent = FXMLLoader.load(getClass().getResource(fxmlFileName));
+            Scene newScene = new Scene(newParent, 800, 550);
+            Stage windowStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+            windowStage.setScene(newScene);
+            windowStage.show();
+        } catch (IOException ex) {
+            System.out.println("error in switching");
+        }
 
     }
 
@@ -137,6 +141,13 @@ public class SignUpController implements Initializable {
                 JsonObject jsonPlayer = newPlayer.toJsonObject();
                 jsonPlayer.addProperty("type", 2);
                 new PrintStream(socket.getOutputStream()).println(jsonPlayer.toString());
+                String msg = new DataInputStream(socket.getInputStream()).readLine();
+                if (msg.equals("true")) {
+                    sceneLoader("fxml/signIn.fxml", event);
+                } else {
+                    errorMsg.setText(msg);
+                    errorMsg.setVisible(true);
+                }
                 socket.close();
             } catch (IOException ex) {
                 System.out.println("error in connection with servr to send the new player");

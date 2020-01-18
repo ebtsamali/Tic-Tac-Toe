@@ -48,6 +48,18 @@ public class DataBaseHandler {
             return false;
         }
     }
+    public Boolean isUserNameExist(Player currentPlayer) {
+        PreparedStatement statement1;
+        try {
+            statement1 = conn.prepareStatement("SELECT * FROM userdata WHERE username = ?;");
+            statement1.setString(1, currentPlayer.getPlayerUserName());
+            ResultSet resultSet = statement1.executeQuery();
+            return resultSet.next();
+        } catch (SQLException ex) {
+            System.out.println("error in finding users");
+            return false;
+        }
+    }
 
     public Player retrieveUserData(String username) throws Exception {
         /*

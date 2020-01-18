@@ -55,7 +55,7 @@ public class ServerReciver extends Thread {
                 System.out.println(message);
                 makeAction(message);
             } catch (Exception ex) {
-                System.out.println("error in reciving data in client thread");;
+                System.out.println("error in reciving data in client thread");
             }
         }
     }
@@ -83,6 +83,9 @@ public class ServerReciver extends Thread {
             case "shutdown":
                 System.exit(0);
                 break;
+            case "offlineUser":
+                removePlayer(message);
+                break;
         }
     }
 
@@ -98,7 +101,7 @@ public class ServerReciver extends Thread {
                 Optional<ButtonType> result = alert.showAndWait();
                 if (result.get() == ButtonType.OK) {
                     try {
-                        DashboardController.otherPlayrName=message.get("senderUsername").getAsString();
+                        DashboardController.otherPlayrName = message.get("senderUsername").getAsString();
                         new PrintStream(SignInController.player.getPlayerSocket().getOutputStream()).println("{type:accept,result:true,senderUsername:" + message.get("senderUsername") + ",reciverUsername:" + message.get("reciverUsername") + "}");
                     } catch (IOException ex) {
                         System.out.println("error in accept invitation");
@@ -196,10 +199,10 @@ public class ServerReciver extends Thread {
                 } else {
                     sonlineUserPane11.getChildren().add(newUserBtn);
                 }
-                
+
                 Notifications notificationBuilder = Notifications.create()
                         .title("TIC TAC TOE")
-                        .text(newUserBtn.getText()+" is online now")
+                        .text(newUserBtn.getText() + " is online now")
                         .graphic(null)
                         .hideAfter(Duration.seconds(5))
                         .position(Pos.BOTTOM_RIGHT);
@@ -217,5 +220,43 @@ public class ServerReciver extends Thread {
         invite.addProperty("senderUsername", sender);
         invite.addProperty("reciverUsername", reciver);
         return invite.toString();
+    }
+
+    private void removePlayer(JsonObject message) {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    for (int i = 0; i < sonlineUserPane.getChildren().size(); i++) {
+                        Button b1 = (Button) sonlineUserPane.getChildren().get(i);
+                        if (b1.getText().equals(message.get("user").getAsString())) {
+                            sonlineUserPane.getChildren().remove(b1);
+                        }
+                    }
+                } catch (Exception e) {
+                    System.out.println("pane one is empty");
+                }
+                try {
+                    for (int i = 0; i < sonlineUserPane1.getChildren().size(); i++) {
+                        Button b1 = (Button) sonlineUserPane1.getChildren().get(i);
+                        if (b1.getText().equals(message.get("user").getAsString())) {
+                            sonlineUserPane1.getChildren().remove(b1);
+                        }
+                    }
+                } catch (Exception e) {
+                    System.out.println("pane two is empty");
+                }
+                try {
+                    for (int i = 0; i < sonlineUserPane11.getChildren().size(); i++) {
+                        Button b1 = (Button) sonlineUserPane11.getChildren().get(i);
+                        if (b1.getText().equals(message.get("user").getAsString())) {
+                            sonlineUserPane11.getChildren().remove(b1);
+                        }
+                    }
+                } catch (Exception e) {
+                    System.out.println("pane three is empty");
+                }
+            }
+        });
     }
 }
