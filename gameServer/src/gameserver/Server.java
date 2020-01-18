@@ -103,6 +103,7 @@ public class Server {
                     for (int j = 0; j < players.size(); j++) {
                         if (players.get(j).getPlayerUserName().equals(data.get(i).getPlayerUserName())) {
                             data.get(i).setOnline();
+                            data.get(i).setPlayerSocket(players.get(j).getPlayerSocket());
                         }
                     }
                 }

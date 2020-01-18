@@ -6,6 +6,8 @@
 package TicTacTo;
 
 import static TicTacTo.DashboardController.sonlineUserPane;
+import static TicTacTo.DashboardController.sonlineUserPane1;
+import static TicTacTo.DashboardController.sonlineUserPane11;
 import static TicTacTo.SignInController.mainStage;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -77,6 +79,9 @@ public class ServerReciver extends Thread {
                 break;
             case "newPlayer":
                 addNewPlayer(message);
+                break;
+            case "shutdown":
+                System.exit(0);
                 break;
         }
     }
@@ -184,7 +189,14 @@ public class ServerReciver extends Thread {
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
-                sonlineUserPane.getChildren().add(newUserBtn);
+                if (otherPlayer.get("score").getAsInt() >= 10000) {
+                    sonlineUserPane.getChildren().add(newUserBtn);
+                } else if (otherPlayer.get("score").getAsInt() >= 1000) {
+                    sonlineUserPane1.getChildren().add(newUserBtn);
+                } else {
+                    sonlineUserPane11.getChildren().add(newUserBtn);
+                }
+                
                 Notifications notificationBuilder = Notifications.create()
                         .title("TIC TAC TOE")
                         .text(newUserBtn.getText()+" is online now")
