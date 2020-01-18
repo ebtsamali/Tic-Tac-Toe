@@ -43,42 +43,44 @@ public class DashboardController implements Initializable {
 
     @FXML
     private VBox onlineUserPane;
-    ServerReciver reciver ;
+    public static VBox sonlineUserPane;
+    ServerReciver reciver;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-            reciver = new ServerReciver();
-            SignInController.player.setPlayerthread(reciver);
-            reciver.start();
-            try {
-                String players =new BufferedReader( new InputStreamReader(SignInController.player.getPlayerSocket().getInputStream())).readLine();
-                JsonArray playerArray = new JsonParser().parse(players).getAsJsonArray();
+        sonlineUserPane = onlineUserPane;
+        reciver = new ServerReciver();
+        SignInController.player.setPlayerthread(reciver);
+        reciver.start();
+        try {
+            String players = new BufferedReader(new InputStreamReader(SignInController.player.getPlayerSocket().getInputStream())).readLine();
+            JsonArray playerArray = new JsonParser().parse(players).getAsJsonArray();
 
-                List<Button> buttonlist = new ArrayList<>();
-                for (int i = 0; i < playerArray.size(); i++) {
-                    JsonObject otherPlayer = new JsonParser().parse(playerArray.get(i).toString()).getAsJsonObject();
-                    buttonlist.add(new Button(otherPlayer.get("username").getAsString()));
-                    buttonlist.get(i).setMaxWidth(163);
-                    buttonlist.get(i).setOnAction(new EventHandler<ActionEvent>() {
-                        @Override
-                        public void handle(ActionEvent actionEvent) {
-                            try {
-                                String username = otherPlayer.get("username").getAsString();
-                                reciver.suspend();
-                                new PrintStream(SignInController.player.getPlayerSocket().getOutputStream()).println(createInvite(SignInController.player.getPlayerUserName(), username));
-                                reciver.resume();
-                                System.out.println("invitation sent");
-                            } catch (IOException ex) {
-                                System.out.println("error in sendding invitation");
-                            }
+            List<Button> buttonlist = new ArrayList<>();
+            for (int i = 0; i < playerArray.size(); i++) {
+                JsonObject otherPlayer = new JsonParser().parse(playerArray.get(i).toString()).getAsJsonObject();
+                buttonlist.add(new Button(otherPlayer.get("username").getAsString()));
+                buttonlist.get(i).setMaxWidth(163);
+                buttonlist.get(i).setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent actionEvent) {
+                        try {
+                            String username = otherPlayer.get("username").getAsString();
+                            reciver.suspend();
+                            new PrintStream(SignInController.player.getPlayerSocket().getOutputStream()).println(createInvite(SignInController.player.getPlayerUserName(), username));
+                            reciver.resume();
+                            System.out.println("invitation sent");
+                        } catch (IOException ex) {
+                            System.out.println("error in sendding invitation");
                         }
-                    });
-                }
-                onlineUserPane.getChildren().addAll(buttonlist);
-                onlineUserPane.setAlignment(Pos.TOP_CENTER);
-            } catch (Exception ex) {
-                System.out.println("error in getting all users");;
+                    }
+                });
             }
+            onlineUserPane.getChildren().addAll(buttonlist);
+            onlineUserPane.setAlignment(Pos.TOP_CENTER);
+        } catch (Exception ex) {
+            System.out.println("error in getting all users");;
+        }
     }
 
     @FXML

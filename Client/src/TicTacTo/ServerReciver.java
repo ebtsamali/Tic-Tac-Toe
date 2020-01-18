@@ -5,6 +5,7 @@
  */
 package TicTacTo;
 
+import static TicTacTo.DashboardController.sonlineUserPane;
 import static TicTacTo.SignInController.mainStage;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -28,6 +29,12 @@ import static TicTacTo.MultiPlayerGUIController.buttons;
 import static TicTacTo.MultiPlayerGUIController.sMessages;
 import static TicTacTo.MultiPlayerGUIController.sXOplayer;
 import static TicTacTo.MultiPlayerGUIController.schatTa;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.geometry.Pos;
+import javafx.scene.control.Button;
+import javafx.util.Duration;
+import org.controlsfx.control.Notifications;
 
 /**
  *
@@ -67,6 +74,9 @@ public class ServerReciver extends Thread {
                 break;
             case "message":
                 getChat(message);
+                break;
+            case "newPlayer":
+                addNewPlayer(message);
                 break;
         }
     }
@@ -148,8 +158,50 @@ public class ServerReciver extends Thread {
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
-                schatTa.setText(schatTa.getText()+message.get("message").getAsString()+"\n");
+                schatTa.setText(schatTa.getText() + message.get("message").getAsString() + "\n");
             }
         });
+    }
+
+    private void addNewPlayer(JsonObject message) {
+        JsonObject otherPlayer = new JsonParser().parse(message.toString()).getAsJsonObject();
+        Button newUserBtn = new Button(otherPlayer.get("username").getAsString());
+        newUserBtn.setMaxWidth(163);
+        newUserBtn.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                try {
+                    String username = otherPlayer.get("username").getAsString();
+                    new PrintStream(SignInController.player.getPlayerSocket().getOutputStream()).println(createInvite(SignInController.player.getPlayerUserName(), username));
+                    System.out.println("invitation sent");
+                } catch (IOException ex) {
+                    System.out.println("error in sendding invitation");
+                }
+            }
+        });
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                sonlineUserPane.getChildren().add(newUserBtn);
+                Notifications notificationBuilder = Notifications.create()
+                        .title("TIC TAC TOE")
+                        .text(newUserBtn.getText()+" is online now")
+                        .graphic(null)
+                        .hideAfter(Duration.seconds(5))
+                        .position(Pos.BOTTOM_RIGHT);
+
+                notificationBuilder.darkStyle();
+                notificationBuilder.show();
+            }
+        });
+
+    }
+
+    String createInvite(String sender, String reciver) {
+        JsonObject invite = new JsonObject();
+        invite.addProperty("type", "invite");
+        invite.addProperty("senderUsername", sender);
+        invite.addProperty("reciverUsername", reciver);
+        return invite.toString();
     }
 }

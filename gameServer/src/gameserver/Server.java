@@ -14,6 +14,8 @@ import java.io.PrintStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -55,6 +57,7 @@ public class Server {
                             new PrintStream(socket.getOutputStream()).println(Player.toJsonArray(players).toString());
                             ClientReceiver userThread = new ClientReceiver(newPlayer);
                             userThread.start();
+                            sentToAllPlayers(newPlayer);
                         } else {
                             System.out.println("login failed");
                             new DataOutputStream(socket.getOutputStream()).writeBytes("false");
@@ -115,5 +118,22 @@ public class Server {
             }
         }
         return false;
+    }
+
+    private void sentToAllPlayers(Player p) {
+    new Thread(new Runnable() {
+        @Override
+        public void run() {
+            JsonObject playerJson = p.toJsonObject();
+            playerJson.addProperty("type", "newPlayer");
+            for(int i=0;i<players.size()-1;i++){
+                try {
+                    new PrintStream(players.get(i).getPlayerSocket().getOutputStream()).println(playerJson.toString());
+                } catch (IOException ex) {
+                    System.out.println("error adding new player");
+                }
+            }
+            }
+    }).start();
     }
 }
