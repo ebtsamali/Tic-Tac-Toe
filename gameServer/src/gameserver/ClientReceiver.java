@@ -72,6 +72,9 @@ public class ClientReceiver extends Thread {
             case "message":
                 sendChat(message);
                 break;
+            case "gameSave":
+                saveGame(message);
+                break;
         }
 
     }
@@ -158,5 +161,9 @@ public class ClientReceiver extends Thread {
                System.out.println("error in sending chat");;
            }
        }
+    }
+
+    private void saveGame(JsonObject message) {
+        new DataBaseHandler().addGame(message);
     }
 }

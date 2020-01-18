@@ -88,7 +88,7 @@
             <Font name="System Bold Italic" size="24.0" />
          </font>
       </Label>
-      <TextField disable="true" layoutX="97.0" layoutY="20.0" prefHeight="25.0" prefWidth="32.0" />
+      <TextField fx:id="scoreLbl" disable="true" layoutX="97.0" layoutY="20.0" prefHeight="25.0" prefWidth="74.0" />
       <Label alignment="CENTER" contentDisplay="CENTER" layoutX="14.0" layoutY="45.0" prefHeight="54.0" prefWidth="131.0" text="MY SIGN" textAlignment="CENTER" textFill="WHITE">
          <font>
             <Font name="System Bold Italic" size="24.0" />
@@ -99,7 +99,6 @@
             <Font name="System Bold" size="12.0" />
          </font>
       </Button>
-       <Button fx:id="btnNot" cacheShape="false" centerShape="false" focusTraversable="false" layoutX="40.0" layoutY="152.0" mnemonicParsing="false" onAction="#notificationPopup" prefHeight="35.0" prefWidth="80.0" scaleShape="false" text="notification" />
       <Button fx:id="btnSaveGame" cacheShape="false" centerShape="false" focusTraversable="false" layoutX="716.0" layoutY="78.0" mnemonicParsing="false" onAction="#saveGame" prefHeight="43.0" prefWidth="51.0" scaleShape="false" />
       <Button fx:id="Messages" alignment="CENTER" contentDisplay="CENTER" focusTraversable="false" layoutX="237.0" layoutY="440.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="327.0" style="-fx-background-color: white;" text="your turn" textAlignment="CENTER">
          <font>
@@ -108,12 +107,12 @@
       </Button>
       <Rectangle arcHeight="5.0" arcWidth="5.0" height="25.0" layoutX="745.0" layoutY="87.0" stroke="BLACK" strokeType="INSIDE" width="11.0" />
       <Rectangle arcHeight="5.0" arcWidth="5.0" height="25.0" layoutX="728.0" layoutY="87.0" stroke="BLACK" strokeType="INSIDE" width="11.0" />
-      <Label layoutX="102.0" layoutY="453.0" text="User 1" textFill="#f5f4f4">
+      <Label fx:id="myUsernameLbl" layoutX="102.0" layoutY="453.0" text="User 1" textFill="#f5f4f4">
          <font>
             <Font size="19.0" />
          </font>
       </Label>
-      <Label layoutX="646.0" layoutY="453.0" text="User 2" textFill="#f5f4f4">
+      <Label fx:id="otherUsernameLbl" layoutX="646.0" layoutY="453.0" text="User 2" textFill="#f5f4f4">
          <font>
             <Font size="19.0" />
          </font>
@@ -129,7 +128,8 @@
          </font>
       </JFXButton>
       <JFXTextArea fx:id="chatTa" editable="false" layoutX="596.0" layoutY="129.0" maxWidth="181.0" minWidth="165.0" prefHeight="201.0" prefWidth="181.0" />
-      <JFXTextField fx:id="chatTf" layoutX="597.0" layoutY="354.0" maxWidth="174.0" minWidth="131.0" prefHeight="35.0" prefWidth="131.0" />
+      <JFXTextField fx:id="chatTf" layoutX="597.0" layoutY="354.0" maxWidth="174.0" minWidth="131.0" prefHeight="35.0" prefWidth="131.0" style="-fx-text-inner-color: white;" unFocusColor="WHITE" />
       <Button layoutX="734.0" layoutY="359.0" mnemonicParsing="false" onAction="#SendChat" prefHeight="25.0" prefWidth="45.0" text="send" />
+      <Button fx:id="btnSaveGame1" cacheShape="false" centerShape="false" focusTraversable="false" layoutX="716.0" layoutY="79.0" mnemonicParsing="false" onAction="#saveGame" prefHeight="43.0" prefWidth="51.0" scaleShape="false" style="-fx-background-color: transparen;" />
    </children>
 </AnchorPane>

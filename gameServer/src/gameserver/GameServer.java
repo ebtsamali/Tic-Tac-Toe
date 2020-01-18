@@ -45,7 +45,7 @@ public class GameServer {
             ps = new PrintStream(s.getOutputStream());
             sGame = dis.readLine();
             setConnection();
-            addGame(new JsonParser().parse(sGame).getAsJsonObject());
+            //addGame(new JsonParser().parse(sGame).getAsJsonObject());
             retrieveGame("Mahmoud", "Ahmed");
         }
     }
@@ -61,24 +61,6 @@ public class GameServer {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-    }
-
-    public void addGame(JsonObject saveGame) throws SQLException {
-//        System.out.println("khfyjuhgkf");
-        PreparedStatement ps = con.prepareStatement("insert into tgame set btnone = ?,btntwo = ?, btnthree = ?, btnfour = ?, btnfive = ?, btnsix = ?, btnseven = ?, btneight = ?, btnnine = ?");
-//        saveGame = null;
-        ps.setString(1, saveGame.get("btn1").toString());
-        ps.setString(2, saveGame.get("btn2").toString());
-        ps.setString(3, saveGame.get("btn3").toString());
-        ps.setString(4, saveGame.get("btn4").toString());
-        ps.setString(5, saveGame.get("btn5").toString());
-        ps.setString(6, saveGame.get("btn6").toString());
-        ps.setString(7, saveGame.get("btn7").toString());
-        ps.setString(8, saveGame.get("btn8").toString());
-        ps.setString(9, saveGame.get("btn9").toString());
-
-        ps.executeUpdate();
-
     }
 
     public void retrieveGame(String user1, String user2) throws SQLException {

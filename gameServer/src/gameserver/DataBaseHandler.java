@@ -1,5 +1,6 @@
 package gameserver;
 
+import com.google.gson.JsonObject;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +22,7 @@ public class DataBaseHandler {
             Class.forName(driver);
             conn = DriverManager.getConnection(url, username, password);
         } catch (Exception e) {
-            System.out.println("error in openning connection with database"+e);
+            System.out.println("error in openning connection with database" + e);
         }
     }
 
@@ -79,20 +80,54 @@ public class DataBaseHandler {
             System.out.println("error in adding user");
         }
     }
-    
-    public List<Player> getAllPlayers(){
+
+    public List<Player> getAllPlayers() {
         List<Player> allPlayers = new ArrayList<>();
         try {
-            Statement stmt=conn.createStatement();
-            ResultSet rs=stmt.executeQuery("select * from userdata");
-            while(rs.next()){
-                Player newPlayer=new Player(rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5),rs.getString(6));
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery("select * from userdata");
+            while (rs.next()) {
+                Player newPlayer = new Player(rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getInt(7));
                 allPlayers.add(newPlayer);
             }
         } catch (SQLException ex) {
             System.out.println("cannot retrive all players");
         }
-    return allPlayers;
+        return allPlayers;
     }
-    
+
+    int getScore(String playerUserName) {
+        try {
+            PreparedStatement statement1;
+            statement1 = conn.prepareStatement("SELECT score FROM userdata WHERE username = ?;");
+            statement1.setString(1, playerUserName);
+            ResultSet resultSet = statement1.executeQuery();
+            resultSet.next();
+            return resultSet.getInt(1);
+        } catch (Exception ex) {
+            System.out.println("error in get score from data base");
+        }
+        return 0;
+    }
+    public void addGame(JsonObject saveGame) {
+        try {
+            PreparedStatement ps = conn.prepareStatement("INSERT INTO savegame (username1,username2,place0,place1,place2,place3,place4,place,place6,place7,place8)VALUES(?,?,?,?,?,?,?,?,?,?,?);");
+            ps.setString(1, saveGame.get("user1").getAsString());
+            ps.setString(2, saveGame.get("user2").getAsString());
+            ps.setString(3, saveGame.get("btn0").getAsString());
+            ps.setString(4, saveGame.get("btn1").getAsString());
+            ps.setString(5, saveGame.get("btn2").getAsString());
+            ps.setString(6, saveGame.get("btn3").getAsString());
+            ps.setString(7, saveGame.get("btn4").getAsString());
+            ps.setString(8, saveGame.get("btn5").getAsString());
+            ps.setString(9, saveGame.get("btn6").getAsString());
+            ps.setString(10, saveGame.get("btn7").getAsString());
+            ps.setString(11, saveGame.get("btn8").getAsString());
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(DataBaseHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
 }

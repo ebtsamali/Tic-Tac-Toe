@@ -93,6 +93,7 @@ public class ServerReciver extends Thread {
                 Optional<ButtonType> result = alert.showAndWait();
                 if (result.get() == ButtonType.OK) {
                     try {
+                        DashboardController.otherPlayrName=message.get("senderUsername").getAsString();
                         new PrintStream(SignInController.player.getPlayerSocket().getOutputStream()).println("{type:accept,result:true,senderUsername:" + message.get("senderUsername") + ",reciverUsername:" + message.get("reciverUsername") + "}");
                     } catch (IOException ex) {
                         System.out.println("error in accept invitation");

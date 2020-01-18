@@ -5,6 +5,7 @@
  */
 package TicTacTo;
 
+import static TicTacTo.DashboardController.otherPlayrName;
 import static TicTacTo.ServerReciver.sign;
 import static TicTacTo.SignInController.mainStage;
 import static TicTacTo.SignInController.player;
@@ -27,6 +28,8 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -37,7 +40,7 @@ import org.controlsfx.control.Notifications;
  *
  * @author Dell
  */
-public class MultiPlayerGUIController implements Initializable{
+public class MultiPlayerGUIController implements Initializable {
 //    Client client = new Client();
 
     @FXML
@@ -70,13 +73,18 @@ public class MultiPlayerGUIController implements Initializable{
     private Button btnSaveGame;
 
     public static int gameID = 0;
-    @FXML
-    private Button btnNot;
+
     @FXML
     private JFXTextArea chatTa;
     public static JFXTextArea schatTa;
     @FXML
     private JFXTextField chatTf;
+    @FXML
+    private TextField scoreLbl;
+    @FXML
+    private Label myUsernameLbl;
+    @FXML
+    private Label otherUsernameLbl;
 
     public void setButtonsArray() {
         buttons[0] = btn0;
@@ -106,20 +114,6 @@ public class MultiPlayerGUIController implements Initializable{
     }
 
     @FXML
-    private void notificationPopup(ActionEvent event) {
-        //Image img = new Image("../images/hello.png");
-        Notifications notificationBuilder = Notifications.create()
-                .title("HELLO")
-                .text("TIC TAC TOE")
-                .graphic(null)
-                .hideAfter(Duration.seconds(5))
-                .position(Pos.BOTTOM_RIGHT);
-
-        notificationBuilder.darkStyle();
-        notificationBuilder.show();
-    }
-
-    @FXML
     private void minimizeWindow(ActionEvent event) {
         Stage windowStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         windowStage.setIconified(true);
@@ -127,17 +121,17 @@ public class MultiPlayerGUIController implements Initializable{
 
     @FXML
     private void closeWindow(ActionEvent event) {
-        try { 
+        try {
             player.getPlayerthread().stop();
             new PrintStream(player.getPlayerSocket().getOutputStream()).println("{type:online}");
             Parent newParent = FXMLLoader.load(getClass().getResource("fxml/dashboard.fxml"));
             Scene newScene = new Scene(newParent, 800, 550);
-            mainStage=(Stage) ((Node) event.getSource()).getScene().getWindow();
+            mainStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             Stage windowStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             windowStage.setScene(newScene);
             windowStage.show();
         } catch (Exception ex) {
-            System.out.println("error in switching to dash board" +ex);
+            System.out.println("error in switching to dash board" + ex);
         }
     }
 
@@ -145,18 +139,29 @@ public class MultiPlayerGUIController implements Initializable{
     public void initialize(URL url, ResourceBundle rb) {
         sXOplayer = XOplayer;
         sMessages = Messages;
-        schatTa=chatTa;
+        schatTa = chatTa;
         setButtonsArray();
         System.out.println(sign);
         if (sign.equals("O")) {
             disableall();
         }
+        myUsernameLbl.setText(player.getPlayerUserName());
+        otherUsernameLbl.setText(otherPlayrName);
+        scoreLbl.setText(player.getPlayerScore() + "");
     }
 
     @FXML
     private void saveGame(ActionEvent event) {
         try {
             JsonObject obj = new JsonObject();
+            obj.addProperty("type", "gameSave");
+            if (sXOplayer.equals("X")) {
+                obj.addProperty("user1", player.getPlayerUserName());
+                obj.addProperty("user2", otherPlayrName);
+            } else {
+                obj.addProperty("user1", otherPlayrName);
+                obj.addProperty("user2", player.getPlayerUserName());
+            }
             obj.addProperty("btn0", btn0.getText());
             obj.addProperty("btn1", btn1.getText());
             obj.addProperty("btn2", btn2.getText());
@@ -166,8 +171,8 @@ public class MultiPlayerGUIController implements Initializable{
             obj.addProperty("btn6", btn6.getText());
             obj.addProperty("btn7", btn7.getText());
             obj.addProperty("btn8", btn8.getText());
-
-            //ps.println(obj.toString()); //will managed
+            new PrintStream(player.getPlayerSocket().getOutputStream()).println(obj.toString());
+            closeWindow(event);
         } catch (Exception ex) {
             System.out.println("error in sending saved game to server");
         }
@@ -217,8 +222,8 @@ public class MultiPlayerGUIController implements Initializable{
     @FXML
     private void SendChat(ActionEvent event) {
         try {
-            chatTa.setText(chatTa.getText()+"you:"+chatTf.getText()+"\n");
-            new PrintStream(player.getPlayerSocket().getOutputStream()).println("{type:message,message:\""+chatTf.getText()+"\",gameId:"+gameID+"}");
+            chatTa.setText(chatTa.getText() + "you:" + chatTf.getText() + "\n");
+            new PrintStream(player.getPlayerSocket().getOutputStream()).println("{type:message,message:\"" + chatTf.getText() + "\",gameId:" + gameID + "}");
             chatTf.setText("");
         } catch (IOException ex) {
             System.out.println("error in send chat");

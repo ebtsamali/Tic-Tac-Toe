@@ -17,7 +17,7 @@ public class Player {
     private String securityQuestion;
     private Socket playerSocket;
     private Thread playerthread;
-    private String score="100";
+    private int playerScore;
     private Button state =new Button("⚫ Offline");
 
     public Player(String name, String pass) {
@@ -28,12 +28,13 @@ public class Player {
         state.setStyle("-fx-background-color: transparent;");
     }
 
-    public Player(String name, String password, String fullname, String email, String securityQ) {
+    public Player(String name, String password, String fullname, String email, String securityQ,int score) {
         playerUserName = name;
         playerPassword = password;
         userFullname = fullname;
         playerEmail = email;
         securityQuestion = securityQ;
+        playerScore=score;
         state.setDisable(true);
         state.setTextFill(Color.GREY);
         state.setStyle("-fx-background-color: transparent;");
@@ -43,6 +44,7 @@ public class Player {
         try {
             playerUserName = player.get("username").getAsString();
             playerPassword = player.get("password").getAsString();
+            playerScore = new DataBaseHandler().getScore(playerUserName);
             try {
                 userFullname = player.get("fullname").getAsString();
                 playerEmail = player.get("email").getAsString();
@@ -62,6 +64,7 @@ public class Player {
         player.addProperty("fullname", getUserFullname());
         player.addProperty("email", getPlayerEmail());
         player.addProperty("question", getSecurityQuestion());
+        player.addProperty("score", getPlayerScore());
         return player;
     }
 
@@ -186,17 +189,17 @@ public class Player {
     }
 
     /**
-     * @return the score
+     * @return the playerScore
      */
-    public String getScore() {
-        return score;
+    public int getPlayerScore() {
+        return playerScore;
     }
 
     /**
-     * @param score the score to set
+     * @param playerScore the playerScore to set
      */
-    public void setScore(String score) {
-        this.score = score;
+    public void setPlayerScore(int playerScore) {
+        this.playerScore = playerScore;
     }
 
     /**

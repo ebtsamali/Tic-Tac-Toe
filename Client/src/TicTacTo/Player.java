@@ -5,6 +5,7 @@ import com.google.gson.JsonObject;
 import java.net.Socket;
 import java.util.Vector;
 import javafx.scene.control.Button;
+import javafx.scene.paint.Color;
 
 public class Player {
 
@@ -16,15 +17,28 @@ public class Player {
     private String securityQuestion;
     private Socket playerSocket;
     private Thread playerthread;
-    private String score="100";
-    private Button state =new Button("online");
+    private int playerScore;
+    private Button state =new Button("⚫ Offline");
 
     public Player(String name, String pass) {
         playerUserName = name;
         playerPassword = pass;
         state.setDisable(true);
+        state.setTextFill(Color.GREY);
+        state.setStyle("-fx-background-color: transparent;");
     }
 
+    public Player(String name, String password, String fullname, String email, String securityQ,int score) {
+        playerUserName = name;
+        playerPassword = password;
+        userFullname = fullname;
+        playerEmail = email;
+        securityQuestion = securityQ;
+        playerScore=score;
+        state.setDisable(true);
+        state.setTextFill(Color.GREY);
+        state.setStyle("-fx-background-color: transparent;");
+    }
     public Player(String name, String password, String fullname, String email, String securityQ) {
         playerUserName = name;
         playerPassword = password;
@@ -32,6 +46,8 @@ public class Player {
         playerEmail = email;
         securityQuestion = securityQ;
         state.setDisable(true);
+        state.setTextFill(Color.GREY);
+        state.setStyle("-fx-background-color: transparent;");
     }
 
     public Player(JsonObject player) {
@@ -57,6 +73,7 @@ public class Player {
         player.addProperty("fullname", getUserFullname());
         player.addProperty("email", getPlayerEmail());
         player.addProperty("question", getSecurityQuestion());
+        player.addProperty("score", getPlayerScore());
         return player;
     }
 
@@ -181,17 +198,17 @@ public class Player {
     }
 
     /**
-     * @return the score
+     * @return the playerScore
      */
-    public String getScore() {
-        return score;
+    public int getPlayerScore() {
+        return playerScore;
     }
 
     /**
-     * @param score the score to set
+     * @param playerScore the playerScore to set
      */
-    public void setScore(String score) {
-        this.score = score;
+    public void setPlayerScore(int playerScore) {
+        this.playerScore = playerScore;
     }
 
     /**
@@ -209,8 +226,12 @@ public class Player {
     }
     public void setOnline() {
         state.setDisable(false);
+        state.setText("⚫ Online");
+        state.setTextFill(Color.GREEN);
     }
     public void setOffline() {
         state.setDisable(true);
+        state.setText("⚫ Offline");
+        state.setTextFill(Color.GREY);
     }
 }

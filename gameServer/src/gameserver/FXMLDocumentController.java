@@ -66,7 +66,7 @@ public class FXMLDocumentController implements Initializable {
         // TODO
         userName.setCellValueFactory(new PropertyValueFactory<>("playerUserName"));
         password.setCellValueFactory(new PropertyValueFactory<>("playerPassword"));
-        score.setCellValueFactory(new PropertyValueFactory<>("score"));
+        score.setCellValueFactory(new PropertyValueFactory<>("playerScore"));
         email.setCellValueFactory(new PropertyValueFactory<>("playerEmail"));
         state.setCellValueFactory(new PropertyValueFactory<>("State"));
         sOnlineUsersTable=onlineUsersTable;
