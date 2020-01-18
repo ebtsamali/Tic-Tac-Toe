@@ -24,10 +24,9 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import multiPlayerMode.GameGUIController;
-import static multiPlayerMode.GameGUIController.buttons;
-import static multiPlayerMode.GameGUIController.sMessages;
-import static multiPlayerMode.GameGUIController.sXOplayer;
+import static TicTacTo.MultiPlayerGUIController.buttons;
+import static TicTacTo.MultiPlayerGUIController.sMessages;
+import static TicTacTo.MultiPlayerGUIController.sXOplayer;
 
 /**
  *
@@ -58,7 +57,7 @@ public class ServerReciver extends Thread {
                 askForGame(message);
                 break;
             case "openGame":
-                GameGUIController.gameID = message.get("gameId").getAsInt();
+                MultiPlayerGUIController.gameID = message.get("gameId").getAsInt();
                 sign = message.get("sign").getAsString();
                 switchToMultiPlayer(message);
                 break;
@@ -105,7 +104,7 @@ public class ServerReciver extends Thread {
                     Scene newScene = new Scene(newParent, 800, 550);
                     Stage windowStage = (Stage) mainStage;
                     windowStage.setScene(newScene);
-                    GameGUIController.sXOplayer.setText(message.get("sign").getAsString());
+                    MultiPlayerGUIController.sXOplayer.setText(message.get("sign").getAsString());
                     windowStage.show();
                 } catch (Exception ex) {
                     System.out.println("cant switch to multiplayer " + ex);;
@@ -130,7 +129,7 @@ public class ServerReciver extends Thread {
                     }
                 }
                 if (message.get("result").getAsString().equals("noWin")) {
-                    GameGUIController.enableall();
+                    MultiPlayerGUIController.enableall();
                     sMessages.setText("your turn");
                 } else if (message.get("result").getAsString().equals("end")) {
                     sMessages.setText("no Winner");

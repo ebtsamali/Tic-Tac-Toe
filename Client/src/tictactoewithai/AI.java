@@ -1,6 +1,7 @@
 
 package tictactoewithai;
 
+import TicTacTo.SinglePlayerGUIController;
 import java.io.PrintStream;
 import java.util.Optional;
 import javafx.scene.control.Alert;
@@ -36,7 +37,7 @@ public class AI {
             }
     resetBoard(board);
     enableGuiButtons(guiButtons);
-    GameGUIController.gameTurn = 0;
+    SinglePlayerGUIController.gameTurn = 0;
 }
     public void setButtonMove(Button btn,String move){
         btn.setFocusTraversable(false);
@@ -94,7 +95,7 @@ public class AI {
     }
     public void compTurn(Button[][] buttons,String[][] board,Button[] guiButtons, Label playerScoreLabel, Label compScoreLabel){
         
-         if(GameGUIController.gameTurn == 9){
+         if(SinglePlayerGUIController.gameTurn == 9){
              enableGuiButtons(guiButtons);
          Alert draw = new Alert(Alert.AlertType.INFORMATION, "Game Draw! \n Do you want to paly again?", ButtonType.YES,ButtonType.NO);
          draw.setHeaderText(null);
@@ -144,7 +145,7 @@ public class AI {
                      hardMode(board1D,board,buttons);
                      break;
              }
-             GameGUIController.gameTurn++;
+             SinglePlayerGUIController.gameTurn++;
              if(hasWon(board)){
                  compScore+=50;
                  compScoreLabel.setText(String.valueOf(compScore));

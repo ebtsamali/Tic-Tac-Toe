@@ -66,6 +66,9 @@ public class ClientReceiver extends Thread {
             case "move":
                 playMove(message);
                 break;
+            case "online":
+                sendOnlinePlayers();
+                break;
         }
 
     }
@@ -126,6 +129,15 @@ public class ClientReceiver extends Thread {
             }
         } catch (IOException ex) {
             System.out.println("error in sendding game move");
+        }
+    }
+
+    private void sendOnlinePlayers() {
+        try {
+            String playersJsonArr ="["+Player.toJsonArray(players).toString();
+            new PrintStream(player.getPlayerSocket().getOutputStream()).println(playersJsonArr);
+        } catch (IOException ex) {
+            System.out.println("error in sendding online players");
         }
     }
 }

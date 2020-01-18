@@ -3,9 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package multiPlayerMode;
+package TicTacTo;
 
 import static TicTacTo.ServerReciver.sign;
+import static TicTacTo.SignInController.mainStage;
 import static TicTacTo.SignInController.player;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -17,9 +18,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -31,7 +35,7 @@ import org.controlsfx.control.Notifications;
  *
  * @author Dell
  */
-public class GameGUIController implements Initializable{
+public class MultiPlayerGUIController implements Initializable{
 //    Client client = new Client();
 
     @FXML
@@ -114,7 +118,18 @@ public class GameGUIController implements Initializable{
 
     @FXML
     private void closeWindow(ActionEvent event) {
-        System.exit(0);
+        try { 
+            player.getPlayerthread().stop();
+            new PrintStream(player.getPlayerSocket().getOutputStream()).println("{type:online}");
+            Parent newParent = FXMLLoader.load(getClass().getResource("fxml/dashboard.fxml"));
+            Scene newScene = new Scene(newParent, 800, 550);
+            mainStage=(Stage) ((Node) event.getSource()).getScene().getWindow();
+            Stage windowStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            windowStage.setScene(newScene);
+            windowStage.show();
+        } catch (Exception ex) {
+            System.out.println("error in switching to dash board" +ex);
+        }
     }
 
     @Override

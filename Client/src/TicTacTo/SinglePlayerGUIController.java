@@ -1,6 +1,9 @@
-package tictactoewithai;
+package TicTacTo;
 
+import static TicTacTo.SignInController.mainStage;
+import static TicTacTo.SignInController.player;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -15,8 +18,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
+import tictactoewithai.AI;
 
-public class GameGUIController extends AI implements Initializable {
+public class SinglePlayerGUIController extends AI implements Initializable {
     public Button[][] buttons = new Button [3][3];
     @FXML
     private Button button_0_0,button_0_1,button_0_2,button_1_1,button_1_0,button_2_2,button_2_1,button_1_2,button_2_0,resetButton,difficultyButton;
@@ -49,7 +53,18 @@ public void setButtonsArray(){
 
     @FXML
     private void closeWindow(ActionEvent event) {
-        System.exit(0);
+        try { 
+            player.getPlayerthread().stop();
+            new PrintStream(player.getPlayerSocket().getOutputStream()).println("{type:online}");
+            Parent newParent = FXMLLoader.load(getClass().getResource("fxml/dashboard.fxml"));
+            Scene newScene = new Scene(newParent, 800, 550);
+            mainStage=(Stage) ((Node) event.getSource()).getScene().getWindow();
+            Stage windowStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            windowStage.setScene(newScene);
+            windowStage.show();
+        } catch (Exception ex) {
+            System.out.println("error in switching to dash board" +ex);
+        }
     }
     
     @FXML 

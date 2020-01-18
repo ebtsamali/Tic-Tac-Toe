@@ -25,6 +25,8 @@ import java.util.ArrayList;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.io.PrintStream;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
@@ -46,10 +48,10 @@ public class DashboardController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
             reciver = new ServerReciver();
-
+            SignInController.player.setPlayerthread(reciver);
             reciver.start();
             try {
-                String players = new DataInputStream(SignInController.player.getPlayerSocket().getInputStream()).readLine();
+                String players =new BufferedReader( new InputStreamReader(SignInController.player.getPlayerSocket().getInputStream())).readLine();
                 JsonArray playerArray = new JsonParser().parse(players).getAsJsonArray();
 
                 List<Button> buttonlist = new ArrayList<>();
