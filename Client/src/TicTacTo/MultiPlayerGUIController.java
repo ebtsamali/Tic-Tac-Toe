@@ -10,6 +10,8 @@ import static TicTacTo.SignInController.mainStage;
 import static TicTacTo.SignInController.player;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.jfoenix.controls.JFXTextArea;
+import com.jfoenix.controls.JFXTextField;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.net.URL;
@@ -68,6 +70,13 @@ public class MultiPlayerGUIController implements Initializable{
     private Button btnSaveGame;
 
     public static int gameID = 0;
+    @FXML
+    private Button btnNot;
+    @FXML
+    private JFXTextArea chatTa;
+    public static JFXTextArea schatTa;
+    @FXML
+    private JFXTextField chatTf;
 
     public void setButtonsArray() {
         buttons[0] = btn0;
@@ -136,6 +145,7 @@ public class MultiPlayerGUIController implements Initializable{
     public void initialize(URL url, ResourceBundle rb) {
         sXOplayer = XOplayer;
         sMessages = Messages;
+        schatTa=chatTa;
         setButtonsArray();
         System.out.println(sign);
         if (sign.equals("O")) {
@@ -201,6 +211,17 @@ public class MultiPlayerGUIController implements Initializable{
             if (buttons[i].getText().isEmpty()) {
                 buttons[i].setDisable(false);
             }
+        }
+    }
+
+    @FXML
+    private void SendChat(ActionEvent event) {
+        try {
+            chatTa.setText(chatTa.getText()+"you:"+chatTf.getText()+"\n");
+            new PrintStream(player.getPlayerSocket().getOutputStream()).println("{type:message,message:\""+chatTf.getText()+"\",gameId:"+gameID+"}");
+            chatTf.setText("");
+        } catch (IOException ex) {
+            System.out.println("error in send chat");
         }
     }
 }

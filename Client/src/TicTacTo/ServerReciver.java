@@ -27,6 +27,7 @@ import javafx.stage.Stage;
 import static TicTacTo.MultiPlayerGUIController.buttons;
 import static TicTacTo.MultiPlayerGUIController.sMessages;
 import static TicTacTo.MultiPlayerGUIController.sXOplayer;
+import static TicTacTo.MultiPlayerGUIController.schatTa;
 
 /**
  *
@@ -63,6 +64,9 @@ public class ServerReciver extends Thread {
                 break;
             case "move":
                 makeMove(message);
+                break;
+            case "message":
+                getChat(message);
                 break;
         }
     }
@@ -136,6 +140,15 @@ public class ServerReciver extends Thread {
                 } else {
                     sMessages.setText("the winner is " + message.get("result").getAsString());
                 }
+            }
+        });
+    }
+
+    private void getChat(JsonObject message) {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                schatTa.setText(schatTa.getText()+message.get("message").getAsString()+"\n");
             }
         });
     }

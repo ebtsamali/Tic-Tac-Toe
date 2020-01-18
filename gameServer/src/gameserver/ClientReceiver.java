@@ -69,6 +69,9 @@ public class ClientReceiver extends Thread {
             case "online":
                 sendOnlinePlayers();
                 break;
+            case "message":
+                sendChat(message);
+                break;
         }
 
     }
@@ -78,7 +81,7 @@ public class ClientReceiver extends Thread {
             if (Server.players.get(i).getPlayerUserName().equals(invitation.get("reciverUsername").getAsString())) {
                 try {
                     new PrintStream(Server.players.get(i).getPlayerSocket().getOutputStream()).println(invitation.toString());
-                } catch (IOException ex) {
+                } catch (Exception ex) {
                     System.out.println("Cannot send the invitation");
                 }
             }
@@ -127,7 +130,7 @@ public class ClientReceiver extends Thread {
                     new PrintStream(games.get(message.get("gameId").getAsInt()).player1.getPlayerSocket().getOutputStream()).println("{type:move,result:" + result + ",place:" + message.get("place").getAsString() + "}");
                 }
             }
-        } catch (IOException ex) {
+        } catch (Exception ex) {
             System.out.println("error in sendding game move");
         }
     }
@@ -136,8 +139,24 @@ public class ClientReceiver extends Thread {
         try {
             String playersJsonArr ="["+Player.toJsonArray(players).toString();
             new PrintStream(player.getPlayerSocket().getOutputStream()).println(playersJsonArr);
-        } catch (IOException ex) {
+        } catch (Exception ex) {
             System.out.println("error in sendding online players");
         }
+    }
+
+    private void sendChat(JsonObject message) {
+       if(player.getPlayerUserName().equals(games.get(message.get("gameId").getAsInt()).player1.getPlayerUserName())){
+           try {
+               new PrintStream(games.get(message.get("gameId").getAsInt()).player2.getPlayerSocket().getOutputStream()).println("{type:message,message:\""+player.getPlayerUserName()+":"+message.get("message").getAsString()+"\"}");
+           } catch (Exception ex) {
+               System.out.println("error in sending chat");;
+           }
+       }else{
+           try {
+               new PrintStream(games.get(message.get("gameId").getAsInt()).player1.getPlayerSocket().getOutputStream()).println("{type:message,message:\""+player.getPlayerUserName()+":"+message.get("message").getAsString()+"\"}");
+           } catch (Exception ex) {
+               System.out.println("error in sending chat");;
+           }
+       }
     }
 }
