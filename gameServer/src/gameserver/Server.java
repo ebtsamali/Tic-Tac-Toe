@@ -27,6 +27,7 @@ public class Server {
     ServerSocket myServerSocket;   // to establish connection
     Socket socket;
     static Vector<Player> players = new Vector<Player>();
+    static Vector<Game> games = new Vector<Game>();
     Thread serverThread;
 
     public void runServer() {

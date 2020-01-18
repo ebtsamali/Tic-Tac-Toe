@@ -7,6 +7,7 @@ package gameserver;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import static gameserver.Server.games;
 import static gameserver.Server.players;
 import java.io.DataInputStream;
 import java.io.IOException;
@@ -60,17 +61,10 @@ public class ClientReceiver extends Thread {
                 send(message);
                 break;
             case "accept":
-                if (message.get("result").getAsBoolean()) {
-                    for (int i = 0; i < players.size(); i++) {
-                        if (players.get(i).getPlayerUserName().equals(message.get("senderUsername").getAsString()) || players.get(i).getPlayerUserName().equals(message.get("reciverUsername").getAsString())) {
-                            try {
-                                new PrintStream(Server.players.get(i).getPlayerSocket().getOutputStream()).println("{type:openGame,senderUsername:"+message.get("senderUsername")+",reciverUsername:"+message.get("reciverUsername")+"}");
-                            } catch (IOException ex) {
-                                System.out.println("error in sendding game start");
-                            }
-                        }
-                    }
-                }
+                gameInviteResult(message);
+                break;
+            case "move":
+                playMove(message);
                 break;
         }
 
@@ -82,9 +76,56 @@ public class ClientReceiver extends Thread {
                 try {
                     new PrintStream(Server.players.get(i).getPlayerSocket().getOutputStream()).println(invitation.toString());
                 } catch (IOException ex) {
-                    System.out.println("Cannot send the invitation");;
+                    System.out.println("Cannot send the invitation");
                 }
             }
+        }
+    }
+
+    void gameInviteResult(JsonObject message) {
+        if (message.get("result").getAsBoolean()) {
+            int x = 0;
+            int gameIndex = 0;
+            for (int i = 0; i < players.size(); i++) {
+                if (players.get(i).getPlayerUserName().equals(message.get("senderUsername").getAsString()) || players.get(i).getPlayerUserName().equals(message.get("reciverUsername").getAsString())) {
+                    if (x == 0) {
+                        x++;
+                        gameIndex = games.size();
+                        games.add(new Game(players.get(i)));
+                        try {
+                            new PrintStream(Server.players.get(i).getPlayerSocket().getOutputStream()).println("{type:openGame,senderUsername:" + message.get("senderUsername") + ",reciverUsername:" + message.get("reciverUsername") + ",gameId:" + gameIndex + ",sign:X}");
+                        } catch (IOException ex) {
+                            System.out.println("error in sendding game start");
+                        }
+                    } else {
+                        games.get(gameIndex).player2 = players.get(i);
+                        try {
+                            new PrintStream(Server.players.get(i).getPlayerSocket().getOutputStream()).println("{type:openGame,senderUsername:" + message.get("senderUsername") + ",reciverUsername:" + message.get("reciverUsername") + ",gameId:" + gameIndex + ",sign:O}");
+                        } catch (IOException ex) {
+                            System.out.println("error in sendding game start");
+                        }
+                    }
+
+                }
+            }
+        }
+    }
+
+    private void playMove(JsonObject message) {
+        try {
+            String result = games.get(message.get("gameId").getAsInt()).makeMove(message.get("place").getAsInt());
+            if (result.equals("X") || result.equals("O")) {
+                new PrintStream(games.get(message.get("gameId").getAsInt()).player1.getPlayerSocket().getOutputStream()).println("{type:move,result:" + result + ",place:" + message.get("place").getAsString() + "}");
+                new PrintStream(games.get(message.get("gameId").getAsInt()).player2.getPlayerSocket().getOutputStream()).println("{type:move,result:" + result + ",place:" + message.get("place").getAsString() + "}");
+            } else {
+                if (!games.get(message.get("gameId").getAsInt()).turn) {
+                    new PrintStream(games.get(message.get("gameId").getAsInt()).player2.getPlayerSocket().getOutputStream()).println("{type:move,result:" + result + ",place:" + message.get("place").getAsString() + "}");
+                } else {
+                    new PrintStream(games.get(message.get("gameId").getAsInt()).player1.getPlayerSocket().getOutputStream()).println("{type:move,result:" + result + ",place:" + message.get("place").getAsString() + "}");
+                }
+            }
+        } catch (IOException ex) {
+            System.out.println("error in sendding game move");
         }
     }
 }

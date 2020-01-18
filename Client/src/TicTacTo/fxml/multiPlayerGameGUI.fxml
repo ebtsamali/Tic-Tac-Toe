@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.*?>
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
 <?import com.jfoenix.controls.JFXButton?>
 <?import java.net.URL?>
 <?import javafx.scene.control.Button?>
@@ -12,7 +19,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="550.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="multiPlayerMode.GameGUIController">
+<AnchorPane id="AnchorPane" prefHeight="550.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="multiPlayerMode.GameGUIController">
     <stylesheets>
         <URL value="@../css/gamegui.css" />
     </stylesheets>
@@ -34,7 +41,7 @@
                   <Font name="System Bold" size="40.0" />
                </font>
             </Button>
-            <Button fx:id="btn1" alignment="CENTER" contentDisplay="CENTER" focusTraversable="false" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#playerClick" prefHeight="170.0" prefWidth="201.0" style="-fx-background-color: transparent;" textAlignment="CENTER" textFill="RED" GridPane.columnIndex="1">
+            <Button fx:id="btn1" alignment="CENTER" contentDisplay="CENTER" focusTraversable="false" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#playerClick" prefHeight="170.0" prefWidth="201.0" style="-fx-background-color: transparent;" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="1">
                <font>
                   <Font name="System Bold" size="40.0" />
                </font>
@@ -92,9 +99,9 @@
             <Font name="System Bold" size="12.0" />
          </font>
       </Button>
-       <Button fx:id="btnNot" text="notification" cacheShape="false" centerShape="false" focusTraversable="false" layoutX="60" layoutY="160.0" mnemonicParsing="false" onAction="#notificationPopup" prefHeight="35.0" prefWidth="80.0" scaleShape="false" />
+       <Button fx:id="btnNot" cacheShape="false" centerShape="false" focusTraversable="false" layoutX="60" layoutY="160.0" mnemonicParsing="false" onAction="#notificationPopup" prefHeight="35.0" prefWidth="80.0" scaleShape="false" text="notification" />
       <Button fx:id="btnSaveGame" cacheShape="false" centerShape="false" focusTraversable="false" layoutX="716.0" layoutY="78.0" mnemonicParsing="false" onAction="#saveGame" prefHeight="43.0" prefWidth="51.0" scaleShape="false" />
-      <Button fx:id="Messages" alignment="CENTER" contentDisplay="CENTER" focusTraversable="false" layoutX="253.0" layoutY="440.0" mnemonicParsing="false" prefHeight="12.0" prefWidth="296.0" style="-fx-background-color: white;" textAlignment="CENTER">
+      <Button fx:id="Messages" alignment="CENTER" contentDisplay="CENTER" focusTraversable="false" layoutX="253.0" layoutY="440.0" mnemonicParsing="false" prefHeight="12.0" prefWidth="296.0" style="-fx-background-color: white;" text="your turn" textAlignment="CENTER">
          <font>
             <Font name="System Bold" size="24.0" />
          </font>

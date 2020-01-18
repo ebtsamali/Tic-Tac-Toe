@@ -31,7 +31,6 @@
             <VBox fx:id="onlineUserPane1" layoutX="574.0" layoutY="146.0" prefHeight="316.0" prefWidth="163.0" style="-fx-background-color: transparent;" />
          </content>
       </ScrollPane>
-      <Button layoutX="691.0" layoutY="496.0" mnemonicParsing="false" onAction="#loadMultiPlayerWindow" text="Multiplayer" />
       <Label alignment="CENTER" layoutX="429.0" layoutY="86.0" prefHeight="30.0" prefWidth="165.0" text="MID PLAYERS">
          <font>
             <Font name="Comic Sans MS Bold" size="18.0" />

@@ -22,7 +22,12 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import multiPlayerMode.GameGUIController;
+import static multiPlayerMode.GameGUIController.buttons;
+import static multiPlayerMode.GameGUIController.sMessages;
+import static multiPlayerMode.GameGUIController.sXOplayer;
 
 /**
  *
@@ -31,6 +36,7 @@ import javafx.stage.Stage;
 public class ServerReciver extends Thread {
 
     boolean choise = false;
+    public static String sign;
 
     @Override
     public void run() {
@@ -52,7 +58,12 @@ public class ServerReciver extends Thread {
                 askForGame(message);
                 break;
             case "openGame":
-                switchToMultiPlayer();
+                GameGUIController.gameID = message.get("gameId").getAsInt();
+                sign = message.get("sign").getAsString();
+                switchToMultiPlayer(message);
+                break;
+            case "move":
+                makeMove(message);
                 break;
         }
     }
@@ -84,7 +95,7 @@ public class ServerReciver extends Thread {
         });
     }
 
-    private void switchToMultiPlayer() {
+    private void switchToMultiPlayer(JsonObject message) {
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
@@ -94,9 +105,37 @@ public class ServerReciver extends Thread {
                     Scene newScene = new Scene(newParent, 800, 550);
                     Stage windowStage = (Stage) mainStage;
                     windowStage.setScene(newScene);
+                    GameGUIController.sXOplayer.setText(message.get("sign").getAsString());
                     windowStage.show();
                 } catch (Exception ex) {
-                    System.out.println("cant switch to multiplayer "+ ex);;
+                    System.out.println("cant switch to multiplayer " + ex);;
+                }
+            }
+        });
+    }
+
+    private void makeMove(JsonObject message) {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                if (sXOplayer.getText().equals("X")) {
+                    if (!buttons[message.get("place").getAsInt()].getText().equals("X")) {
+                        buttons[message.get("place").getAsInt()].setText("O");
+                        buttons[message.get("place").getAsInt()].setTextFill(Color.RED);
+                    }
+                } else {
+                    if (!buttons[message.get("place").getAsInt()].getText().equals("O")) {
+                        buttons[message.get("place").getAsInt()].setText("X");
+                        buttons[message.get("place").getAsInt()].setTextFill(Color.RED);
+                    }
+                }
+                if (message.get("result").getAsString().equals("noWin")) {
+                    GameGUIController.enableall();
+                    sMessages.setText("your turn");
+                } else if (message.get("result").getAsString().equals("end")) {
+                    sMessages.setText("no Winner");
+                } else {
+                    sMessages.setText("the winner is " + message.get("result").getAsString());
                 }
             }
         });

@@ -5,9 +5,12 @@
  */
 package multiPlayerMode;
 
+import static TicTacTo.ServerReciver.sign;
+import static TicTacTo.SignInController.player;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -18,6 +21,7 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.controlsfx.control.Notifications;
@@ -27,9 +31,9 @@ import org.controlsfx.control.Notifications;
  *
  * @author Dell
  */
-public class GameGUIController extends Client implements Initializable {
+public class GameGUIController implements Initializable{
 //    Client client = new Client();
-    
+
     @FXML
     private Button btn0;
     @FXML
@@ -48,19 +52,20 @@ public class GameGUIController extends Client implements Initializable {
     private Button btn7;
     @FXML
     private Button btn8;
-     public static Button[] buttons = new Button[9];
+    public static Button[] buttons = new Button[9];
     @FXML
     private Button XOplayer;
     public static Button sXOplayer;
-    
+
     @FXML
     private Button Messages;
     public static Button sMessages;
     @FXML
     private Button btnSaveGame;
-    
-    
-    public void setButtonsArray(){
+
+    public static int gameID = 0;
+
+    public void setButtonsArray() {
         buttons[0] = btn0;
         buttons[1] = btn1;
         buttons[2] = btn2;
@@ -70,17 +75,25 @@ public class GameGUIController extends Client implements Initializable {
         buttons[6] = btn6;
         buttons[7] = btn7;
         buttons[8] = btn8;
-      
+
     }
+
     @FXML
-    public void playerClick(javafx.event.ActionEvent e){
-        Button clickedButton = (Button) e.getSource();
-        sendButtonNumber(clickedButton,buttons);
-        
+    public void playerClick(javafx.event.ActionEvent e) {
+        try {
+            Button clickedButton = (Button) e.getSource();
+            int pressedButton = sendButtonNumber(clickedButton, buttons);
+            new PrintStream(player.getPlayerSocket().getOutputStream()).println("{type:move,gameId:" + gameID + ",place:" + pressedButton + "}");
+            clickedButton.setText(XOplayer.getText());
+            clickedButton.setTextFill(Color.WHITE);
+            disableall();
+        } catch (Exception ex) {
+            System.out.println("error in sending move to server");
+        }
     }
-    
-     @FXML
-    private void notificationPopup(ActionEvent event){
+
+    @FXML
+    private void notificationPopup(ActionEvent event) {
         //Image img = new Image("../images/hello.png");
         Notifications notificationBuilder = Notifications.create()
                 .title("HELLO")
@@ -88,12 +101,11 @@ public class GameGUIController extends Client implements Initializable {
                 .graphic(null)
                 .hideAfter(Duration.seconds(5))
                 .position(Pos.BOTTOM_RIGHT);
-                
+
         notificationBuilder.darkStyle();
-        notificationBuilder.show();   
+        notificationBuilder.show();
     }
-    
-    
+
     @FXML
     private void minimizeWindow(ActionEvent event) {
         Stage windowStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -104,16 +116,16 @@ public class GameGUIController extends Client implements Initializable {
     private void closeWindow(ActionEvent event) {
         System.exit(0);
     }
-    
-
-   
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        sXOplayer=XOplayer;
-        sMessages=Messages;
+        sXOplayer = XOplayer;
+        sMessages = Messages;
         setButtonsArray();
-
+        System.out.println(sign);
+        if (sign.equals("O")) {
+            disableall();
+        }
     }
 
     @FXML
@@ -131,12 +143,12 @@ public class GameGUIController extends Client implements Initializable {
             obj.addProperty("btn8", btn8.getText());
 
             //ps.println(obj.toString()); //will managed
-
         } catch (Exception ex) {
             System.out.println("error in sending saved game to server");
         }
     }
-   /*
+
+    /*
     private void handleretrieveGame(ActionEvent event) throws IOException {
         rGame = dis.readLine();
         JsonObject retrieveGame = new JsonParser().parse(rGame).getAsJsonObject();
@@ -152,6 +164,28 @@ public class GameGUIController extends Client implements Initializable {
         btn8.setText(retrieveGame.get("btn8").getAsString());
         btn9.setText(retrieveGame.get("btn9").getAsString());
     }
-*/ //will managed
+     */ //will managed
+    public int sendButtonNumber(Button b, Button[] buttons) {
+        for (int i = 0; i < buttons.length; i++) {
+            if (b == buttons[i]) {
+                return i;
+            }
+        }
+        return 0;
+    }
 
+    public void disableall() {
+        for (int i = 0; i < buttons.length; i++) {
+            buttons[i].setDisable(true);
+            Messages.setText("waitting for other player");
+        }
+    }
+
+    public static void enableall() {
+        for (int i = 0; i < buttons.length; i++) {
+            if (buttons[i].getText().isEmpty()) {
+                buttons[i].setDisable(false);
+            }
+        }
+    }
 }
