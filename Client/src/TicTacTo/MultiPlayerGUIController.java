@@ -157,9 +157,9 @@ public class MultiPlayerGUIController implements Initializable {
             obj.addProperty("type", "gameSave");
             if (sXOplayer.equals("X")) {
                 obj.addProperty("user1", player.getPlayerUserName());
-                obj.addProperty("user2", otherPlayrName);
+                obj.addProperty("user2", otherUsernameLbl.getText());
             } else {
-                obj.addProperty("user1", otherPlayrName);
+                obj.addProperty("user1", otherUsernameLbl.getText());
                 obj.addProperty("user2", player.getPlayerUserName());
             }
             obj.addProperty("btn0", btn0.getText());

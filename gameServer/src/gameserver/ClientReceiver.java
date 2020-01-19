@@ -115,7 +115,7 @@ public class ClientReceiver extends Thread {
                 if (oldGame.get("turn").getAsString().equalsIgnoreCase("true")) {
                     games.get(gameIndex).turn = true;
                 } else {
-                    games.get(gameIndex).turn = true;
+                    games.get(gameIndex).turn = false;
                 }
 
                 for (int i = 0; i < players.size(); i++) {
