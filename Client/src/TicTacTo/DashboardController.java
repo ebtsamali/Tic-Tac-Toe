@@ -5,6 +5,7 @@
  */
 package TicTacTo;
 
+import static TicTacTo.SignInController.player;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.net.URL;
@@ -46,51 +47,75 @@ public class DashboardController implements Initializable {
     @FXML
     private VBox onlineUserPane;
     public static VBox sonlineUserPane;
+    public static String otherPlayrName = "";
     ServerReciver reciver;
+    @FXML
+    private VBox onlineUserPane1;
+    public static VBox sonlineUserPane1;
+    @FXML
+    private Label scoreLabel;
     @FXML
     private Button Uname;
     @FXML
-    private Label scoreLabel;
+    private VBox onlineUserPane11;
+    public static VBox sonlineUserPane11;
+
+    int mybuttonIndex;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         sonlineUserPane = onlineUserPane;
+        sonlineUserPane1 = onlineUserPane1;
+        sonlineUserPane11 = onlineUserPane11;
         reciver = new ServerReciver();
         SignInController.player.setPlayerthread(reciver);
-        reciver.start();
-        Uname.setText("Username");
-        scoreLabel.setText("User score");
         try {
             String players = new BufferedReader(new InputStreamReader(SignInController.player.getPlayerSocket().getInputStream())).readLine();
             JsonArray playerArray = new JsonParser().parse(players).getAsJsonArray();
 
             List<Button> buttonlist = new ArrayList<>();
+            List<Button> buttonlist1 = new ArrayList<>();
+            List<Button> buttonlist11 = new ArrayList<>();
             for (int i = 0; i < playerArray.size(); i++) {
                 JsonObject otherPlayer = new JsonParser().parse(playerArray.get(i).toString()).getAsJsonObject();
+                if (otherPlayer.get("username").getAsString().equals(player.getPlayerUserName())) {
+                    player.setPlayerScore(otherPlayer.get("score").getAsInt());
+                }else{
                 JFXButton playerButton = new JFXButton(otherPlayer.get("username").getAsString());
-                buttonlist.add(playerButton);
                 playerButton.setStyle("-fx-background-color : darkblue;" + "-fx-opacity: 0.6;" + "-fx-text-fill: #ffffff;" + "-fx-font-family: Verdana");
-                buttonlist.get(i).setMaxWidth(163);
-                buttonlist.get(i).setOnAction(new EventHandler<ActionEvent>() {
+                playerButton.setMaxWidth(163);
+                playerButton.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent actionEvent) {
                         try {
                             String username = otherPlayer.get("username").getAsString();
-                            reciver.suspend();
+                            otherPlayrName=username;
                             new PrintStream(SignInController.player.getPlayerSocket().getOutputStream()).println(createInvite(SignInController.player.getPlayerUserName(), username));
-                            reciver.resume();
                             System.out.println("invitation sent");
                         } catch (IOException ex) {
                             System.out.println("error in sendding invitation");
                         }
                     }
                 });
+                if (otherPlayer.get("score").getAsInt() >= 10000) {
+                    buttonlist.add(playerButton);
+                } else if (otherPlayer.get("score").getAsInt() >= 1000) {
+                    buttonlist1.add(playerButton);
+                } else {
+                    buttonlist11.add(playerButton);
+                }
+            }
             }
             onlineUserPane.getChildren().addAll(buttonlist);
+            onlineUserPane1.getChildren().addAll(buttonlist1);
+            onlineUserPane11.getChildren().addAll(buttonlist11);
             onlineUserPane.setAlignment(Pos.TOP_CENTER);
         } catch (Exception ex) {
             System.out.println("error in getting all users");;
         }
+        scoreLabel.setText(player.getPlayerScore() + "");
+        Uname.setText(player.getPlayerUserName());
+        reciver.start();
     }
 
     @FXML

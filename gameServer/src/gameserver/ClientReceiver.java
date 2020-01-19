@@ -43,6 +43,13 @@ public class ClientReceiver extends Thread {
                 for (int i = 0; i < players.size(); i++) {
                     if (players.get(i).getPlayerUserName() == player.getPlayerUserName()) {
                         players.remove(i);
+                        i--;
+                    } else {
+                        try {
+                            new PrintStream(players.get(i).getPlayerSocket().getOutputStream()).println("{type:offlineUser,user:\"" + player.getPlayerUserName() + "\"}");
+                        } catch (IOException ex1) {
+                            System.out.println("error in send offline user");
+                        }
                     }
                 }
                 System.out.println("the thread stopped of palyer : " + player.getPlayerUserName());
@@ -72,6 +79,9 @@ public class ClientReceiver extends Thread {
             case "message":
                 sendChat(message);
                 break;
+            case "gameSave":
+                saveGame(message);
+                break;
         }
 
     }
@@ -92,26 +102,69 @@ public class ClientReceiver extends Thread {
         if (message.get("result").getAsBoolean()) {
             int x = 0;
             int gameIndex = 0;
-            for (int i = 0; i < players.size(); i++) {
-                if (players.get(i).getPlayerUserName().equals(message.get("senderUsername").getAsString()) || players.get(i).getPlayerUserName().equals(message.get("reciverUsername").getAsString())) {
-                    if (x == 0) {
-                        x++;
-                        gameIndex = games.size();
-                        games.add(new Game(players.get(i)));
+            JsonObject oldGame = new DataBaseHandler().retrieveGame(message.get("senderUsername").getAsString(), message.get("reciverUsername").getAsString());
+            new DataBaseHandler().delete(message.get("senderUsername").getAsString(), message.get("reciverUsername").getAsString());
+            if (oldGame != null) {
+                gameIndex = games.size();
+                games.add(new Game());
+                for (int i = 0; i < 9; i++) {
+                    if (oldGame.get("btn" + i).getAsString().equals("X") || oldGame.get("btn" + i).getAsString().equals("O")) {
+                        games.get(gameIndex).gameBoardArr[i] = oldGame.get("btn" + i).getAsString();
+                    }
+                }
+                if (oldGame.get("turn").getAsString().equalsIgnoreCase("true")) {
+                    games.get(gameIndex).turn = true;
+                } else {
+                    games.get(gameIndex).turn = false;
+                }
+
+                for (int i = 0; i < players.size(); i++) {
+                    if (players.get(i).getPlayerUserName().equals(oldGame.get("user1").getAsString())) {
                         try {
-                            new PrintStream(Server.players.get(i).getPlayerSocket().getOutputStream()).println("{type:openGame,senderUsername:" + message.get("senderUsername") + ",reciverUsername:" + message.get("reciverUsername") + ",gameId:" + gameIndex + ",sign:X}");
+                            games.get(gameIndex).player1 = Server.players.get(i);
+                            JsonObject newMessage = new JsonParser().parse(oldGame.toString()).getAsJsonObject();
+                            newMessage.addProperty("sign", "X");
+                            newMessage.addProperty("type", "retriveGame");
+                            newMessage.addProperty("gameId", gameIndex);
+                            new PrintStream(Server.players.get(i).getPlayerSocket().getOutputStream()).println(newMessage.toString());
                         } catch (IOException ex) {
-                            System.out.println("error in sendding game start");
+                            System.out.println("error in sending game retrive");
                         }
-                    } else {
-                        games.get(gameIndex).player2 = players.get(i);
+                    } else if (players.get(i).getPlayerUserName().equals(oldGame.get("user2").getAsString())) {
                         try {
-                            new PrintStream(Server.players.get(i).getPlayerSocket().getOutputStream()).println("{type:openGame,senderUsername:" + message.get("senderUsername") + ",reciverUsername:" + message.get("reciverUsername") + ",gameId:" + gameIndex + ",sign:O}");
+                            games.get(gameIndex).player2 = Server.players.get(i);
+                            JsonObject newMessage = new JsonParser().parse(oldGame.toString()).getAsJsonObject();
+                            newMessage.addProperty("sign", "O");
+                            newMessage.addProperty("type", "retriveGame");
+                            newMessage.addProperty("gameId", gameIndex);
+                            new PrintStream(Server.players.get(i).getPlayerSocket().getOutputStream()).println(newMessage.toString());
                         } catch (IOException ex) {
-                            System.out.println("error in sendding game start");
+                            System.out.println("error in sendding game retrive");
                         }
                     }
+                }
+            } else {
+                for (int i = 0; i < players.size(); i++) {
+                    if (players.get(i).getPlayerUserName().equals(message.get("senderUsername").getAsString()) || players.get(i).getPlayerUserName().equals(message.get("reciverUsername").getAsString())) {
 
+                        if (x == 0) {
+                            x++;
+                            gameIndex = games.size();
+                            games.add(new Game(players.get(i)));
+                            try {
+                                new PrintStream(Server.players.get(i).getPlayerSocket().getOutputStream()).println("{type:openGame,senderUsername:" + message.get("senderUsername") + ",reciverUsername:" + message.get("reciverUsername") + ",gameId:" + gameIndex + ",sign:X}");
+                            } catch (IOException ex) {
+                                System.out.println("error in sendding game start");
+                            }
+                        } else {
+                            games.get(gameIndex).player2 = players.get(i);
+                            try {
+                                new PrintStream(Server.players.get(i).getPlayerSocket().getOutputStream()).println("{type:openGame,senderUsername:" + message.get("senderUsername") + ",reciverUsername:" + message.get("reciverUsername") + ",gameId:" + gameIndex + ",sign:O}");
+                            } catch (IOException ex) {
+                                System.out.println("error in sendding game start");
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -137,7 +190,7 @@ public class ClientReceiver extends Thread {
 
     private void sendOnlinePlayers() {
         try {
-            String playersJsonArr ="["+Player.toJsonArray(players).toString();
+            String playersJsonArr = "[" + Player.toJsonArray(players).toString();
             new PrintStream(player.getPlayerSocket().getOutputStream()).println(playersJsonArr);
         } catch (Exception ex) {
             System.out.println("error in sendding online players");
@@ -145,18 +198,36 @@ public class ClientReceiver extends Thread {
     }
 
     private void sendChat(JsonObject message) {
-       if(player.getPlayerUserName().equals(games.get(message.get("gameId").getAsInt()).player1.getPlayerUserName())){
-           try {
-               new PrintStream(games.get(message.get("gameId").getAsInt()).player2.getPlayerSocket().getOutputStream()).println("{type:message,message:\""+player.getPlayerUserName()+":"+message.get("message").getAsString()+"\"}");
-           } catch (Exception ex) {
-               System.out.println("error in sending chat");;
-           }
-       }else{
-           try {
-               new PrintStream(games.get(message.get("gameId").getAsInt()).player1.getPlayerSocket().getOutputStream()).println("{type:message,message:\""+player.getPlayerUserName()+":"+message.get("message").getAsString()+"\"}");
-           } catch (Exception ex) {
-               System.out.println("error in sending chat");;
-           }
-       }
+        if (player.getPlayerUserName().equals(games.get(message.get("gameId").getAsInt()).player1.getPlayerUserName())) {
+            try {
+                new PrintStream(games.get(message.get("gameId").getAsInt()).player2.getPlayerSocket().getOutputStream()).println("{type:message,message:\"" + player.getPlayerUserName() + ":" + message.get("message").getAsString() + "\"}");
+            } catch (Exception ex) {
+                System.out.println("error in sending chat");;
+            }
+        } else {
+            try {
+                new PrintStream(games.get(message.get("gameId").getAsInt()).player1.getPlayerSocket().getOutputStream()).println("{type:message,message:\"" + player.getPlayerUserName() + ":" + message.get("message").getAsString() + "\"}");
+            } catch (Exception ex) {
+                System.out.println("error in sending chat");;
+            }
+        }
+    }
+
+    private void saveGame(JsonObject message) {
+        message.addProperty("turn", games.get(message.get("gameId").getAsInt()).turn);
+        new DataBaseHandler().addGame(message);
+        if (player.getPlayerUserName().equals(games.get(message.get("gameId").getAsInt()).player1.getPlayerUserName())) {
+            try {
+                new PrintStream(games.get(message.get("gameId").getAsInt()).player2.getPlayerSocket().getOutputStream()).println("{type:returnTodashboard}");
+            } catch (Exception ex) {
+                System.out.println("error in sending chat");;
+            }
+        } else {
+            try {
+                new PrintStream(games.get(message.get("gameId").getAsInt()).player1.getPlayerSocket().getOutputStream()).println("{type:returnTodashboard}");
+            } catch (Exception ex) {
+                System.out.println("error in sending chat");;
+            }
+        }
     }
 }

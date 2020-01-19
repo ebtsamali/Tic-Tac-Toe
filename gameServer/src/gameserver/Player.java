@@ -2,8 +2,15 @@ package gameserver;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import java.io.IOException;
+import java.io.PrintStream;
 import java.net.Socket;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.event.EventType;
 import javafx.scene.control.Button;
 import javafx.scene.paint.Color;
 
@@ -17,8 +24,8 @@ public class Player {
     private String securityQuestion;
     private Socket playerSocket;
     private Thread playerthread;
-    private String score="100";
-    private Button state =new Button("⚫ Offline");
+    private int playerScore;
+    private Button state = new Button("⚫ Offline");
 
     public Player(String name, String pass) {
         playerUserName = name;
@@ -26,23 +33,45 @@ public class Player {
         state.setDisable(true);
         state.setTextFill(Color.GREY);
         state.setStyle("-fx-background-color: transparent;");
+        state.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                try {
+                    new PrintStream(playerSocket.getOutputStream()).println("{type:shutdown}");
+                } catch (IOException ex) {
+                    System.out.println("error in send shutdown");
+                }
+            }
+        });
     }
 
-    public Player(String name, String password, String fullname, String email, String securityQ) {
+    public Player(String name, String password, String fullname, String email, String securityQ, int score) {
         playerUserName = name;
         playerPassword = password;
         userFullname = fullname;
         playerEmail = email;
         securityQuestion = securityQ;
+        playerScore = score;
         state.setDisable(true);
         state.setTextFill(Color.GREY);
         state.setStyle("-fx-background-color: transparent;");
+        state.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                try {
+                    new PrintStream(playerSocket.getOutputStream()).println("{type:shutdown}");
+                } catch (IOException ex) {
+                    System.out.println("error in send shutdown");
+                }
+            }
+        });
     }
 
     public Player(JsonObject player) {
         try {
             playerUserName = player.get("username").getAsString();
             playerPassword = player.get("password").getAsString();
+            playerScore = new DataBaseHandler().getScore(playerUserName);
             try {
                 userFullname = player.get("fullname").getAsString();
                 playerEmail = player.get("email").getAsString();
@@ -62,6 +91,7 @@ public class Player {
         player.addProperty("fullname", getUserFullname());
         player.addProperty("email", getPlayerEmail());
         player.addProperty("question", getSecurityQuestion());
+        player.addProperty("score", getPlayerScore());
         return player;
     }
 
@@ -186,17 +216,17 @@ public class Player {
     }
 
     /**
-     * @return the score
+     * @return the playerScore
      */
-    public String getScore() {
-        return score;
+    public int getPlayerScore() {
+        return playerScore;
     }
 
     /**
-     * @param score the score to set
+     * @param playerScore the playerScore to set
      */
-    public void setScore(String score) {
-        this.score = score;
+    public void setPlayerScore(int playerScore) {
+        this.playerScore = playerScore;
     }
 
     /**
@@ -212,11 +242,13 @@ public class Player {
     public void setState(Button state) {
         this.state = state;
     }
+
     public void setOnline() {
         state.setDisable(false);
         state.setText("⚫ Online");
         state.setTextFill(Color.GREEN);
     }
+
     public void setOffline() {
         state.setDisable(true);
         state.setText("⚫ Offline");

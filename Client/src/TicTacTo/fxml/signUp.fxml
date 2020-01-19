@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.*?>
+<?import com.jfoenix.controls.*?>
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXPasswordField?>
 <?import com.jfoenix.controls.JFXTextField?>
@@ -13,7 +21,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="rootPane" prefHeight="550.0" prefWidth="800.0" stylesheets="@../css/signUpStyle.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="TicTacTo.SignUpController">
+<AnchorPane fx:id="rootPane" prefHeight="550.0" prefWidth="800.0" stylesheets="@../css/signUpStyle.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="TicTacTo.SignUpController">
     <children>
       <HBox alignment="CENTER_RIGHT" prefHeight="28.0" prefWidth="730.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <opaqueInsets>
@@ -73,7 +81,7 @@
             </Text>
          </children>
       </VBox>
-      <JFXButton id="signUpbutton" fx:id="signUpbutton" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" defaultButton="true" disable="true" focusTraversable="false" layoutX="217.0" layoutY="384.0" onAction="#signUpbutton" prefHeight="37.0" prefWidth="150.0" ripplerFill="#d341d3" style="-fx-background-color: #1a9dce;" text="Sign up" textAlignment="CENTER" textFill="#08182f">
+      <JFXButton id="signUpbutton" fx:id="signUpbutton" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" defaultButton="true" disable="true" focusTraversable="false" layoutX="214.0" layoutY="411.0" onAction="#signUpbutton" prefHeight="37.0" prefWidth="150.0" ripplerFill="#d341d3" style="-fx-background-color: #1a9dce;" text="Sign up" textAlignment="CENTER" textFill="#08182f">
          <font>
             <Font size="16.0" />
          </font>
@@ -84,7 +92,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </JFXButton>
-      <JFXButton id="signUpbutton" fx:id="cancelBtn" alignment="CENTER" buttonType="RAISED" cancelButton="true" contentDisplay="CENTER" focusTraversable="false" layoutX="447.0" layoutY="384.0" onAction="#CancelHndeler" prefHeight="37.0" prefWidth="150.0" ripplerFill="#d341d3" style="-fx-background-color: #1a9dce;" text="Cancel" textAlignment="CENTER" textFill="#08182f">
+      <JFXButton id="signUpbutton" fx:id="cancelBtn" alignment="CENTER" buttonType="RAISED" cancelButton="true" contentDisplay="CENTER" focusTraversable="false" layoutX="450.0" layoutY="411.0" onAction="#CancelHndeler" prefHeight="37.0" prefWidth="150.0" ripplerFill="#d341d3" style="-fx-background-color: #1a9dce;" text="Cancel" textAlignment="CENTER" textFill="#08182f">
          <font>
             <Font size="16.0" />
          </font>

@@ -6,6 +6,8 @@
 package TicTacTo;
 
 import static TicTacTo.DashboardController.sonlineUserPane;
+import static TicTacTo.DashboardController.sonlineUserPane1;
+import static TicTacTo.DashboardController.sonlineUserPane11;
 import static TicTacTo.SignInController.mainStage;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -29,6 +31,8 @@ import static TicTacTo.MultiPlayerGUIController.buttons;
 import static TicTacTo.MultiPlayerGUIController.sMessages;
 import static TicTacTo.MultiPlayerGUIController.sXOplayer;
 import static TicTacTo.MultiPlayerGUIController.schatTa;
+import static TicTacTo.SignInController.mainStage;
+import static TicTacTo.SignInController.player;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -53,7 +57,7 @@ public class ServerReciver extends Thread {
                 System.out.println(message);
                 makeAction(message);
             } catch (Exception ex) {
-                System.out.println("error in reciving data in client thread");;
+                System.out.println("error in reciving data in client thread");
             }
         }
     }
@@ -78,6 +82,20 @@ public class ServerReciver extends Thread {
             case "newPlayer":
                 addNewPlayer(message);
                 break;
+            case "shutdown":
+                System.exit(0);
+                break;
+            case "offlineUser":
+                removePlayer(message);
+                break;
+            case "returnTodashboard":
+                returnTodashboard();
+                break;
+            case "retriveGame":
+                MultiPlayerGUIController.gameID = message.get("gameId").getAsInt();
+                sign = message.get("sign").getAsString();
+                retriveGame(message);
+                break;
         }
     }
 
@@ -93,6 +111,7 @@ public class ServerReciver extends Thread {
                 Optional<ButtonType> result = alert.showAndWait();
                 if (result.get() == ButtonType.OK) {
                     try {
+                        DashboardController.otherPlayrName = message.get("senderUsername").getAsString();
                         new PrintStream(SignInController.player.getPlayerSocket().getOutputStream()).println("{type:accept,result:true,senderUsername:" + message.get("senderUsername") + ",reciverUsername:" + message.get("reciverUsername") + "}");
                     } catch (IOException ex) {
                         System.out.println("error in accept invitation");
@@ -166,6 +185,7 @@ public class ServerReciver extends Thread {
     private void addNewPlayer(JsonObject message) {
         JsonObject otherPlayer = new JsonParser().parse(message.toString()).getAsJsonObject();
         Button newUserBtn = new Button(otherPlayer.get("username").getAsString());
+        newUserBtn.setStyle("-fx-background-color : darkblue;" + "-fx-opacity: 0.6;" + "-fx-text-fill: #ffffff;" + "-fx-font-family: Verdana");
         newUserBtn.setMaxWidth(163);
         newUserBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -182,10 +202,17 @@ public class ServerReciver extends Thread {
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
-                sonlineUserPane.getChildren().add(newUserBtn);
+                if (otherPlayer.get("score").getAsInt() >= 10000) {
+                    sonlineUserPane.getChildren().add(newUserBtn);
+                } else if (otherPlayer.get("score").getAsInt() >= 1000) {
+                    sonlineUserPane1.getChildren().add(newUserBtn);
+                } else {
+                    sonlineUserPane11.getChildren().add(newUserBtn);
+                }
+
                 Notifications notificationBuilder = Notifications.create()
                         .title("TIC TAC TOE")
-                        .text(newUserBtn.getText()+" is online now")
+                        .text(newUserBtn.getText() + " is online now")
                         .graphic(null)
                         .hideAfter(Duration.seconds(5))
                         .position(Pos.BOTTOM_RIGHT);
@@ -203,5 +230,96 @@ public class ServerReciver extends Thread {
         invite.addProperty("senderUsername", sender);
         invite.addProperty("reciverUsername", reciver);
         return invite.toString();
+    }
+
+    private void removePlayer(JsonObject message) {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    for (int i = 0; i < sonlineUserPane.getChildren().size(); i++) {
+                        Button b1 = (Button) sonlineUserPane.getChildren().get(i);
+                        if (b1.getText().equals(message.get("user").getAsString())) {
+                            sonlineUserPane.getChildren().remove(b1);
+                        }
+                    }
+                } catch (Exception e) {
+                    System.out.println("pane one is empty");
+                }
+                try {
+                    for (int i = 0; i < sonlineUserPane1.getChildren().size(); i++) {
+                        Button b1 = (Button) sonlineUserPane1.getChildren().get(i);
+                        if (b1.getText().equals(message.get("user").getAsString())) {
+                            sonlineUserPane1.getChildren().remove(b1);
+                        }
+                    }
+                } catch (Exception e) {
+                    System.out.println("pane two is empty");
+                }
+                try {
+                    for (int i = 0; i < sonlineUserPane11.getChildren().size(); i++) {
+                        Button b1 = (Button) sonlineUserPane11.getChildren().get(i);
+                        if (b1.getText().equals(message.get("user").getAsString())) {
+                            sonlineUserPane11.getChildren().remove(b1);
+                        }
+                    }
+                } catch (Exception e) {
+                    System.out.println("pane three is empty");
+                }
+            }
+        });
+    }
+
+    private void returnTodashboard() {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    player.getPlayerthread().stop();
+                    new PrintStream(player.getPlayerSocket().getOutputStream()).println("{type:online}");
+                    Parent newParent = FXMLLoader.load(getClass().getResource("fxml/dashboard.fxml"));
+                    Scene newScene = new Scene(newParent, 800, 550);
+                    mainStage = (Stage) ((Node) sXOplayer).getScene().getWindow();
+                    Stage windowStage = (Stage) ((Node) sXOplayer).getScene().getWindow();
+                    windowStage.setScene(newScene);
+                    windowStage.show();
+
+                } catch (Exception e) {
+                    System.out.println("error to return to dashboard");
+                }
+            }
+        });
+    }
+
+    private void retriveGame(JsonObject message) {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                Parent newParent;
+                try {
+                    newParent = FXMLLoader.load(getClass().getResource("fxml/multiPlayerGameGUI.fxml"));
+                    Scene newScene = new Scene(newParent, 800, 550);
+                    Stage windowStage = (Stage) mainStage;
+                    windowStage.setScene(newScene);
+                    MultiPlayerGUIController.sXOplayer.setText(message.get("sign").getAsString());
+                    MultiPlayerGUIController.gameID=message.get("gameId").getAsInt();
+                    for (int i = 0; i < 9; i++) {
+                        if ((message.get("sign").getAsString().equals(message.get("btn" + i).getAsString()))) {
+                            MultiPlayerGUIController.buttons[i].setTextFill(Color.WHITE);
+                        } else {
+                            MultiPlayerGUIController.buttons[i].setTextFill(Color.RED);
+                        }
+                        MultiPlayerGUIController.buttons[i].setText(message.get("btn" + i).getAsString());
+                    }
+                    MultiPlayerGUIController.disableall();
+                    if ((message.get("sign").getAsString().equals("X") && message.get("turn").getAsString().equals("true")) || (message.get("sign").getAsString().equals("O") && message.get("turn").getAsString().equals("false"))) {
+                        MultiPlayerGUIController.enableall();
+                    }
+                    windowStage.show();
+                } catch (Exception ex) {
+                    System.out.println("cant switch to multiplayer " + ex);;
+                }
+            }
+        });
     }
 }

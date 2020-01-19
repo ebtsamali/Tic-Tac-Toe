@@ -64,11 +64,13 @@ public class Server {
                             socket.close();
                         }
                     } else {
-                        if (!(new DataBaseHandler().isUserExist(new Player(message)))) {
+                        if (!(new DataBaseHandler().isUserNameExist(new Player(message)))) {
                             new DataBaseHandler().addNewUser(new Player(message));
                             System.out.println("user added");
+                            new DataOutputStream(socket.getOutputStream()).writeBytes("true");
                         } else {
                             System.out.println("user is already exist");
+                            new DataOutputStream(socket.getOutputStream()).writeBytes("user is already exist");
                         }
                         socket.close();
                     }
@@ -103,6 +105,7 @@ public class Server {
                     for (int j = 0; j < players.size(); j++) {
                         if (players.get(j).getPlayerUserName().equals(data.get(i).getPlayerUserName())) {
                             data.get(i).setOnline();
+                            data.get(i).setPlayerSocket(players.get(j).getPlayerSocket());
                         }
                     }
                 }
