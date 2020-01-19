@@ -171,6 +171,7 @@ public class MultiPlayerGUIController implements Initializable {
             obj.addProperty("btn6", btn6.getText());
             obj.addProperty("btn7", btn7.getText());
             obj.addProperty("btn8", btn8.getText());
+            obj.addProperty("gameId", gameID);
             new PrintStream(player.getPlayerSocket().getOutputStream()).println(obj.toString());
             closeWindow(event);
         } catch (Exception ex) {
@@ -204,10 +205,10 @@ public class MultiPlayerGUIController implements Initializable {
         return 0;
     }
 
-    public void disableall() {
+    public static void disableall() {
         for (int i = 0; i < buttons.length; i++) {
             buttons[i].setDisable(true);
-            Messages.setText("waitting for other player");
+            sMessages.setText("waitting for other player");
         }
     }
 
@@ -215,17 +216,20 @@ public class MultiPlayerGUIController implements Initializable {
         for (int i = 0; i < buttons.length; i++) {
             if (buttons[i].getText().isEmpty()) {
                 buttons[i].setDisable(false);
+            } else {
+                buttons[i].setDisable(true);
             }
+            sMessages.setText("your turn");
         }
     }
 
     @FXML
     private void SendChat(ActionEvent event) {
         try {
-            if (chatTf.getText().length() != 0){
-            chatTa.setText(chatTa.getText()+"you: "+chatTf.getText()+"\n");
-            new PrintStream(player.getPlayerSocket().getOutputStream()).println("{type:message,message:\" "+chatTf.getText()+"\",gameId:"+gameID+"}");
-            chatTf.setText("");
+            if (chatTf.getText().length() != 0) {
+                chatTa.setText(chatTa.getText() + "you: " + chatTf.getText() + "\n");
+                new PrintStream(player.getPlayerSocket().getOutputStream()).println("{type:message,message:\" " + chatTf.getText() + "\",gameId:" + gameID + "}");
+                chatTf.setText("");
             }
         } catch (IOException ex) {
             System.out.println("error in send chat");

@@ -24,6 +24,13 @@ public class Game {
         }
     }
 
+    public Game() {
+        for (int i = 0; i < gameBoardArr.length; i++) {
+            gameBoardArr[i] = new String();
+            gameBoardArr[i] = i + "";
+        }
+    }
+
     public String makeMove(int index) {
         if (turn) {
             gameBoardArr[index] = "X";

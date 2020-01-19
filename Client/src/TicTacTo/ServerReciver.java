@@ -31,6 +31,8 @@ import static TicTacTo.MultiPlayerGUIController.buttons;
 import static TicTacTo.MultiPlayerGUIController.sMessages;
 import static TicTacTo.MultiPlayerGUIController.sXOplayer;
 import static TicTacTo.MultiPlayerGUIController.schatTa;
+import static TicTacTo.SignInController.mainStage;
+import static TicTacTo.SignInController.player;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -85,6 +87,14 @@ public class ServerReciver extends Thread {
                 break;
             case "offlineUser":
                 removePlayer(message);
+                break;
+            case "returnTodashboard":
+                returnTodashboard();
+                break;
+            case "retriveGame":
+                MultiPlayerGUIController.gameID = message.get("gameId").getAsInt();
+                sign = message.get("sign").getAsString();
+                retriveGame(message);
                 break;
         }
     }
@@ -255,6 +265,59 @@ public class ServerReciver extends Thread {
                     }
                 } catch (Exception e) {
                     System.out.println("pane three is empty");
+                }
+            }
+        });
+    }
+
+    private void returnTodashboard() {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    player.getPlayerthread().stop();
+                    new PrintStream(player.getPlayerSocket().getOutputStream()).println("{type:online}");
+                    Parent newParent = FXMLLoader.load(getClass().getResource("fxml/dashboard.fxml"));
+                    Scene newScene = new Scene(newParent, 800, 550);
+                    mainStage = (Stage) ((Node) sXOplayer).getScene().getWindow();
+                    Stage windowStage = (Stage) ((Node) sXOplayer).getScene().getWindow();
+                    windowStage.setScene(newScene);
+                    windowStage.show();
+
+                } catch (Exception e) {
+                    System.out.println("error to return to dashboard");
+                }
+            }
+        });
+    }
+
+    private void retriveGame(JsonObject message) {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                Parent newParent;
+                try {
+                    newParent = FXMLLoader.load(getClass().getResource("fxml/multiPlayerGameGUI.fxml"));
+                    Scene newScene = new Scene(newParent, 800, 550);
+                    Stage windowStage = (Stage) mainStage;
+                    windowStage.setScene(newScene);
+                    MultiPlayerGUIController.sXOplayer.setText(message.get("sign").getAsString());
+                    MultiPlayerGUIController.gameID=message.get("gameId").getAsInt();
+                    for (int i = 0; i < 9; i++) {
+                        if ((message.get("sign").getAsString().equals(message.get("btn" + i).getAsString()))) {
+                            MultiPlayerGUIController.buttons[i].setTextFill(Color.WHITE);
+                        } else {
+                            MultiPlayerGUIController.buttons[i].setTextFill(Color.RED);
+                        }
+                        MultiPlayerGUIController.buttons[i].setText(message.get("btn" + i).getAsString());
+                    }
+                    MultiPlayerGUIController.disableall();
+                    if ((message.get("sign").getAsString().equals("X") && message.get("turn").getAsString().equals("true")) || (message.get("sign").getAsString().equals("O") && message.get("turn").getAsString().equals("false"))) {
+                        MultiPlayerGUIController.enableall();
+                    }
+                    windowStage.show();
+                } catch (Exception ex) {
+                    System.out.println("cant switch to multiplayer " + ex);;
                 }
             }
         });

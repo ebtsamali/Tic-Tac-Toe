@@ -88,7 +88,8 @@ public class DashboardController implements Initializable {
                     @Override
                     public void handle(ActionEvent actionEvent) {
                         try {
-                            String username = otherPlayer.get("username").getAsString();;
+                            String username = otherPlayer.get("username").getAsString();
+                            otherPlayrName=username;
                             new PrintStream(SignInController.player.getPlayerSocket().getOutputStream()).println(createInvite(SignInController.player.getPlayerUserName(), username));
                             System.out.println("invitation sent");
                         } catch (IOException ex) {

@@ -88,7 +88,7 @@
                         <Insets top="30.0" />
                      </padding>
                   </VBox>
-                  <JFXButton fx:id="signInbutton" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" defaultButton="true" disable="true" focusTraversable="false" layoutX="119.0" layoutY="246.0" onAction="#signInButton" prefHeight="45.0" prefWidth="122.0" ripplerFill="#d341d3" style="-fx-background-color: #1a9dce;" text="Log In" textFill="WHITE">
+                  <JFXButton fx:id="signInbutton" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" defaultButton="true" disable="true" focusTraversable="false" layoutX="119.0" layoutY="257.0" onAction="#signInButton" prefHeight="45.0" prefWidth="122.0" ripplerFill="#d341d3" style="-fx-background-color: #1a9dce;" text="Log In" textFill="WHITE">
                      <font>
                         <Font name="Verdana Bold" size="16.0" />
                      </font>
