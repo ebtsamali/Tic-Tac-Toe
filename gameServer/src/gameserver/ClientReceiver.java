@@ -12,6 +12,7 @@ import static gameserver.Server.players;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.time.LocalDateTime;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -34,11 +35,11 @@ public class ClientReceiver extends Thread {
                 String message = new DataInputStream(player.getPlayerSocket().getInputStream()).readLine();
                 makeAction(message);
             } catch (IOException ex) {
-                System.out.println("error in reciving data in client thread");
+                FXMLDocumentController.logString+=LocalDateTime.now()+": "+"error in reciving data in client thread"+"\n";
                 try {
                     player.getPlayerSocket().close();
                 } catch (IOException ex1) {
-                    System.out.println("cannot close the client socket");
+                    FXMLDocumentController.logString+=LocalDateTime.now()+": "+"cannot close the client socket"+"\n";
                 }
                 for (int i = 0; i < players.size(); i++) {
                     if (players.get(i).getPlayerUserName() == player.getPlayerUserName()) {
@@ -48,11 +49,11 @@ public class ClientReceiver extends Thread {
                         try {
                             new PrintStream(players.get(i).getPlayerSocket().getOutputStream()).println("{type:offlineUser,user:\"" + player.getPlayerUserName() + "\"}");
                         } catch (IOException ex1) {
-                            System.out.println("error in send offline user");
+                            FXMLDocumentController.logString+=LocalDateTime.now()+": "+"error in send offline user"+"\n";
                         }
                     }
                 }
-                System.out.println("the thread stopped of palyer : " + player.getPlayerUserName());
+                FXMLDocumentController.logString+=LocalDateTime.now()+": "+"the thread stopped of palyer : " + player.getPlayerUserName() + "\n";
                 Server.refreshTable();
                 this.stop();
             }
@@ -64,7 +65,7 @@ public class ClientReceiver extends Thread {
         switch (message.get("type").getAsString()) {
             case "invite":
                 message.get("senderUsername").getAsString();
-                System.out.println("invite sent from " + message.get("senderUsername").getAsString() + " to " + message.get("reciverUsername").getAsString());
+                FXMLDocumentController.logString+=LocalDateTime.now()+": "+"invite sent from " + message.get("senderUsername").getAsString() + " to " + message.get("reciverUsername").getAsString()+"\n";
                 send(message);
                 break;
             case "accept":
@@ -92,7 +93,7 @@ public class ClientReceiver extends Thread {
                 try {
                     new PrintStream(Server.players.get(i).getPlayerSocket().getOutputStream()).println(invitation.toString());
                 } catch (Exception ex) {
-                    System.out.println("Cannot send the invitation");
+                    FXMLDocumentController.logString+=LocalDateTime.now()+": "+"Cannot send the invitation"+"\n";
                 }
             }
         }
@@ -128,7 +129,7 @@ public class ClientReceiver extends Thread {
                             newMessage.addProperty("gameId", gameIndex);
                             new PrintStream(Server.players.get(i).getPlayerSocket().getOutputStream()).println(newMessage.toString());
                         } catch (IOException ex) {
-                            System.out.println("error in sending game retrive");
+                            FXMLDocumentController.logString+=LocalDateTime.now()+": "+"error in sending game retrive"+"\n";
                         }
                     } else if (players.get(i).getPlayerUserName().equals(oldGame.get("user2").getAsString())) {
                         try {
@@ -139,7 +140,7 @@ public class ClientReceiver extends Thread {
                             newMessage.addProperty("gameId", gameIndex);
                             new PrintStream(Server.players.get(i).getPlayerSocket().getOutputStream()).println(newMessage.toString());
                         } catch (IOException ex) {
-                            System.out.println("error in sendding game retrive");
+                            FXMLDocumentController.logString+=LocalDateTime.now()+": "+"error in sendding game retrive"+"\n";
                         }
                     }
                 }
@@ -154,14 +155,14 @@ public class ClientReceiver extends Thread {
                             try {
                                 new PrintStream(Server.players.get(i).getPlayerSocket().getOutputStream()).println("{type:openGame,senderUsername:" + message.get("senderUsername") + ",reciverUsername:" + message.get("reciverUsername") + ",gameId:" + gameIndex + ",sign:X}");
                             } catch (IOException ex) {
-                                System.out.println("error in sendding game start");
+                                FXMLDocumentController.logString+=LocalDateTime.now()+": "+"error in sendding game start"+"\n";
                             }
                         } else {
                             games.get(gameIndex).player2 = players.get(i);
                             try {
                                 new PrintStream(Server.players.get(i).getPlayerSocket().getOutputStream()).println("{type:openGame,senderUsername:" + message.get("senderUsername") + ",reciverUsername:" + message.get("reciverUsername") + ",gameId:" + gameIndex + ",sign:O}");
                             } catch (IOException ex) {
-                                System.out.println("error in sendding game start");
+                                FXMLDocumentController.logString+=LocalDateTime.now()+": "+"error in sendding game start"+"\n";
                             }
                         }
                     }
@@ -184,7 +185,7 @@ public class ClientReceiver extends Thread {
                 }
             }
         } catch (Exception ex) {
-            System.out.println("error in sendding game move");
+            FXMLDocumentController.logString+=LocalDateTime.now()+": "+"error in sendding game move"+"\n";
         }
     }
 
@@ -193,7 +194,7 @@ public class ClientReceiver extends Thread {
             String playersJsonArr = "[" + Player.toJsonArray(players).toString();
             new PrintStream(player.getPlayerSocket().getOutputStream()).println(playersJsonArr);
         } catch (Exception ex) {
-            System.out.println("error in sendding online players");
+            FXMLDocumentController.logString+=LocalDateTime.now()+": "+"error in sendding online players"+"\n";
         }
     }
 
@@ -202,13 +203,13 @@ public class ClientReceiver extends Thread {
             try {
                 new PrintStream(games.get(message.get("gameId").getAsInt()).player2.getPlayerSocket().getOutputStream()).println("{type:message,message:\"" + player.getPlayerUserName() + ":" + message.get("message").getAsString() + "\"}");
             } catch (Exception ex) {
-                System.out.println("error in sending chat");;
+                FXMLDocumentController.logString+=LocalDateTime.now()+": "+"error in sending chat"+"\n";
             }
         } else {
             try {
                 new PrintStream(games.get(message.get("gameId").getAsInt()).player1.getPlayerSocket().getOutputStream()).println("{type:message,message:\"" + player.getPlayerUserName() + ":" + message.get("message").getAsString() + "\"}");
             } catch (Exception ex) {
-                System.out.println("error in sending chat");;
+                FXMLDocumentController.logString+=LocalDateTime.now()+": "+"error in sending chat"+"\n";
             }
         }
     }
@@ -220,13 +221,13 @@ public class ClientReceiver extends Thread {
             try {
                 new PrintStream(games.get(message.get("gameId").getAsInt()).player2.getPlayerSocket().getOutputStream()).println("{type:returnTodashboard}");
             } catch (Exception ex) {
-                System.out.println("error in sending chat");;
+                FXMLDocumentController.logString+=LocalDateTime.now()+": "+"error in sending chat"+"\n";
             }
         } else {
             try {
                 new PrintStream(games.get(message.get("gameId").getAsInt()).player1.getPlayerSocket().getOutputStream()).println("{type:returnTodashboard}");
             } catch (Exception ex) {
-                System.out.println("error in sending chat");;
+                FXMLDocumentController.logString+=LocalDateTime.now()+": "+"error in sending chat"+"\n";
             }
         }
     }

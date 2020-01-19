@@ -5,6 +5,7 @@ import com.google.gson.JsonObject;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.net.Socket;
+import java.time.LocalDateTime;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -39,7 +40,7 @@ public class Player {
                 try {
                     new PrintStream(playerSocket.getOutputStream()).println("{type:shutdown}");
                 } catch (IOException ex) {
-                    System.out.println("error in send shutdown");
+                    FXMLDocumentController.logString+=LocalDateTime.now()+": "+"error in send shutdown"+"\n";
                 }
             }
         });
@@ -61,7 +62,7 @@ public class Player {
                 try {
                     new PrintStream(playerSocket.getOutputStream()).println("{type:shutdown}");
                 } catch (IOException ex) {
-                    System.out.println("error in send shutdown");
+                    FXMLDocumentController.logString+=LocalDateTime.now()+": "+"error in send shutdown"+"\n";
                 }
             }
         });
@@ -77,10 +78,10 @@ public class Player {
                 playerEmail = player.get("email").getAsString();
                 securityQuestion = player.get("question").getAsString();
             } catch (Exception ex) {
-                System.out.println("small object");
+                FXMLDocumentController.logString+=LocalDateTime.now()+": "+"small object"+"\n";
             }
         } catch (Exception ex) {
-            System.out.println("error in fitching the player object");
+            FXMLDocumentController.logString+=LocalDateTime.now()+": "+"error in fitching the player object"+"\n";
         }
     }
 

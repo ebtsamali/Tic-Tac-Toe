@@ -29,6 +29,8 @@ public class AI {
     for(int i = 0; i < 3; i++){
             for(int j = 0; j < 3; j++){
                 buttons[i][j].setDisable(false);
+                buttons[i][j].setMouseTransparent(false);
+                buttons[i][j].setFocusTraversable(true);
                 buttons[i][j].setStyle("-fx-background-color: transparent;");
                 buttons[i][j].setText(" ");
                 buttons[i][j].setTextFill(Color.WHITE);
@@ -40,6 +42,7 @@ public class AI {
     SinglePlayerGUIController.gameTurn = 0;
 }
     public void setButtonMove(Button btn,String move){
+        btn.setMouseTransparent(true);
         btn.setFocusTraversable(false);
         btn.setStyle("-fx-background-color: transparent;");
         btn.setTextFill(Color.RED);

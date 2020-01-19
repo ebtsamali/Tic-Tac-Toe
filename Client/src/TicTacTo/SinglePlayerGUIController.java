@@ -17,6 +17,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import tictactoewithai.AI;
 
@@ -75,6 +78,10 @@ public void setButtonsArray(){
     public void playerClick(javafx.event.ActionEvent event){
          Button btn = (Button) event.getSource();
          btn.setText("X");
+//         btn.setTextFill(Color.TRANSPARENT);
+//        Image img = new Image("file:\\C:\\Users\\hp\\Downloads\\xx.png", btn.getWidth(), btn.getHeight(), true, true);
+//        btn.setGraphic(new ImageView(img));
+        btn.setMouseTransparent(true);
          btn.setFocusTraversable(false);
          setBoardValue(btn,buttons);
          gameTurn++;

@@ -6,6 +6,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
@@ -46,7 +47,7 @@ public class DataBaseHandler {
             Class.forName(driver);
             conn = DriverManager.getConnection(url, username, password);
         } catch (Exception e) {
-            System.out.println("error in openning connection with database" + e);
+            FXMLDocumentController.logString+=LocalDateTime.now()+": "+"error in openning connection with database" + e+"\n";
         }
     }
 
@@ -55,7 +56,7 @@ public class DataBaseHandler {
         try {
             conn.close();
         } catch (SQLException ex) {
-            System.out.println("error in close connection with data base");
+            FXMLDocumentController.logString+=LocalDateTime.now()+": "+"error in close connection with data base"+"\n";
         }
     }
 
@@ -68,7 +69,7 @@ public class DataBaseHandler {
             ResultSet resultSet = statement1.executeQuery();
             return resultSet.next();
         } catch (SQLException ex) {
-            System.out.println("error in finding users");
+            FXMLDocumentController.logString+=LocalDateTime.now()+": "+"error in finding users"+"\n";
             return false;
         }
     }
@@ -81,7 +82,7 @@ public class DataBaseHandler {
             ResultSet resultSet = statement1.executeQuery();
             return resultSet.next();
         } catch (SQLException ex) {
-            System.out.println("error in finding users");
+            FXMLDocumentController.logString+=LocalDateTime.now()+": "+"error in finding users"+"\n";
             return false;
         }
     }
@@ -114,7 +115,7 @@ public class DataBaseHandler {
             preparedStatement.setString(5, newPlayer.getSecurityQuestion());
             preparedStatement.executeUpdate();
         } catch (SQLException ex) {
-            System.out.println("error in adding user");
+            FXMLDocumentController.logString+=LocalDateTime.now()+": "+"error in adding user"+"\n";
         }
     }
 
@@ -128,7 +129,7 @@ public class DataBaseHandler {
                 allPlayers.add(newPlayer);
             }
         } catch (SQLException ex) {
-            System.out.println("cannot retrive all players");
+            FXMLDocumentController.logString+=LocalDateTime.now()+": "+"cannot retrive all players"+"\n";
         }
         return allPlayers;
     }
@@ -142,7 +143,7 @@ public class DataBaseHandler {
             resultSet.next();
             return resultSet.getInt(1);
         } catch (Exception ex) {
-            System.out.println("error in get score from data base");
+            FXMLDocumentController.logString+=LocalDateTime.now()+": "+"error in get score from data base"+"\n";
         }
         return 0;
     }
@@ -178,7 +179,7 @@ public class DataBaseHandler {
             delete.setString(4, user1);
             delete.executeUpdate();
         } catch (SQLException ex) {
-            System.out.println("error in delete old game"+ex);
+            FXMLDocumentController.logString+=LocalDateTime.now()+": "+"error in delete old game"+ex+"\n";
         }
     }
 
@@ -209,7 +210,7 @@ public class DataBaseHandler {
                 return ret;
             }
         } catch (SQLException ex) {
-            System.out.println("error in retriving game");;
+            FXMLDocumentController.logString+=LocalDateTime.now()+": "+"error in retriving game"+"\n";
         }
         return null;
     }

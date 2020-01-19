@@ -13,13 +13,14 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.time.LocalDate;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-
+import java.time.LocalDateTime;
 /**
  *
  * @author mena
@@ -36,9 +37,9 @@ public class Server {
         serverThread = new Thread(() -> {
             try {
                 myServerSocket = new ServerSocket(DataBaseHandler.serverSocket);
-                System.out.println("Server ready for new clients");
+                FXMLDocumentController.logString+=LocalDateTime.now()+": "+"Server ready for new clients"+"\n";
             } catch (IOException ex) {
-                System.out.println("canot open the socket");
+                FXMLDocumentController.logString+=LocalDateTime.now()+": "+"canot open the socket"+"\n";
             }
 
             while (true) {
@@ -49,7 +50,7 @@ public class Server {
                     JsonObject message = new JsonParser().parse((data)).getAsJsonObject();
                     if (message.get("type").getAsInt() == 1) {
                         if (new DataBaseHandler().isUserExist(new Player(message)) && (!isOnline(new Player(message).getPlayerUserName()))) {
-                            System.out.println("user connected");
+                            FXMLDocumentController.logString+=LocalDateTime.now()+": "+"user connected"+"\n";
                             new PrintStream(socket.getOutputStream()).println("true");
                             Player newPlayer = new Player(message);
                             newPlayer.setPlayerSocket(socket);
@@ -59,23 +60,23 @@ public class Server {
                             userThread.start();
                             sentToAllPlayers(newPlayer);
                         } else {
-                            System.out.println("login failed");
+                            FXMLDocumentController.logString+=LocalDateTime.now()+": "+"login failed"+"\n";
                             new DataOutputStream(socket.getOutputStream()).writeBytes("false");
                             socket.close();
                         }
                     } else {
                         if (!(new DataBaseHandler().isUserNameExist(new Player(message)))) {
                             new DataBaseHandler().addNewUser(new Player(message));
-                            System.out.println("user added");
+                            FXMLDocumentController.logString+=LocalDateTime.now()+": "+"user added"+"\n";
                             new DataOutputStream(socket.getOutputStream()).writeBytes("true");
                         } else {
-                            System.out.println("user is already exist");
+                            FXMLDocumentController.logString+=LocalDateTime.now()+": "+"user is already exist"+"\n";
                             new DataOutputStream(socket.getOutputStream()).writeBytes("user is already exist");
                         }
                         socket.close();
                     }
                 } catch (Exception ex) {
-                    System.out.println("error in connection with client");
+                    FXMLDocumentController.logString+=LocalDateTime.now()+": "+"error in connection with client"+"\n";
                 }
             }
         });
@@ -90,9 +91,9 @@ public class Server {
                 players.get(i).getPlayerthread().stop();
             }
             players.clear();
-            System.out.println("server turned off");
+            FXMLDocumentController.logString+=LocalDateTime.now()+": "+"server turned off"+"\n";
         } catch (IOException ex) {
-            System.out.println("cannot stop the server");
+            FXMLDocumentController.logString+=LocalDateTime.now()+": "+"cannot stop the server"+"\n";
         }
     }
 
@@ -133,7 +134,7 @@ public class Server {
                 try {
                     new PrintStream(players.get(i).getPlayerSocket().getOutputStream()).println(playerJson.toString());
                 } catch (IOException ex) {
-                    System.out.println("error adding new player");
+                    FXMLDocumentController.logString+=LocalDateTime.now()+": "+"error adding new player"+"\n";
                 }
             }
             }
