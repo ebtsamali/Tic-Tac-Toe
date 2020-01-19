@@ -133,7 +133,7 @@ public class SignUpController implements Initializable {
             Socket socket;
             try {
                 System.out.println("sending the new player");
-                socket = new Socket("127.0.0.1", 8090);
+                socket = new Socket(SignInController.JasonIp, SignInController.JasonPort);
 
                 DataInputStream dataInputStream = new DataInputStream(socket.getInputStream());
 

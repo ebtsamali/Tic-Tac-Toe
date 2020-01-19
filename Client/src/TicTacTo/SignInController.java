@@ -1,10 +1,13 @@
 package TicTacTo;
 
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
+import java.io.BufferedReader;
 import java.io.DataInputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.net.Socket;
@@ -42,7 +45,9 @@ public class SignInController implements Initializable {
     private Text errorMsg;
     @FXML
     private Hyperlink registerLink2;
-
+    public BufferedReader configFile;
+    public static String JasonIp;
+    public static int JasonPort;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         checkThread = (new Thread(new Runnable() {
@@ -81,7 +86,21 @@ public class SignInController implements Initializable {
 
     public boolean CheckLogin(Player currentPlayer) throws IOException {
         Boolean isValidUser = false;
-        Socket socket = new Socket("127.0.0.1", 8090);
+        configFile = new BufferedReader(new FileReader("ClientConfig.txt"));
+                String json ="";
+                StringBuilder sb = new StringBuilder();
+                String line = configFile.readLine();
+                while (line != null) {
+                    sb.append(line);
+                    sb.append("\n");
+                    line = configFile.readLine();
+                }
+                json = sb.toString();
+                configFile.close();
+                JsonObject Jconfig = (JsonObject) new JsonParser().parse(json);
+                JasonIp = Jconfig.get("Server_ip").getAsString();
+                JasonPort = Jconfig.get("Server_port").getAsInt();
+        Socket socket = new Socket(JasonIp, JasonPort);
         DataInputStream dataInputStream = new DataInputStream(socket.getInputStream());
 
         // sending data to server for checking

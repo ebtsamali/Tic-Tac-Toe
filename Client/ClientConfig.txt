@@ -1,0 +1,4 @@
+{
+"Server_ip" : "localhost",
+"Server_port" : "8090"
+}

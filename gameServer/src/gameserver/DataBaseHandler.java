@@ -1,6 +1,10 @@
 package gameserver;
 
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,13 +16,33 @@ import javafx.collections.ObservableList;
 public class DataBaseHandler {
 
     Connection conn;
+    BufferedReader configFile;
+    public static int serverSocket;
 
     public DataBaseHandler() {
         try {
+            configFile = new BufferedReader(new FileReader("ServerConfig.txt"));
+                String json ="";
+                StringBuilder sb = new StringBuilder();
+                String line = configFile.readLine();
+                while (line != null) {
+                    sb.append(line);
+                    sb.append("\n");
+                    line = configFile.readLine();
+                }
+                json = sb.toString();
+                configFile.close();
+                JsonObject Jconfig = (JsonObject) new JsonParser().parse(json);
+                String Jip = Jconfig.get("DataBase_ip").getAsString();
+                String Jport = Jconfig.get("DataBase_port").getAsString();
+                String Jusername = Jconfig.get("DataBase_username").getAsString();
+                String Jpassword = Jconfig.get("Database_password").getAsString();
+                String Jdatabase_name = Jconfig.get("DataBase_name").getAsString();
+                serverSocket = Jconfig.get("Server_socket").getAsInt();
             String driver = "com.mysql.cj.jdbc.Driver";
-            String url = "jdbc:mysql://localhost:3306/tictac";
-            String username = "root";
-            String password = "123456";
+            String url = "jdbc:mysql://"+Jip+":"+Jport+"/"+Jdatabase_name;
+            String username = Jusername;
+            String password = Jpassword;
             Class.forName(driver);
             conn = DriverManager.getConnection(url, username, password);
         } catch (Exception e) {
