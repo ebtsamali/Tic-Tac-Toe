@@ -35,7 +35,7 @@ public class Server {
     public void runServer() {
         serverThread = new Thread(() -> {
             try {
-                myServerSocket = new ServerSocket(8090);
+                myServerSocket = new ServerSocket(DataBaseHandler.serverSocket);
                 System.out.println("Server ready for new clients");
             } catch (IOException ex) {
                 System.out.println("canot open the socket");
