@@ -60,7 +60,7 @@ public class Game {
         } else if (gameBoardArr[2].equals(gameBoardArr[4]) && gameBoardArr[2].equals(gameBoardArr[6])) {
             winner = gameBoardArr[2];
         }
-        if (winner.equals("no winner")) {
+        if (winner.equals("noWin")) {
             boolean thereIsEmptyCell = false;
             for (int i = 0; i < gameBoardArr.length; i++) {
                 if ((!gameBoardArr[i].equals("X")) || (!gameBoardArr[i].equals("O"))) {

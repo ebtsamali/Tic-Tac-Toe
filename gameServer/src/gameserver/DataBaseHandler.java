@@ -215,4 +215,15 @@ public class DataBaseHandler {
         return null;
     }
 
+    void addScore(String playerUserName, int addingScore) {
+        try {
+            PreparedStatement retrieve = conn.prepareStatement("update userdata set score = score + ? where username = ?;");
+            retrieve.setInt(1, addingScore);
+            retrieve.setString(2, playerUserName);
+            retrieve.executeUpdate();
+        } catch (SQLException ex) {
+            System.out.println("error in adding Score");
+        }
+    }
+
 }
