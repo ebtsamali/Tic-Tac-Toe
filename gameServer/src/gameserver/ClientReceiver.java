@@ -82,6 +82,9 @@ public class ClientReceiver extends Thread {
             case "gameSave":
                 saveGame(message);
                 break;
+            case "addscore":
+                addScore(message);
+                break;
         }
 
     }
@@ -173,9 +176,28 @@ public class ClientReceiver extends Thread {
     private void playMove(JsonObject message) {
         try {
             String result = games.get(message.get("gameId").getAsInt()).makeMove(message.get("place").getAsInt());
-            if (result.equals("X") || result.equals("O")) {
+            if (result.equals("X") || result.equals("O") || result.equals("end")) {
                 new PrintStream(games.get(message.get("gameId").getAsInt()).player1.getPlayerSocket().getOutputStream()).println("{type:move,result:" + result + ",place:" + message.get("place").getAsString() + "}");
                 new PrintStream(games.get(message.get("gameId").getAsInt()).player2.getPlayerSocket().getOutputStream()).println("{type:move,result:" + result + ",place:" + message.get("place").getAsString() + "}");
+                if (result.equals("X")) {
+                    new DataBaseHandler().addScore(games.get(message.get("gameId").getAsInt()).player1.getPlayerUserName(), 50);
+                    games.get(message.get("gameId").getAsInt()).player1.setPlayerScore(player.getPlayerScore() + 50);
+                    for (int i = 0; i < players.size(); i++) {
+                        if (players.get(i).getPlayerUserName().equals(games.get(message.get("gameId").getAsInt()).player1.getPlayerUserName())) {
+                            players.get(i).setPlayerScore(games.get(message.get("gameId").getAsInt()).player1.getPlayerScore());
+                        }
+                    }
+                    Server.refreshTable();
+                } else if (result.equals("O")) {
+                    new DataBaseHandler().addScore(games.get(message.get("gameId").getAsInt()).player2.getPlayerUserName(), 50);
+                    games.get(message.get("gameId").getAsInt()).player2.setPlayerScore(player.getPlayerScore() + 50);
+                    for (int i = 0; i < players.size(); i++) {
+                        if (players.get(i).getPlayerUserName().equals(games.get(message.get("gameId").getAsInt()).player2.getPlayerUserName())) {
+                            players.get(i).setPlayerScore(games.get(message.get("gameId").getAsInt()).player2.getPlayerScore());
+                        }
+                    }
+                    Server.refreshTable();
+                }
             } else {
                 if (!games.get(message.get("gameId").getAsInt()).turn) {
                     new PrintStream(games.get(message.get("gameId").getAsInt()).player2.getPlayerSocket().getOutputStream()).println("{type:move,result:" + result + ",place:" + message.get("place").getAsString() + "}");
@@ -229,5 +251,16 @@ public class ClientReceiver extends Thread {
                 System.out.println("error in sending chat");;
             }
         }
+    }
+
+    private void addScore(JsonObject message) {
+        new DataBaseHandler().addScore(player.getPlayerUserName(), message.get("add").getAsInt());
+        player.setPlayerScore(player.getPlayerScore() + message.get("add").getAsInt());
+        for (int i = 0; i < players.size(); i++) {
+            if (player.getPlayerUserName().equals(players.get(i).getPlayerUserName())) {
+                players.get(i).setPlayerScore(player.getPlayerScore());
+            }
+        }
+        Server.refreshTable();
     }
 }
