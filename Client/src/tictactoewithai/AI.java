@@ -31,7 +31,7 @@ public class AI {
                 buttons[i][j].setDisable(false);
                 buttons[i][j].setStyle("-fx-background-color: transparent;");
                 buttons[i][j].setText(" ");
-                buttons[i][j].setTextFill(Color.WHITE);
+                buttons[i][j].setTextFill(Color.RED);
                 board[i][j] = null;
             }
             }
@@ -42,7 +42,7 @@ public class AI {
     public void setButtonMove(Button btn,String move){
         btn.setFocusTraversable(false);
         btn.setStyle("-fx-background-color: transparent;");
-        btn.setTextFill(Color.RED);
+        btn.setTextFill(Color.YELLOW);
         btn.setText(move);
     }
      public void resetBoard(String[][] board){

@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.effect.*?>
+<?import com.jfoenix.controls.*?>
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
 <?import com.jfoenix.controls.JFXButton?>
 <?import java.net.URL?>
 <?import javafx.scene.control.Button?>
@@ -12,12 +20,12 @@
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="550.0" prefWidth="800.0" style="-fx-background-insets: 10;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="TicTacTo.SinglePlayerGUIController">
+<AnchorPane id="AnchorPane1" prefHeight="550.0" prefWidth="800.0" style="-fx-background-insets: 10;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="TicTacTo.SinglePlayerGUIController">
     <stylesheets>
         <URL value="@../css/gamegui.css" />
     </stylesheets>
     <children>
-      <GridPane layoutX="232.0" layoutY="94.0" prefHeight="327.0" prefWidth="339.0">
+      <GridPane layoutX="193.0" layoutY="87.0" prefHeight="380.0" prefWidth="411.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -29,118 +37,88 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button fx:id="button_0_0" alignment="CENTER" contentDisplay="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#playerClick" prefHeight="170.0" prefWidth="201.0" style="-fx-background-color: transparent;" textAlignment="CENTER" textFill="WHITE">
+            <Button fx:id="button_0_0" alignment="CENTER" contentDisplay="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#playerClick" prefHeight="132.0" prefWidth="145.0" style="-fx-background-color: transparent;" textAlignment="CENTER" textFill="#e41616">
                <font>
-                  <Font name="System Bold" size="40.0" />
+                  <Font name="System Bold" size="50.0" />
                </font>
             </Button>
-            <Button fx:id="button_0_1" alignment="CENTER" contentDisplay="CENTER" focusTraversable="false" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#playerClick" prefHeight="170.0" prefWidth="201.0" style="-fx-background-color: transparent;" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="1">
+            <Button fx:id="button_0_1" alignment="CENTER" contentDisplay="CENTER" focusTraversable="false" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#playerClick" prefHeight="170.0" prefWidth="201.0" style="-fx-background-color: transparent;" textAlignment="CENTER" textFill="#e41616" GridPane.columnIndex="1">
                <font>
-                  <Font name="System Bold" size="40.0" />
+                  <Font name="System Bold" size="50.0" />
                </font>
             </Button>
-            <Button fx:id="button_0_2" alignment="CENTER" contentDisplay="CENTER" focusTraversable="false" layoutX="140.0" layoutY="10.0" mnemonicParsing="false" onAction="#playerClick" prefHeight="170.0" prefWidth="201.0" style="-fx-background-color: transparent;" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="2">
+            <Button fx:id="button_0_2" alignment="CENTER" contentDisplay="CENTER" focusTraversable="false" layoutX="140.0" layoutY="10.0" mnemonicParsing="false" onAction="#playerClick" prefHeight="170.0" prefWidth="201.0" style="-fx-background-color: transparent;" textAlignment="CENTER" textFill="#e41616" GridPane.columnIndex="2">
                <font>
-                  <Font name="System Bold" size="40.0" />
+                  <Font name="System Bold" size="50.0" />
                </font>
             </Button>
-            <Button fx:id="button_1_0" alignment="CENTER" contentDisplay="CENTER" focusTraversable="false" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#playerClick" prefHeight="170.0" prefWidth="201.0" style="-fx-background-color: transparent;" textAlignment="CENTER" textFill="WHITE" GridPane.rowIndex="1">
+            <Button fx:id="button_1_0" alignment="CENTER" contentDisplay="CENTER" focusTraversable="false" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#playerClick" prefHeight="170.0" prefWidth="201.0" style="-fx-background-color: transparent;" textAlignment="CENTER" textFill="#e41616" GridPane.rowIndex="1">
                <font>
-                  <Font name="System Bold" size="40.0" />
+                  <Font name="System Bold" size="50.0" />
                </font>
             </Button>
-            <Button fx:id="button_1_1" alignment="CENTER" contentDisplay="CENTER" focusTraversable="false" layoutX="10.0" layoutY="112.0" mnemonicParsing="false" onAction="#playerClick" prefHeight="170.0" prefWidth="201.0" style="-fx-background-color: transparent;" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <Button fx:id="button_1_1" alignment="CENTER" contentDisplay="CENTER" focusTraversable="false" layoutX="10.0" layoutY="112.0" mnemonicParsing="false" onAction="#playerClick" prefHeight="170.0" prefWidth="201.0" style="-fx-background-color: transparent;" textAlignment="CENTER" textFill="#e41616" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <font>
-                  <Font name="System Bold" size="40.0" />
+                  <Font name="System Bold" size="50.0" />
                </font>
             </Button>
-            <Button fx:id="button_1_2" alignment="CENTER" contentDisplay="CENTER" focusTraversable="false" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#playerClick" prefHeight="170.0" prefWidth="201.0" style="-fx-background-color: transparent;" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="1">
+            <Button fx:id="button_1_2" alignment="CENTER" contentDisplay="CENTER" focusTraversable="false" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#playerClick" prefHeight="170.0" prefWidth="201.0" style="-fx-background-color: transparent;" textAlignment="CENTER" textFill="#e41616" GridPane.columnIndex="2" GridPane.rowIndex="1">
                <font>
-                  <Font name="System Bold" size="40.0" />
+                  <Font name="System Bold" size="50.0" />
                </font>
             </Button>
-            <Button fx:id="button_2_0" alignment="CENTER" contentDisplay="CENTER" focusTraversable="false" layoutX="140.0" layoutY="112.0" mnemonicParsing="false" onAction="#playerClick" prefHeight="170.0" prefWidth="201.0" style="-fx-background-color: transparent;" textAlignment="CENTER" textFill="WHITE" GridPane.rowIndex="2">
+            <Button fx:id="button_2_0" alignment="CENTER" contentDisplay="CENTER" focusTraversable="false" layoutX="140.0" layoutY="112.0" mnemonicParsing="false" onAction="#playerClick" prefHeight="170.0" prefWidth="201.0" style="-fx-background-color: transparent;" textAlignment="CENTER" textFill="#e41616" GridPane.rowIndex="2">
                <font>
-                  <Font name="System Bold" size="40.0" />
+                  <Font name="System Bold" size="50.0" />
                </font>
             </Button>
-            <Button fx:id="button_2_1" alignment="CENTER" contentDisplay="CENTER" focusTraversable="false" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#playerClick" prefHeight="170.0" prefWidth="201.0" style="-fx-background-color: transparent;" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="2">
+            <Button fx:id="button_2_1" alignment="CENTER" contentDisplay="CENTER" focusTraversable="false" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#playerClick" prefHeight="170.0" prefWidth="201.0" style="-fx-background-color: transparent;" textAlignment="CENTER" textFill="#e41616" GridPane.columnIndex="1" GridPane.rowIndex="2">
                <font>
-                  <Font name="System Bold" size="40.0" />
+                  <Font name="System Bold" size="50.0" />
                </font>
             </Button>
-            <Button fx:id="button_2_2" alignment="CENTER" contentDisplay="CENTER" focusTraversable="false" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#playerClick" prefHeight="170.0" prefWidth="201.0" style="-fx-background-color: transparent;" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="2">
+            <Button fx:id="button_2_2" alignment="CENTER" contentDisplay="CENTER" focusTraversable="false" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#playerClick" prefHeight="170.0" prefWidth="201.0" style="-fx-background-color: transparent;" textAlignment="CENTER" textFill="#e41616" GridPane.columnIndex="2" GridPane.rowIndex="2">
                <font>
-                  <Font name="System Bold" size="40.0" />
+                  <Font name="System Bold" size="50.0" />
                </font>
             </Button>
          </children>
           </GridPane>
-      <Label layoutX="43.0" layoutY="205.0" prefHeight="35.0" prefWidth="120.0" text="Your score" textFill="WHITE">
+      <Label layoutX="612.0" layoutY="493.0" prefHeight="35.0" prefWidth="120.0" text="Your score" textFill="#e41818">
          <font>
             <Font name="System Bold Italic" size="24.0" />
          </font>
       </Label>
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="14.0" layoutY="45.0" prefHeight="54.0" prefWidth="131.0" text="MY SIGN" textAlignment="CENTER" textFill="WHITE">
+      <Label layoutX="79.0" layoutY="493.0" prefHeight="35.0" prefWidth="94.0" text="AI score" textFill="#d5e319">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Label>
+      <Label fx:id="playerScoreLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="641.0" layoutY="396.0" prefHeight="35.0" prefWidth="68.0" textFill="WHITE">
          <font>
             <Font name="System Bold Italic" size="24.0" />
          </font>
       </Label>
-      <Button contentDisplay="CENTER" disable="true" focusTraversable="false" layoutX="55.0" layoutY="94.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="51.0" style="-fx-background-color: white;" text="X">
-         <font>
-            <Font name="System Bold" size="21.0" />
-         </font>
-      </Button>
-      <Label layoutX="106.0" layoutY="453.0" text="You" textFill="WHITE">
-         <font>
-            <Font name="System Bold" size="21.0" />
-         </font>
-      </Label>
-      <Label layoutX="652.0" layoutY="453.0" text="AI">
-         <font>
-            <Font name="System Bold" size="21.0" />
-         </font>
-         <textFill>
-            <LinearGradient endX="1.0" endY="1.0" startY="0.49523809523809526">
-               <stops>
-                  <Stop color="#c60707" />
-                  <Stop color="WHITE" offset="1.0" />
-               </stops>
-            </LinearGradient>
-         </textFill>
-      </Label>
-      <Label layoutX="657.0" layoutY="205.0" prefHeight="35.0" prefWidth="94.0" text="AI score">
-         <font>
-            <Font name="System Bold Italic" size="24.0" />
-         </font>
-         <textFill>
-            <LinearGradient endX="1.0" endY="1.0" startX="0.719047619047619">
-               <stops>
-                  <Stop color="#c30e0e" />
-                  <Stop color="WHITE" offset="1.0" />
-               </stops>
-            </LinearGradient>
-         </textFill>
-      </Label>
-      <Label fx:id="playerScoreLabel" layoutX="43.0" layoutY="247.0" prefHeight="25.0" prefWidth="74.0" textFill="WHITE">
+      <Label fx:id="compScoreLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="91.0" layoutY="396.0" prefHeight="35.0" prefWidth="68.0" textFill="WHITE">
          <font>
             <Font name="System Bold Italic" size="24.0" />
          </font>
       </Label>
-      <Label fx:id="compScoreLabel" layoutX="663.0" layoutY="240.0" prefHeight="25.0" prefWidth="74.0" textFill="WHITE">
-         <font>
-            <Font name="System Bold Italic" size="24.0" />
-         </font>
-      </Label>
-      <JFXButton fx:id="difficultyButton" layoutX="684.0" layoutY="82.0" onAction="#changeDifficulty" ripplerFill="#7f6af2" style="-fx-border-color: white;" text="Difficulty" textFill="#f5f3f3">
+      <JFXButton fx:id="difficultyButton" layoutX="465.0" layoutY="23.0" onAction="#changeDifficulty" ripplerFill="#7f6af2" style="-fx-border-color: white;" text="Difficulty" textFill="#f5f3f3">
          <font>
             <Font name="Verdana Bold Italic" size="16.0" />
          </font>
+         <effect>
+            <Bloom />
+         </effect>
       </JFXButton>
-      <JFXButton fx:id="resetButton" disable="true" layoutX="597.0" layoutY="82.0" onAction="#resetGameButtonAction" ripplerFill="#7f6af2" style="-fx-border-color: white;" text="Reset" textFill="#f5f3f3">
+      <JFXButton fx:id="resetButton" disable="true" layoutX="247.0" layoutY="23.0" onAction="#resetGameButtonAction" ripplerFill="#7f6af2" style="-fx-border-color: white;" text="Reset" textFill="#f5f3f3">
          <font>
             <Font name="Verdana Bold Italic" size="16.0" />
          </font>
+         <effect>
+            <Bloom />
+         </effect>
       </JFXButton>
       <JFXButton layoutX="747.0" layoutY="9.0" onAction="#closeWindow" opacity="0.93" prefHeight="45.0" prefWidth="35.0" style="-fx-background-color: red;" text="X" textFill="WHITE">
          <font>

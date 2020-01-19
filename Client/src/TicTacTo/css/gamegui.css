@@ -10,3 +10,12 @@
 
 }
 
+#AnchorPane1 {
+    -fx-background-image: url("../images/img3.png");
+    -fx-background-repeat: no-repeat no-repeat;
+    -fx-background-size: stretch;
+
+
+}
+
+
