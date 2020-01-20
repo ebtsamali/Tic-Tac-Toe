@@ -63,7 +63,7 @@ public class Game {
         if (winner.equals("noWin")) {
             boolean thereIsEmptyCell = false;
             for (int i = 0; i < gameBoardArr.length; i++) {
-                if ((!gameBoardArr[i].equals("X")) || (!gameBoardArr[i].equals("O"))) {
+                if (!((gameBoardArr[i].equals("X")) || (gameBoardArr[i].equals("O")))) {
                     thereIsEmptyCell = true;
                 }
             }

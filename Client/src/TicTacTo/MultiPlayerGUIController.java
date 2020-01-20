@@ -10,20 +10,16 @@ import static TicTacTo.ServerReciver.sign;
 import static TicTacTo.SignInController.mainStage;
 import static TicTacTo.SignInController.player;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -32,8 +28,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import javafx.util.Duration;
-import org.controlsfx.control.Notifications;
 
 /**
  * FXML Controller class
@@ -85,6 +79,8 @@ public class MultiPlayerGUIController implements Initializable {
     private Label myUsernameLbl;
     @FXML
     private Label otherUsernameLbl;
+    @FXML
+    private Button otherPlayerSignLbl;
 
     public void setButtonsArray() {
         buttons[0] = btn0;
@@ -144,6 +140,9 @@ public class MultiPlayerGUIController implements Initializable {
         System.out.println(sign);
         if (sign.equals("O")) {
             disableall();
+            otherPlayerSignLbl.setText("X");
+        } else {
+            otherPlayerSignLbl.setText("O");
         }
         myUsernameLbl.setText(player.getPlayerUserName());
         otherUsernameLbl.setText(otherPlayrName);
@@ -207,7 +206,8 @@ public class MultiPlayerGUIController implements Initializable {
 
     public static void disableall() {
         for (int i = 0; i < buttons.length; i++) {
-            buttons[i].setDisable(true);
+            buttons[i].setFocusTraversable(false);
+            buttons[i].setMouseTransparent(true);
             sMessages.setText("wait for other player");
         }
     }
@@ -215,9 +215,11 @@ public class MultiPlayerGUIController implements Initializable {
     public static void enableall() {
         for (int i = 0; i < buttons.length; i++) {
             if (buttons[i].getText().isEmpty()) {
-                buttons[i].setDisable(false);
+                buttons[i].setFocusTraversable(true);
+                buttons[i].setMouseTransparent(false);
             } else {
-                buttons[i].setDisable(true);
+                buttons[i].setFocusTraversable(false);
+                buttons[i].setMouseTransparent(true);
             }
             sMessages.setText("your turn");
         }

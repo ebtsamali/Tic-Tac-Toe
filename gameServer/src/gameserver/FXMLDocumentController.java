@@ -5,20 +5,21 @@
  */
 package gameserver;
 
+import com.jfoenix.controls.JFXToggleButton;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.ToggleButton;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -28,7 +29,7 @@ public class FXMLDocumentController implements Initializable {
 
     public Server server = new Server();
     @FXML
-    private ToggleButton serverBtn;
+    private JFXToggleButton serverBtn;
     @FXML
     public TableView<Player> onlineUsersTable;
  
@@ -43,7 +44,9 @@ public class FXMLDocumentController implements Initializable {
     private TableColumn<Player, String> score;
     @FXML
     private TableColumn<Player, String> state;
-
+    @FXML
+    private Button logButton;
+    public static String logString = "";
     /*
     @FXML
     private TableColumn<Player,String> score;
@@ -53,12 +56,28 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void handleButtonAction(ActionEvent event) {
         if (serverBtn.isSelected()) {
-            JOptionPane.showMessageDialog(null, "starting");
             server.runServer();
-        } else {
-            JOptionPane.showMessageDialog(null, "stopping");
+        } else if(serverBtn.isArmed()){
             server.stopServer();
         }
+    }
+    @FXML
+    public void displayLogHistory(ActionEvent event){
+        Platform.runLater(new Runnable() {
+        @Override
+        public void run() {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Server Log");
+            alert.setHeaderText(null);
+            TextArea area = new TextArea();
+            area.setText(logString);
+            area.setWrapText(true);
+            area.setEditable(false);
+            alert.getDialogPane().setContent(area);
+            alert.setResizable(true);
+            alert.show();
+            }
+        });
     }
 
     @Override
