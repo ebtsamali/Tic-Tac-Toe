@@ -8,16 +8,12 @@ package TicTacTo;
 import static TicTacTo.DashboardController.sonlineUserPane;
 import static TicTacTo.DashboardController.sonlineUserPane1;
 import static TicTacTo.DashboardController.sonlineUserPane11;
-import static TicTacTo.SignInController.mainStage;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.net.Socket;
 import java.util.Optional;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -37,6 +33,8 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 import org.controlsfx.control.Notifications;
 
@@ -216,7 +214,7 @@ public class ServerReciver extends Thread {
                         .graphic(null)
                         .hideAfter(Duration.seconds(5))
                         .position(Pos.BOTTOM_RIGHT);
-
+                notificationBuilder.graphic(new ImageView(new Image("file:.\\images\\user.png")));
                 notificationBuilder.darkStyle();
                 notificationBuilder.show();
             }

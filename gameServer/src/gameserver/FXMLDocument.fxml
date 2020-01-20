@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXToggleButton?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="493.0" prefWidth="548.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gameserver.FXMLDocumentController">
+<AnchorPane id="AnchorPane" prefHeight="540.0" prefWidth="548.0" style="-fx-background-color: darkgrey; -fx-opacity: 0.9;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gameserver.FXMLDocumentController">
     <children>
-      <ToggleButton id="serverBtn" fx:id="serverBtn" layoutX="231.0" layoutY="454.0" mnemonicParsing="false" onAction="#handleButtonAction" text="turn on server" />
       <TableView fx:id="onlineUsersTable" layoutX="14.0" layoutY="14.0" prefHeight="431.0" prefWidth="524.0">
         <columns>
           <TableColumn fx:id="userName" prefWidth="102.0" text="user name" />
@@ -18,6 +18,15 @@
             <TableColumn fx:id="state" minWidth="0.0" prefWidth="83.0" text="state" />
         </columns>
       </TableView>
-      <Button fx:id="logButton" layoutX="433.0" layoutY="454.0" mnemonicParsing="false" onAction="#displayLogHistory" text="Display logs" />
+      <JFXToggleButton fx:id="serverBtn" layoutX="159.0" layoutY="454.0" onAction="#handleButtonAction" prefHeight="64.0" prefWidth="230.0" style="-fx-background-color: lightgrey;" text="Switch server on/off">
+         <font>
+            <Font name="Tw Cen MT Condensed Bold" size="19.0" />
+         </font>
+      </JFXToggleButton>
+      <JFXButton fx:id="logButton" layoutX="421.0" layoutY="470.0" onAction="#displayLogHistory" style="-fx-background-color: lightgrey;" text="Display Log">
+         <font>
+            <Font name="Tw Cen MT Condensed Bold" size="18.0" />
+         </font>
+      </JFXButton>
     </children>
 </AnchorPane>

@@ -5,6 +5,7 @@
  */
 package gameserver;
 
+import com.jfoenix.controls.JFXToggleButton;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
@@ -15,13 +16,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.ToggleButton;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -31,7 +29,7 @@ public class FXMLDocumentController implements Initializable {
 
     public Server server = new Server();
     @FXML
-    private ToggleButton serverBtn;
+    private JFXToggleButton serverBtn;
     @FXML
     public TableView<Player> onlineUsersTable;
  
@@ -58,10 +56,8 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void handleButtonAction(ActionEvent event) {
         if (serverBtn.isSelected()) {
-            JOptionPane.showMessageDialog(null, "starting");
             server.runServer();
         } else if(serverBtn.isArmed()){
-            JOptionPane.showMessageDialog(null, "stopping");
             server.stopServer();
         }
     }
