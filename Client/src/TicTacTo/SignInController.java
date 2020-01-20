@@ -46,6 +46,7 @@ public class SignInController implements Initializable {
     @FXML
     private Hyperlink registerLink2;
     public BufferedReader configFile;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         checkThread = (new Thread(new Runnable() {

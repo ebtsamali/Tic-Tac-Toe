@@ -95,7 +95,7 @@
          </font>
       </Button>
       <Button fx:id="btnSaveGame" cacheShape="false" centerShape="false" focusTraversable="false" layoutX="335.0" layoutY="19.0" mnemonicParsing="false" onAction="#saveGame" prefHeight="28.0" prefWidth="32.0" scaleShape="false" />
-      <Button fx:id="Messages" alignment="CENTER" contentDisplay="CENTER" focusTraversable="false" layoutX="159.0" layoutY="492.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="242.0" style="-fx-background-color: white;" text="your turn" textAlignment="CENTER">
+      <Button fx:id="Messages" alignment="CENTER" contentDisplay="CENTER" focusTraversable="false" layoutX="127.0" layoutY="492.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="308.0" style="-fx-background-color: white;" text="your turn" textAlignment="CENTER">
          <font>
             <Font name="System Bold" size="24.0" />
          </font>
@@ -131,7 +131,7 @@
             <Font name="Verdana" size="14.0" />
          </font></JFXTextField>
       <JFXButton defaultButton="true" layoutX="733.0" layoutY="441.0" onAction="#SendChat" prefHeight="38.0" prefWidth="45.0" style="-fx-background-color: darkblue; -fx-opacity: 0.9;" text="Send" textFill="WHITE" />
-      <Button alignment="CENTER" layoutX="453.0" layoutY="116.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="24.0" style="-fx-background-color: white;">
+      <Button fx:id="otherPlayerSignLbl" alignment="CENTER" layoutX="453.0" layoutY="116.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="24.0" style="-fx-background-color: white;" textFill="#e41818">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>

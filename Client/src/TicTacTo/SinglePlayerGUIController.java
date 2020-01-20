@@ -96,5 +96,7 @@ public void setButtonsArray(){
     public void initialize(URL url, ResourceBundle rb) {
         setButtonsArray();
         resetBoard(board);
+        playerScoreLabel.setText(player.getPlayerScore()+"");
+
     }    
 }
