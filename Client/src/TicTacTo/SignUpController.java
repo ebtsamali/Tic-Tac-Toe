@@ -6,11 +6,14 @@
 package TicTacTo;
 
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import java.io.BufferedReader;
 import java.io.DataInputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.net.Socket;
@@ -60,7 +63,7 @@ public class SignUpController implements Initializable {
     private JFXButton cancelBtn;
     @FXML
     private Text errorMsg;
-
+    public BufferedReader configFile;
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
@@ -132,8 +135,22 @@ public class SignUpController implements Initializable {
 
             Socket socket;
             try {
+                configFile = new BufferedReader(new FileReader("ClientConfig.txt"));
+                String json ="";
+                StringBuilder sb = new StringBuilder();
+                String line = configFile.readLine();
+                while (line != null) {
+                    sb.append(line);
+                    sb.append("\n");
+                    line = configFile.readLine();
+                }
+                json = sb.toString();
+                configFile.close();
+                JsonObject Jconfig = (JsonObject) new JsonParser().parse(json);
+                String JasonIp = Jconfig.get("Server_ip").getAsString();
+                int JasonPort = Jconfig.get("Server_port").getAsInt();
                 System.out.println("sending the new player");
-                socket = new Socket(SignInController.JasonIp, SignInController.JasonPort);
+                socket = new Socket(JasonIp,JasonPort);
 
                 DataInputStream dataInputStream = new DataInputStream(socket.getInputStream());
 

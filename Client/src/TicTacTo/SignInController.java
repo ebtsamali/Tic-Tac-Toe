@@ -46,8 +46,6 @@ public class SignInController implements Initializable {
     @FXML
     private Hyperlink registerLink2;
     public BufferedReader configFile;
-    public static String JasonIp;
-    public static int JasonPort;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         checkThread = (new Thread(new Runnable() {
@@ -98,8 +96,8 @@ public class SignInController implements Initializable {
                 json = sb.toString();
                 configFile.close();
                 JsonObject Jconfig = (JsonObject) new JsonParser().parse(json);
-                JasonIp = Jconfig.get("Server_ip").getAsString();
-                JasonPort = Jconfig.get("Server_port").getAsInt();
+                String JasonIp = Jconfig.get("Server_ip").getAsString();
+                int JasonPort = Jconfig.get("Server_port").getAsInt();
         Socket socket = new Socket(JasonIp, JasonPort);
         DataInputStream dataInputStream = new DataInputStream(socket.getInputStream());
 
