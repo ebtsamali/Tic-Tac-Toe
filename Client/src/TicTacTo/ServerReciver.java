@@ -33,10 +33,14 @@ import static TicTacTo.MultiPlayerGUIController.sXOplayer;
 import static TicTacTo.MultiPlayerGUIController.schatTa;
 import static TicTacTo.SignInController.mainStage;
 import static TicTacTo.SignInController.player;
+import java.io.File;
+import java.net.MalformedURLException;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 import org.controlsfx.control.Notifications;
 
@@ -202,23 +206,28 @@ public class ServerReciver extends Thread {
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
-                if (otherPlayer.get("score").getAsInt() >= 10000) {
-                    sonlineUserPane.getChildren().add(newUserBtn);
-                } else if (otherPlayer.get("score").getAsInt() >= 1000) {
-                    sonlineUserPane1.getChildren().add(newUserBtn);
-                } else {
-                    sonlineUserPane11.getChildren().add(newUserBtn);
+                try {
+                    if (otherPlayer.get("score").getAsInt() >= 10000) {
+                        sonlineUserPane.getChildren().add(newUserBtn);
+                    } else if (otherPlayer.get("score").getAsInt() >= 1000) {
+                        sonlineUserPane1.getChildren().add(newUserBtn);
+                    } else {
+                        sonlineUserPane11.getChildren().add(newUserBtn);
+                    }
+                    Image img = new Image(getClass().getResourceAsStream("images/icon2.png"));
+                    Notifications notificationBuilder = Notifications.create()
+                            .title("TIC TAC TOE")
+                            .text(newUserBtn.getText() + " is online now")
+                            .graphic(new ImageView(img))
+                            .hideAfter(Duration.seconds(5))
+                            .position(Pos.BOTTOM_RIGHT);
+                    
+                    //notificationBuilder.darkStyle();
+                    notificationBuilder.show();
+                } 
+                catch (Exception ex) {
+                    Logger.getLogger(ServerReciver.class.getName()).log(Level.SEVERE, null, ex);
                 }
-
-                Notifications notificationBuilder = Notifications.create()
-                        .title("TIC TAC TOE")
-                        .text(newUserBtn.getText() + " is online now")
-                        .graphic(null)
-                        .hideAfter(Duration.seconds(5))
-                        .position(Pos.BOTTOM_RIGHT);
-
-                notificationBuilder.darkStyle();
-                notificationBuilder.show();
             }
         });
 

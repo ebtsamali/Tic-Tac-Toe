@@ -2,7 +2,7 @@
 "DataBase_ip" : "localhost",
 "DataBase_port" : "3306",
 "DataBase_username" : "root",
-"Database_password" : "123456",
+"Database_password" : "",
 "DataBase_name" : "tictac",
 "Server_socket" : "8090"
 }

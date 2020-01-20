@@ -208,7 +208,7 @@ public class MultiPlayerGUIController implements Initializable {
     public static void disableall() {
         for (int i = 0; i < buttons.length; i++) {
             buttons[i].setDisable(true);
-            sMessages.setText("waitting for other player");
+            sMessages.setText("wait for other player");
         }
     }
 
